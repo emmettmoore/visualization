@@ -1,0 +1,6 @@
+Emmett Moore
+Ian Cross
+Taylor Maykranz
+
+For this project, we worked together to identify and choose the visualizations which we analyzed. We discussed the strengths and weaknesses of both respective visualizations, and how we would improve the lousy visualization.
+Taylor documented our analysis of the good visualization, Emmett documented our analysis of the bad visualization, and Ian constructed the new visualization.
