@@ -12,7 +12,7 @@ String[] lines;
 String[][] data;
 String[] labels;
 
-Rectangle r;
+Rectangle BarLineSwitcher;
 
 void setup() {
   lines = loadStrings("lab1-data.csv");
@@ -22,6 +22,7 @@ void setup() {
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
   frame.setResizable(true);
   
+  BarLineSwitcher = new Rectangle(width/10,height/10,9/10*width,9/10*height, "switch", color(100,100,20));
 }
 
 void parse_data() {
@@ -40,6 +41,7 @@ void parse_data() {
 
 void draw() {
   size(width, height);
+  redrawButton();
 }
 
 void mouseClicked() {
@@ -50,4 +52,7 @@ void mouseClicked() {
   */
 }
 
+void redrawButton(){
+  BarLineSwitcher.draw_me(width/10,height/10,9/10*width,9/10*height, "switch", color(100,100,20));
+}
 
