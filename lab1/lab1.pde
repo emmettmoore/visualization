@@ -1,6 +1,6 @@
 // Rectangle class uses these.... this is fugly
-int SCREEN_WIDTH = 400;
-int SCREEN_HEIGHT = 300;
+int SCREEN_WIDTH = 900;
+int SCREEN_HEIGHT = 500;
 
 String[] lines;
 String[] keys;
@@ -13,8 +13,8 @@ BarChart chart;
 
 void setup() {
   lines = loadStrings("lab1-data.csv");
-  keys = new String[lines.length];
-  values = new float[lines.length];
+  keys = new String[lines.length-1];
+  values = new float[lines.length-1];
   parse_data();
   
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -31,14 +31,15 @@ void parse_data() {
   //get that data boy
   for (int i=1; i < lines.length; i++) {
     String[] temp = splitTokens(lines[i], ", ");
-    keys[i] = temp[0];
-    values[i] = Float.parseFloat(temp[1]);
+    keys[i-1] = temp[0];
+    values[i-1] = Float.parseFloat(temp[1]);
   }  
 }
 
 
 void draw() {
   size(width, height);
+  background(250,250,250);
   redrawChart();
   chart.Display();
   redrawButton();

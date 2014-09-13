@@ -1,6 +1,8 @@
 int BUFFER = 10;
+int NUM_INTERVALS = 10;
 class BarChart{
   Rectangle GraphOutline;
+  float range;
   float w, h, posx, posy;
   String[] keys,labels;
   float[] values;
@@ -8,6 +10,7 @@ class BarChart{
   color backgroundColor;
   float maxOfValues;
   float minOfValues;
+  Rectangle[] bars;
   BarChart(float w1, float h1, float posx1, float posy1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1){
     //data initialization; 
     w = w1;
@@ -19,12 +22,15 @@ class BarChart{
      values = values1;
      barColor = barColor1;
      backgroundColor = backgroundColor1;
+     bars = new Rectangle[keys.length];
      Display();
   }
   
   void Display(){
     GraphOutline = new Rectangle(w, h, posx,posy, "", backgroundColor);
     drawLabels();
+    drawBars();
+    checkBarHover();
   }
   void drawLabels(){
     fill(0, 102, 153);
@@ -35,21 +41,70 @@ class BarChart{
     labelAxes();
     
   }
+  void drawBars(){
+    int xInterval = (int)w/keys.length;
+    int intervalBuffer = xInterval*1/8;
+    Rectangle temp;
+     for(int i = 0; i < keys.length; i++){
+       float barHeight = (values[i]/range * h);
+        temp = new Rectangle(xInterval-intervalBuffer,barHeight,posx + i*xInterval + intervalBuffer/2, posy + h - barHeight,"",barColor);
+        bars[i] = temp;        
+     } 
+  }
+  void checkBarHover(){
+     for(int i = 0; i<bars.length;i++){
+        if(bars[i].within()){
+           bars[i].C1 = color(100,0,0);
+           bars[i].drawWithoutArgs();
+           print("boom");
+        }
+        else{
+           bars[i].C1 = barColor;
+            bars[i].drawWithoutArgs();       
+            }
+     } 
+  }
   void labelAxes(){
     findMaxMin(); 
-    //print(maxOfValues + " " + minOfValues + "\n");
+    labelYAxis();
+    labelXAxis();
+  }
+  void labelYAxis(){
+       int startingPoint;
+    if(minOfValues > 0){
+      startingPoint = 0;
+    }
+    else{
+      startingPoint = (int)minOfValues;
+    }
+    range = (abs(maxOfValues) + abs(startingPoint));
+    int interval = (int)range/10 +1;
+    int currInterval = 0;
+    for(int i = 0; i <= NUM_INTERVALS; i++){
+      currInterval = startingPoint + i*interval;
+      String currText = Float.toString(currInterval);
+       text(currText, posx - BUFFER, posy + h - h/10*i);
+    }
+    range = currInterval; 
+  }
+  void labelXAxis(){
+     int interval = (int)w/keys.length;
+     for(int i = 0; i < keys.length; i++){
+        textAlign(CENTER);
+        textSize(10);
+        text(keys[i],i*interval + posx, posy+h+BUFFER,interval, posy+h+BUFFER + 1/10*height);
+     } 
   }
   
   void findMaxMin(){
+    
     maxOfValues = values[0];
     minOfValues = values[0];
     for(int i = 1; i<values.length;i++){
-      print(values[i] + "\n");
        if(maxOfValues < values[i]){
          maxOfValues = values[i]; 
        }
        if(minOfValues > values[i]){
-         print(minOfValues + "\n");
          minOfValues = values[i];
        }
     }

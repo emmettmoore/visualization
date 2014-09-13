@@ -34,4 +34,11 @@ class Rectangle {
      textAlign(CENTER);
      text(T1, rect_posx + curr_w /2 , rect_posy + curr_h/2);
   }
+  void drawWithoutArgs(){
+     fill(C1);
+     rect(rect_posx, rect_posy, curr_w, curr_h);
+     fill(50);
+     textAlign(CENTER);
+     text(T1, rect_posx + curr_w /2 , rect_posy + curr_h/2);
+  }
 }
