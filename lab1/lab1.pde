@@ -21,7 +21,7 @@ void setup() {
   frame.setResizable(true);
   
   BarLineButton = new Rectangle(width/10,height/10,width - 9/10*width,9/10*height, "switch", color(100,100,20));
-  chart = new BarChart(width*7/10, height * 7/10, width * 2/10, height * 1/10, keys,values,labels, color(250,250,250), color(250,250,250));
+  chart = new BarChart(width*7/10, height * 7/10, width * 2/10, height * 1/10, keys,values,labels, color(255,255,105), color(250,250,250));
 }
 
 void parse_data() {

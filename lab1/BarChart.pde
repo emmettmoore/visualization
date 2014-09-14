@@ -26,15 +26,19 @@ class BarChart{
      Display();
   }
   
+  //where everything is called - basically this class' draw function
   void Display(){
     GraphOutline = new Rectangle(w, h, posx,posy, "", backgroundColor);
     drawLabels();
     drawBars();
     checkBarHover();
   }
+  
   void drawLabels(){
     fill(0, 102, 153);
     textAlign(LEFT);
+          textSize(12);
+
     text(labels[1],BUFFER, posy + h/2);
         textAlign(CENTER); 
     text(labels[0],posx + w/2, height - BUFFER);
@@ -52,17 +56,31 @@ class BarChart{
      } 
   }
   void checkBarHover(){
+     int toolTipIndex = -1;
      for(int i = 0; i<bars.length;i++){
         if(bars[i].within()){
-           bars[i].C1 = color(100,0,0);
+           bars[i].C1 = color(116,250,255);
            bars[i].drawWithoutArgs();
-           print("boom");
+           toolTipIndex = i;
         }
         else{
            bars[i].C1 = barColor;
             bars[i].drawWithoutArgs();       
-            }
+        }
      } 
+     if(toolTipIndex!=-1){
+
+       displayAdditionalInfo(toolTipIndex);
+     }
+  }
+  
+  //displays the x value and y value when hovered over
+  void displayAdditionalInfo(int index){
+        String info = "(" + Float.toString(values[index]) + ", " + keys[index] + ")";
+        textAlign(CENTER);
+        textSize(17);
+
+        text(info, mouseX, mouseY-20);
   }
   void labelAxes(){
     findMaxMin(); 
@@ -83,6 +101,7 @@ class BarChart{
     for(int i = 0; i <= NUM_INTERVALS; i++){
       currInterval = startingPoint + i*interval;
       String currText = Float.toString(currInterval);
+      textSize(12);
        text(currText, posx - BUFFER, posy + h - h/10*i);
     }
     range = currInterval; 
