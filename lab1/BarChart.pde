@@ -5,6 +5,7 @@ int BUFFER = 10;
 
 int NUM_INTERVALS = 10;
 class BarChart{
+  boolean lineGraph = true;
   Rectangle GraphOutline;
   float range;
   float w, h, posx, posy;
@@ -37,24 +38,36 @@ class BarChart{
   void Display(){
     GraphOutline = new Rectangle(w, h, posx,posy, "", backgroundColor);
     drawLabels();
-    
-    //if some state, draw bars, else draw lines
-    
-    drawLineGraph();
-    //drawBars();
-    //checkBarHover();
+        
+    if(lineGraph){
+      drawLineGraph();
+    }
+    else{
+      drawBarGraph();
+    }
   }
   
   void drawLineGraph(){
      drawCircles(); 
+     drawConnectingLines(); 
+
      checkCircleHover();
+  }
+  void drawBarGraph(){
+    drawBars();
+    checkBarHover();
   }
   void drawCircles(){
      float xInterval = w/keys.length;
      for (int i = 0; i< keys.length; i++){
         float centerX = posx + xInterval * i + xInterval/2;
-        float centerY = posy + h - (values[i]/range * h); 
+        float centerY = posy + h - ((values[i]-minOfValues)/range * h); 
         circles[i] = new Circle(centerX, centerY, (float)width/80, barColor);  
+     } 
+  }
+  void drawConnectingLines(){
+     for (int i = 0; i<circles.length-1; i++){
+        line(circles[i].centerX, circles[i].centerY, circles[i+1].centerX, circles[i+1].centerY);
      } 
   }
   
@@ -109,7 +122,7 @@ class BarChart{
     int intervalBuffer = xInterval*1/8;
     Rectangle temp;
      for(int i = 0; i < keys.length; i++){
-       float barHeight = (values[i]/range * h);
+       float barHeight = ((values[i]-minOfValues)/range * h);
         temp = new Rectangle(xInterval-intervalBuffer,barHeight,posx + i*xInterval + intervalBuffer/2, posy + h - barHeight,"",barColor);
         bars[i] = temp;        
      } 
@@ -124,11 +137,13 @@ class BarChart{
         fill(color (0,0,0));
         text(info, mouseX, mouseY-20);
   }
+  
   void labelAxes(){
     findMaxMin(); 
     labelYAxis();
     labelXAxis();
   }
+  
   void labelYAxis(){
        int startingPoint;
     if(minOfValues > 0){
@@ -138,7 +153,7 @@ class BarChart{
       startingPoint = (int)minOfValues;
     }
     range = (abs(maxOfValues) + abs(startingPoint));
-    int interval = (int)range/10 +1;
+    int interval = (int)range/10;
     int currInterval = 0;
     for(int i = 0; i <= NUM_INTERVALS; i++){
       currInterval = startingPoint + i*interval;
@@ -146,7 +161,7 @@ class BarChart{
       textSize(12);
        text(currText, posx - BUFFER, posy + h - h/10*i);
     }
-    range = currInterval; 
+    range = currInterval - minOfValues; 
   }
   void labelXAxis(){
      int interval = (int)w/keys.length;
@@ -167,6 +182,16 @@ class BarChart{
        if(minOfValues > values[i]){
          minOfValues = values[i];
        }
+    }
+  }
+  
+  //switches to a linegraph if currently bargraph and vice versa
+  void switchState(){
+    if(lineGraph){
+      lineGraph = false;
+    }
+    else{
+      lineGraph = true;
     }
   }
 }

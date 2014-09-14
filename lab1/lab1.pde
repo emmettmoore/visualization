@@ -47,7 +47,7 @@ void draw() {
 
 void mouseClicked() {
   if (BarLineButton.within()) {
-    print("switch state now");
+    chart.switchState();
   }
 }
 
