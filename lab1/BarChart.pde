@@ -1,4 +1,8 @@
+//doesn't work with negatives as of now
+//let the user specify the color of the hovered bar color
+
 int BUFFER = 10;
+
 int NUM_INTERVALS = 10;
 class BarChart{
   Rectangle GraphOutline;
@@ -7,11 +11,12 @@ class BarChart{
   String[] keys,labels;
   float[] values;
   color barColor;
-  color backgroundColor;
+  color backgroundColor, hoverColor;
   float maxOfValues;
   float minOfValues;
   Rectangle[] bars;
-  BarChart(float w1, float h1, float posx1, float posy1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1){
+  Circle[] circles;
+  BarChart(float w1, float h1, float posx1, float posy1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
     //data initialization; 
     w = w1;
      h = h1;
@@ -22,7 +27,9 @@ class BarChart{
      values = values1;
      barColor = barColor1;
      backgroundColor = backgroundColor1;
+     hoverColor = hoverColor1;
      bars = new Rectangle[keys.length];
+     circles = new Circle[keys.length];
      Display();
   }
   
@@ -30,10 +37,62 @@ class BarChart{
   void Display(){
     GraphOutline = new Rectangle(w, h, posx,posy, "", backgroundColor);
     drawLabels();
-    drawBars();
-    checkBarHover();
+    
+    //if some state, draw bars, else draw lines
+    
+    drawLineGraph();
+    //drawBars();
+    //checkBarHover();
   }
   
+  void drawLineGraph(){
+     drawCircles(); 
+     checkCircleHover();
+  }
+  void drawCircles(){
+     float xInterval = w/keys.length;
+     for (int i = 0; i< keys.length; i++){
+        float centerX = posx + xInterval * i + xInterval/2;
+        float centerY = posy + h - (values[i]/range * h); 
+        circles[i] = new Circle(centerX, centerY, (float)width/80, barColor);  
+     } 
+  }
+  
+    void checkBarHover(){
+     int toolTipIndex = -1;
+     for(int i = 0; i<keys.length;i++){
+        if(bars[i].within()){
+           bars[i].C1 = hoverColor;
+           bars[i].Display();
+           toolTipIndex = i;
+        }
+        else{
+           bars[i].C1 = barColor;
+            bars[i].Display();       
+        }
+     } 
+     if(toolTipIndex!=-1){
+       displayAdditionalInfo(toolTipIndex);
+     }
+  }
+  void checkCircleHover(){
+    int toolTipIndex = -1;
+     for(int i = 0; i<keys.length; i++){
+        if(circles[i].within()){
+           circles[i].C1 = hoverColor;
+           circles[i].Display();
+           toolTipIndex = i;
+        }
+        else{
+          circles[i].C1 = barColor;
+          circles[i].Display();
+        }
+
+     } 
+     if(toolTipIndex!=-1){
+           displayAdditionalInfo(toolTipIndex);
+     }
+  }
   void drawLabels(){
     fill(0, 102, 153);
     textAlign(LEFT);
@@ -55,31 +114,14 @@ class BarChart{
         bars[i] = temp;        
      } 
   }
-  void checkBarHover(){
-     int toolTipIndex = -1;
-     for(int i = 0; i<bars.length;i++){
-        if(bars[i].within()){
-           bars[i].C1 = color(116,250,255);
-           bars[i].drawWithoutArgs();
-           toolTipIndex = i;
-        }
-        else{
-           bars[i].C1 = barColor;
-            bars[i].drawWithoutArgs();       
-        }
-     } 
-     if(toolTipIndex!=-1){
 
-       displayAdditionalInfo(toolTipIndex);
-     }
-  }
   
   //displays the x value and y value when hovered over
   void displayAdditionalInfo(int index){
-        String info = "(" + Float.toString(values[index]) + ", " + keys[index] + ")";
+        String info = "(" + keys[index] + ", " + Float.toString(values[index]) + ")";
         textAlign(CENTER);
         textSize(17);
-
+        fill(color (0,0,0));
         text(info, mouseX, mouseY-20);
   }
   void labelAxes(){
@@ -116,7 +158,6 @@ class BarChart{
   }
   
   void findMaxMin(){
-    
     maxOfValues = values[0];
     minOfValues = values[0];
     for(int i = 1; i<values.length;i++){
