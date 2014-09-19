@@ -1,4 +1,22 @@
-import java.util.*;
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class squarifiedTreemap extends PApplet {
+
+
 
 // Information on Java's LinkedList and HashMap:
 // http://www.tutorialspoint.com/java/java_linkedlist_class.htm
@@ -18,7 +36,7 @@ int root;
                       
 Map ParentChildMap;
  
-void setup() {
+public void setup() {
   lines = loadStrings("hierarchy2.shf");//("hierarchy2.shf");
   num_leaves = Integer.parseInt(lines[0]);
   num_relationships = Integer.parseInt(lines[num_leaves + 1]);
@@ -40,7 +58,7 @@ void setup() {
 //    2. An array of leaf_values, entitled leaf_values
 //    3. An array of parent ID Keys, entitled parent_keys
 //    4. An array of child ID Keys, entitled child_keys
-void parse_data () {
+public void parse_data () {
   int curr_lines_index = 1;
   for (int i = 0; i < num_leaves; i++) {
     String[] temp = splitTokens(lines[curr_lines_index], " ");
@@ -56,7 +74,7 @@ void parse_data () {
   }
 }
 
-void Populate_Hashmap() {
+public void Populate_Hashmap() {
   //add all non-leaf nodes
   for (int i = 0; i < num_relationships; i++){
       Node temp;
@@ -80,14 +98,14 @@ void Populate_Hashmap() {
   populate_values((Node)ParentChildMap.get(root), 0);
 }
 
-boolean check_leaf(int node_id) {
+public boolean check_leaf(int node_id) {
   if (leafInfo.get(node_id) == null) {
     return false;
   }
   return true;
 }
 
-int populate_values(Node current_root, int deepness) {
+public int populate_values(Node current_root, int deepness) {
   boolean leaf = false;
   if (check_leaf(current_root.id) == true) {
     current_root.total = (Integer) leafInfo.get(current_root.id);
@@ -118,7 +136,7 @@ int populate_values(Node current_root, int deepness) {
 // Overview:  Will use parent_keys and child_keys arrays to find
 //            the node which does not have a parent. Returns the
 //            key of this node. Return value of -1 indicates failure
-int find_root() {
+public int find_root() {
   for (int i = 0; i < num_relationships; i++) {
     int curr_parent = parent_keys[i];
     boolean matched = false;
@@ -163,3 +181,23 @@ for (int i = 0; i<7; i++) {
 
 }
 */
+class Node{
+  int id;  //keyID
+  int total;
+  SortedSet children;
+  Node(int id1) {
+    id = id1;
+    total = 0;
+    children = new TreeSet();
+  }
+}
+
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "squarifiedTreemap" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
+}

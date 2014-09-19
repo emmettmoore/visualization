@@ -5,7 +5,7 @@ import java.util.*;
 // http://docs.oracle.com/javase/7/docs/api/java/util/HashMap.html
 
 String[] lines;
-Map<Integer, Integer> leafInfo;
+Map leafInfo;
 int[] parent_keys;  //For data in file below from num_relationships. Contains repeat parents. e.g. [7, 7, 7, 7]
 int[] child_keys;   //For data in file below num_relationships.
 int num_leaves;
@@ -16,7 +16,7 @@ int root;
 //Map ParentChildMap;    //HASHMAP- Key   =  integer (parent ID),
                       //          Value =  List_Node LinkedList (list of parent's child nodes)
                       
-Map ParentChildMap;
+Map ParentChildMap;                      
  
 void setup() {
   lines = loadStrings("hierarchy2.shf");//("hierarchy2.shf");
@@ -28,8 +28,9 @@ void setup() {
 
   ParentChildMap = new HashMap<Integer, Node>();
   parse_data();
-  root = find_root();
   Populate_Hashmap();
+  int root = find_root();
+  sample_test2();
   
 }
 
@@ -57,8 +58,11 @@ void parse_data () {
 }
 
 void Populate_Hashmap() {
-  //add all non-leaf nodes
   for (int i = 0; i < num_relationships; i++){
+      /*int value = 0;
+      if(leafInfo.containsKey(child_keys[i])){
+          value = (Integer)leafInfo.get(child_keys[i]);   //initializes leaf value 
+      }*/
       Node temp;
       if(ParentChildMap.containsKey(parent_keys[i])){
           temp = (Node)ParentChildMap.get(parent_keys[i]);  
@@ -66,52 +70,25 @@ void Populate_Hashmap() {
       else{ 
           temp = new Node(parent_keys[i]);
       }
-      temp.children.add(child_keys[i]);
-
+      /*if(value != 0){
+         temp.total = temp.total + value;                //initalizes leaf value 
+      }*/                                            //but recursion deals with that
+      temp.children.add(child_keys[i]);      
       ParentChildMap.put(parent_keys[i],temp);
   }
-  //add all leaf nodes
-  for (int i = 0; i < num_leaves; i++){
-    Node temp;
-    for (int key : leafInfo.keySet() ) {
-      ParentChildMap.put((Integer)key, new Node((Integer) key));
-    }
-  }
-  populate_values((Node)ParentChildMap.get(root), 0);
 }
 
-boolean check_leaf(int node_id) {
-  if (leafInfo.get(node_id) == null) {
-    return false;
-  }
-  return true;
-}
-
-int populate_values(Node current_root, int deepness) {
-  boolean leaf = false;
-  if (check_leaf(current_root.id) == true) {
+int populate_values(Node current_root) {
+  if (current_root.children.size() != 0) {
     current_root.total = (Integer) leafInfo.get(current_root.id);
-    //print (' ' * deepness) + id + ': ' + total
-    for (int i = 0; i<deepness; i++){
-      print("    ");
-    }
-    print(current_root.id + ": "  + current_root.total + "\n");
     return current_root.total;
   }
-  
   Iterator itr = current_root.children.iterator();
   int sum_of_children = 0;
   while (itr.hasNext()) {
-    int child_id = (Integer)itr.next();
-    Node next_child = (Node)ParentChildMap.get(child_id);
-
-    sum_of_children += populate_values(next_child, deepness + 1);
-        for (int i = 0; i<deepness; i++){
-      print("    ");
-    }
-    print(current_root.id + "  " + sum_of_children + "\n");
+    int element = (Integer)itr.next();
+    sum_of_children += populate_values((Node)ParentChildMap.get(element));
   }
-
   current_root.total = sum_of_children;
   return sum_of_children;
 }
@@ -119,16 +96,14 @@ int populate_values(Node current_root, int deepness) {
 //            the node which does not have a parent. Returns the
 //            key of this node. Return value of -1 indicates failure
 int find_root() {
-  for (int i = 0; i < num_relationships; i++) {
-    int curr_parent = parent_keys[i];
-    boolean matched = false;
-    for (int j = 0; j < num_relationships; j++) {
-      if (curr_parent == child_keys[j]) {
-        matched = true;
+  for (int i = 0; i < num_relationships; i ++) {
+    for (int j = 0; j < num_relationships; j ++) {
+      if (parent_keys[i] == child_keys[j]) {
+          break;
       }
-    }
-    if(!matched){
-      return curr_parent;
+      if (j == num_relationships - 1) {
+        return parent_keys[i];
+      }
     }
   }
   return -1;
@@ -147,7 +122,7 @@ void sample_test() {
   print(" ");
 }
 */
-/*
+
 void sample_test2() {
   int first, second;
 for (int i = 0; i<7; i++) {
@@ -162,4 +137,16 @@ for (int i = 0; i<7; i++) {
   }
 
 }
-*/
+class Node{
+  int id;  //keyID
+  int total;
+  SortedSet children;
+  Node(int id1) {
+    id = id1;
+    total = 0;
+    children = new TreeSet();
+  }
+  
+}
+
+

@@ -7,6 +7,5 @@ class Node{
     total = 0;
     children = new TreeSet();
   }
-  
 }
 
