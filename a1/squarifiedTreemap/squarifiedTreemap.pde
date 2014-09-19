@@ -1,5 +1,11 @@
 import java.util.*;
 
+// - QUESTIONS:
+//      - given the root node value, how do we want to size our canvas
+// - TODO:
+//    - on canvas, write sortChildrenByTotal function to get childrenByTotal array populatedch
+
+
 // Information on Java's LinkedList and HashMap:
 // http://www.tutorialspoint.com/java/java_linkedlist_class.htm
 // http://docs.oracle.com/javase/7/docs/api/java/util/HashMap.html
@@ -11,6 +17,10 @@ int[] child_keys;   //For data in file below num_relationships.
 int num_leaves;
 int num_relationships;
 int root;
+
+int SCREENWIDTH = 400;                //TAYLOR        //TEMPORARY
+int SCREENHEIGHT = 600;                //TAYLOR        //TEMPORARY
+float VA_RATIO = 600/400;              //TAYLOR        //TEMPORARY
 //boolean[] visited;
 
 //Map ParentChildMap;    //HASHMAP- Key   =  integer (parent ID),
@@ -19,7 +29,7 @@ int root;
 Map ParentChildMap;                      
  
 void setup() {
-  lines = loadStrings("hierarchy2.shf");//("hierarchy2.shf");
+  lines = loadStrings("hierarchy.shf");//("hierarchy2.shf");
   num_leaves = Integer.parseInt(lines[0]);
   num_relationships = Integer.parseInt(lines[num_leaves + 1]);
   leafInfo = new HashMap<Integer,Integer>();
@@ -27,13 +37,30 @@ void setup() {
   child_keys = new int[num_relationships];
 
   ParentChildMap = new HashMap<Integer, Node>();
+  size(SCREENHEIGHT, SCREENWIDTH);                                //TAYLOR
   parse_data();
   Populate_Hashmap();
   int root = find_root();
-  sample_test2();
+//  populate_values((Node)ParentChildMap.get(root));              //TAYLOR
+  primary();                                                      //TAYLOR
+ // sample_test2();
+  
+}
+                                        //TAYLOR'S FUNC---
+void primary() {
+  int root = find_root();
+  //  int rootValue = (Integer)((Node)ParentChildMap.get(root)).total;
+  int rootValue = 2500;                                            //TEMPORARY
+  Canvas currCanvas = new Canvas(root, SCREENHEIGHT, SCREENWIDTH); //TEMPORARY
+  currCanvas.canvasInfo(root);
   
 }
 
+void draw() {                                                    //TAYLOR
+//  size(SCREENHEIGHT, SCREENWIDTH);                               //TAYLOR   //TEMPORARY
+  background(250,250,250);                                       //TAYLOR
+//calling rect here
+}                                                                //TAYLOR
 
 // Using a pre-populated "lines" array, this function will
 //    parse through the "lines" array and populate four arrays:
@@ -55,6 +82,7 @@ void parse_data () {
     child_keys[i] = Integer.parseInt(temp[1]);
     curr_lines_index++;
   }
+
 }
 
 void Populate_Hashmap() {
@@ -79,7 +107,7 @@ void Populate_Hashmap() {
 }
 
 int populate_values(Node current_root) {
-  if (current_root.children.size() != 0) {
+  if (current_root.children.size() == 0) {
     current_root.total = (Integer) leafInfo.get(current_root.id);
     return current_root.total;
   }
@@ -122,7 +150,7 @@ void sample_test() {
   print(" ");
 }
 */
-
+/*
 void sample_test2() {
   int first, second;
 for (int i = 0; i<7; i++) {
@@ -137,3 +165,4 @@ for (int i = 0; i<7; i++) {
   }
 
 }
+*/
