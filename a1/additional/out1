@@ -1,0 +1,13 @@
+{'Chemistry - A&S': {'amount': 1282154, 'DOE': {2008: {'amount': 1282154}, 'amount': 1282154}}, 
+ 'Education - A&S': {'amount': 1006706, 'NSF': {2008: {'amount': 1006706}, 'amount': 1006706}}, 
+ 'Mechanical Engineering': {'amount': 283622, 'USAID': {'amount': 283622, 2012: {'amount': 283622}}}, 
+ 'CEEO': {'amount': 449837, 'NSF': {'amount': 449837, 2012: {'amount': 449837}}}, 
+ 'Electrical & Computer Engineer': {'amount': 209652, 'USAF': {'amount': 209652, 2012: {'amount': 209652}}}, 
+ 'Geology - A&S': {'amount': 39189, 'Boston Groundwater Trust': {2008: {'amount': 39189}, 'amount': 39189}}, 
+ 'Biology - A&S': {'amount': 295868, 'NSF': {'amount': 295868, 2011: {'amount': 295868}}}, 'amount': 11345010, 
+ 'Chemical Engineering': {'amount': 2000000, 'NSF': {'amount': 2000000, 2012: {'amount': 2000000}}}, 
+ 'School of Engineering': {'amount': 1419146, 'SERDP': {'amount': 1419146, 2012: {'amount': 1419146}}}, 
+ 'Civil & Envir Engineering': {'amount': 78539, 'USGS': {'amount': 78539, 2011: {'amount': 78539}}}, 
+ 'Biomedical Engineering': {'amount': 414678, 'USDA': {'amount': 414678, 2013: {'amount': 414678}}}, 
+ 'Office of the Vice Provost': {'amount': 2990574, 'NSF': {2008: {'amount': 2990574}, 'amount': 2990574}}, 
+ 'Computer Science': {'amount': 875045, 'NSF': {'amount': 875045, 2013: {'amount': 875045}}}}
