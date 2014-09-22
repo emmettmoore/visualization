@@ -2,11 +2,17 @@ import java.util.*;
 
 // - QUESTIONS:
 //      - given the root node value, how do we want to size our canvas
+//      - when a rootnode is zoomed into, should it take up the whole screen? or have the edge
+//      - when zoomed into, can it reorganize itsself? or does it need to maintain the same layout
+//      - does this need to be resizable? (by clicking and dragging on corner of screen)
 // - TODO:
-//    - on canvas, write sortChildrenByTotal function to get childrenByTotal array populatedch
-// - current:
-//      - need to add recursion to get it to print all the next levels of the thing
-//      - canvas size is set static and not based on the root nodes value size
+//    - get the numericals in the boxes to print in the exact correct spot.
+//      (currently they are a little bit off-center).
+//    - the spaces between each rectangle are way too big. (make the frame size more proportionate)
+//    - for zooming:
+//          - Test case: try changing dimensions of screen by a lot and using the zoom and see if
+//            the layout changes.
+//          - When 
 
 // Information on Java's LinkedList and HashMap:
 // http://www.tutorialspoint.com/java/java_linkedlist_class.htm
@@ -21,9 +27,18 @@ int num_relationships;
 int root;
 
 Map ParentChildMap;
-int SCREENWIDTH = 600;                //TAYLOR        //TEMPORARY
-int SCREENHEIGHT = 400;                //TAYLOR        //TEMPORARY
+Map CopyParentChildMap;          //Will hold a copy of the final populated ParentChildMap
+int SCREENWIDTH = 600;  
+int SCREENHEIGHT = 400;  
+int FRAMESIZE = 2;
+int NUMCLICKS;                    //Will be used for zooming in and out
+float MOUSEPOSXCLICK;              //Will store the position of mouse at time click occurs
+float MOUSEPOSYCLICK;              //Will store the position of mouse at time click occurs
+color BACKGROUNDCOLOR = color(255, 255, 255);  //White
+color HIGHLIGHTCOLOR = color(124, 122, 122);  //Gray
+color TEXTCOLOR = color(0, 0, 0);             //Black
 
+boolean ININIT = true;                //used to record once the mouse has moved for printing initial node
 
 void setup() {
   lines = loadStrings("hierarchy2.shf");//("hierarchy2.shf");
@@ -34,22 +49,59 @@ void setup() {
   child_keys = new int[num_relationships];
 
   ParentChildMap = new HashMap<Integer, Node>();
-  size(SCREENWIDTH, SCREENHEIGHT);                                //TAYLOR
+
+  size(SCREENWIDTH, SCREENHEIGHT); 
+  NUMCLICKS = 0;  
   parse_data();
 
   root = find_root();
   Populate_Hashmap();
-  primary();                                                      //TAYLOR  
+  primary(root);    
+  CopyParentChildMap = new HashMap<Integer, Node>(ParentChildMap);    //TAYLOR ADDING FOR ZOOM
+
 }
             
 //Function: primary()
 // This function is similar to a manager function.          
-void primary() {                        // function is incomplete
-  int root = find_root();
-  Canvas currCanvas = new Canvas(root, SCREENHEIGHT, SCREENWIDTH); //TEMPORARY
-  currCanvas.canvasInfo(root);
-  putRectsOnCanvas(currCanvas);
+
+
+// Note: this will set the posx and posy for the root node as 0,0.
+//        It will also set the height and width of the root rectangle as SCREENHEIGHT and SCREENWIDTH.
+void primary(int root) {
+//  int root = find_root();
+  Node temp = (Node)ParentChildMap.get(root);  
+  temp.rectHeight = SCREENHEIGHT;
+  temp.rectWidth = SCREENWIDTH;
+  temp.posx = 0;                                    //NOTE: this is a sketchy place/way to set this.
+  temp.posy = 0;                                    //NOTE: this is a sketchy place/way to set this.
+  temp.idString = Integer.toString(root);          //NOTE: this is a sketchy place/way to set this.
+temp.printColor = BACKGROUNDCOLOR;
+  fillAll(root);
 }
+
+  
+
+void fillAll(int parentId) {
+  if (leafInfo.containsKey(parentId)) {
+    return;
+  }
+  float canvHeight =   ((Node)ParentChildMap.get(parentId)).rectHeight;  
+  float canvWidth =   ((Node)ParentChildMap.get(parentId)).rectWidth;
+  Canvas currCanvas = new Canvas(parentId, canvHeight, canvWidth); //TEMPORARY
+  currCanvas.canvasInfo(parentId);
+  putRectsOnCanvas(currCanvas);
+  
+  
+  Iterator itr = ((Node)ParentChildMap.get(parentId)).children.iterator();
+  while (itr.hasNext()) {
+      fillAll((Integer)itr.next());
+    }
+}
+
+  
+
+
+
 
 void putRectsOnCanvas(Canvas currCanvas){       
   Node rectToPlace = currCanvas.nextRect();
@@ -70,18 +122,114 @@ void putRectsOnCanvas(Canvas currCanvas){
 
 
 
-void draw() {                                                    
-  background(250,250,250);                                       
-  for (int i = 0; i < num_relationships; i++) {
-
-    Node printNode = (Node)ParentChildMap.get(i);
-    if (printNode != null) {                            //TEMP---- hierarchy2 wont work without this line. will work after recursion
-    if (printNode.isPlaced){                            //TEMP
-      printNode.display_rect();
+// New draw() for zoom:
+void draw() {
+  size(SCREENWIDTH, SCREENHEIGHT); 
+  background(250, 250, 250);
+  Node toPrint;
+  if (mousePressed) {
+    if (mouseButton == LEFT) {
+      mousePressed = false;
+      MOUSEPOSXCLICK = pmouseX;  //Record the mouse position when the click occurred
+      MOUSEPOSYCLICK = pmouseY;
+      zoomIn();
     }
-    }                                                  //TEMP----- hierarchy2 wont work without this line
+    if (mouseButton == RIGHT) {
+      mousePressed = false;
+      MOUSEPOSXCLICK = pmouseX;  //Record the mouse position when the click occurred
+      MOUSEPOSYCLICK = pmouseY;
+      zoomOut();
+    }
   }
-}                                                                //TAYLOR
+  toPrint = (Node)ParentChildMap.get(root);
+  toPrint.display_rect();
+  printIt(root);
+}
+
+void printIt(int printId) {
+   if (leafInfo.containsKey(printId)) {
+    return;
+  }
+   Iterator itr = ((Node)ParentChildMap.get(printId)).children.iterator();
+    while (itr.hasNext()) {
+      Node toPrint = (Node)ParentChildMap.get((Integer)itr.next());
+      if (toPrint.isPlaced) {
+        toPrint.display_rect();
+      }
+    }
+    Iterator iter = ((Node)ParentChildMap.get(printId)).children.iterator();
+    while (iter.hasNext()) {
+      printIt((Integer)iter.next());
+    }
+}
+
+
+//WILL modify the global "root" variable.
+void zoomIn() {
+  int zoomRoot = root;
+  boolean recallMousePositionFromClick = true;
+  if (((Node)ParentChildMap.get(zoomRoot)).within(recallMousePositionFromClick)) {
+
+     zoomRoot = ((Node)ParentChildMap.get(zoomRoot)).findInnermost(zoomRoot, recallMousePositionFromClick);
+     if (zoomRoot == root) {      //In the case that it was already zoomed to the leafNode, do nothing.
+       return;
+     }
+     root = zoomRoot;
+     resetNodesForZoom(zoomRoot);
+     primary(zoomRoot);
+     NUMCLICKS++;
+  }
+} 
+
+//The mouse(x,y) position is initialized to (0,0). Thus, in order to
+//  keep the root node (the top left corner of which is located at 0,0) from
+//  highlighting when the user has not put his mouse over the node, it is necessary
+//  to keep track of when the mouse has finally been moved, indicating that the user
+//  actually has put his mouse on (0,0).
+void mouseMoved() {
+  ININIT = false;
+}
+
+//WILL modify the global "root" variable
+void zoomOut() {
+  int zoomOutRoot = root;
+  int currRootDepth = ((Node)ParentChildMap.get(zoomOutRoot)).depth;
+  if (currRootDepth > 0) {
+      ParentChildMap = new HashMap<Integer, Node>(CopyParentChildMap); 
+        if (currRootDepth == 1) {
+          root = find_root();
+          zoomOutRoot = root;
+          print("root is: ");
+          print(root);
+      } else {
+          for (int i = 0; i < num_relationships; i++) {
+            if (child_keys[i] == root) {
+              zoomOutRoot = parent_keys[i];
+              break;
+            }
+          }
+          root = zoomOutRoot;
+      }
+          resetNodesForZoom(zoomOutRoot);
+          primary(zoomOutRoot);
+          NUMCLICKS--;
+  }
+}
+
+
+//Resets the "isPlaced" variable to false.
+void resetNodesForZoom(int root){
+  ((Node)ParentChildMap.get(root)).isPlaced = false;
+  Iterator itr = ((Node)ParentChildMap.get(root)).children.iterator();
+  while (itr.hasNext()) {
+    int tempRoot = (Integer)itr.next();
+    ((Node)ParentChildMap.get(tempRoot)).isPlaced = false;
+    resetNodesForZoom(tempRoot);
+    }
+}
+
+
+
 
 // Using a pre-populated "lines" array, this function will
 //    parse through the "lines" array and populate four arrays:
@@ -151,16 +299,16 @@ int populate_values(Node current_root, int deepness) {
   while (itr.hasNext()) {
     int child_id = (Integer)itr.next();
     Node next_child = (Node)ParentChildMap.get(child_id);
+    next_child.depth = deepness + 1; //This is used to add the frame to the display
 
     sum_of_children += populate_values(next_child, deepness + 1);
-//      for (int i = 0; i < deepness; i++){
-//        print("   ");
-//      }
-//      print(current_root.id + "  " + sum_of_children + "\n");
   }
   current_root.total = sum_of_children;
   return sum_of_children;
 }
+
+
+
 // Overview:  Will use parent_keys and child_keys arrays to find
 //            the node which does not have a parent. Returns the
 //            key of this node. Return value of -1 indicates failure
@@ -179,10 +327,12 @@ int find_root() {
   }
   return -1;
 }
+
+
 //Returns true if the aspect ratio ratioA is further from 1 than the aspect
 //    ratio ratioB. Returns false if they are equally as far.
 boolean worse(float ratioA, float ratioB) {
-  if (abs(1 - ratioA) > abs(1- ratioB)) {
+  if (abs(1 - ratioA) > abs(1- ratioB)) {        
     return true;
   } else {
     return false;

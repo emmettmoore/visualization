@@ -20,10 +20,15 @@ class Canvas{
   
 
  void canvasInfo(int canvasId) {               //Populates canvas information
+ if (((Node)ParentChildMap.get(id)).isPlaced) {        
+   posx = ((Node)ParentChildMap.get(id)).posx;
+   posy = ((Node)ParentChildMap.get(id)).posy;
+ }
+
    sortChildrenByTotal();                      //Get childrenByTotal array populated & ordered
    float shortSide, longSide;                  //Find data to pass into Row constructor:
     boolean rowIsVertical = true;
-   if (heightRemaining < widthRemaining) {    //(Defaults to vertical row if h==w)
+   if (heightRemaining < widthRemaining) {    //(Defaults to vertical row if h==w) 
      shortSide = heightRemaining;
      longSide = widthRemaining;
      rowIsVertical = true;
@@ -102,17 +107,17 @@ void sortChildrenByTotal() {    //Populate childrenByTotal array usng ParentChil
 void newRow() {
                                                  //If the row is NOT empty and therefor it is NOT being
     if (currentRow.rowIsVertical) {              //    populated for the first time:
-      widthRemaining = widthRemaining - currentRow.rowShortSide;
-      posx = posx + currentRow.rowShortSide;
+      widthRemaining = widthRemaining - currentRow.rowShortSide;      
+      posx = posx + currentRow.rowShortSide;                                        
     } else {
-      heightRemaining = heightRemaining - currentRow.rowShortSide;
-      posy = posy + currentRow.rowShortSide;
+      heightRemaining = heightRemaining - currentRow.rowShortSide;                   
+      posy = posy + currentRow.rowShortSide;                                        
     }
     areaRemaining = heightRemaining * widthRemaining;
   // Now calculate info for new Row, given updated Canvas size info:
   float shortSide, longSide;
   boolean rowIsVertical = false;
-   if (heightRemaining < widthRemaining) {    //(Defaults to vertical row if h==w)
+   if (heightRemaining < widthRemaining) {    //(Defaults to vertical row if h==w) 
      shortSide = heightRemaining;
      longSide = widthRemaining;
      rowIsVertical = true;
@@ -128,11 +133,11 @@ void newRow() {
   
   
   
-  // Function:  addToCurrRow()
-  // Summary:   Will place rectToAdd on canvas in the current row, and resize
-  //            all other rectangles currently in the row as necessary.
-  // MUST:      add rect ID to rowRects array. increase the rowRects counter.
-  void addToCurrRow(Node rectToAdd) {
+// Function:  addToCurrRow()
+// Summary:   Will place rectToAdd on canvas in the current row, and resize
+//            all other rectangles currently in the row as necessary.
+// MUST:      add rect ID to rowRects array. increase the rowRects counter.
+void addToCurrRow(Node rectToAdd) {
     float currY = currentRow.rowposy; 
     float currX = currentRow.rowposx; 
     float areaSum = currentRow.rowArea + rectToAdd.rectArea;
@@ -150,7 +155,7 @@ void newRow() {
     rectToAdd.isPlaced = true;
     resizeRect(rectToAdd, newRowShortSide, currY, currX);
     currentRow.rowShortSide = newRowShortSide;
-    currentRow.rowAspectRatio = currentRow.rowShortSide / currentRow.rowCanvasSide;
+    currentRow.rowAspectRatio = worstAspectRatio(rectToAdd.rectHeight, rectToAdd.rectWidth); 
     currentRow.rowArea = currentRow.rowShortSide * currentRow.rowCanvasSide;    
   }
 
@@ -182,8 +187,18 @@ float aspectRatioOntoRow (Node rectToPlace) {
   float areaSum = currentRow.rowArea + rectToPlace.rectArea;
   float newRowShortSide = areaSum / currentRow.rowCanvasSide;
   float c2Height = rectToPlace.rectArea / newRowShortSide;
-  float c2AspectRatio = c2Height / newRowShortSide;
+  float c2AspectRatio = worstAspectRatio(c2Height, newRowShortSide);       
   return c2AspectRatio;
+}
+
+// will calculate both aspect ratios and return the worst
+float worstAspectRatio(float sideA, float sideB) {
+  float ratio1 = sideA/ sideB;
+  float ratio2 = sideB / sideA;
+  if ((abs(1 - ratio1)) > (abs(1- ratio2))) { 
+    return ratio1;
+  }
+  return ratio2;
 }
 }
 

@@ -28,17 +28,18 @@ class Rectangle {
     rect_posy = posy;
     T1 = txt;
     C1 = coluh;
-     fill(C1);
+ //    fill(C1);      //TAYLOR
      rect(rect_posx, rect_posy, curr_w, curr_h);
-     fill(50);
+ //    fill(50);    //TAYLOR
      textAlign(CENTER);
      text(T1, rect_posx + curr_w /2 , rect_posy + curr_h/2);
   }
   void Display(){
-     fill(C1);
+//     fill(C1);  //TAYLOR
      rect(rect_posx, rect_posy, curr_w, curr_h);
-     fill(50);
+//     fill(50);    //TAYLOR
      textAlign(CENTER);
      text(T1, rect_posx + curr_w /2 , rect_posy + curr_h/2);
   }
 }
+
