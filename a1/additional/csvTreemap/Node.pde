@@ -1,15 +1,15 @@
-class Node {
+class Node2 {
  int total;
  String field;
  int ID;
- Map<String, Node> children = new HashMap<String, Node>();
+ Map<String, Node2> children = new HashMap<String, Node2>();
   
-  Node() {
+  Node2() {
     total = 0;
     ID = -1;
     field = "";
   }
-  Node(int ID1, String field1) {
+  Node2(int ID1, String field1) {
     ID = ID1;
     field = field1;
     total = 0;
