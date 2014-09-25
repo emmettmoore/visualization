@@ -1,8 +1,6 @@
 class Node{
   int id;  //keyID
-//  Integer id;
   int total;
-//  Integer total;
   SortedSet children;
   float posx;                                       
   float posy;                                       
@@ -14,14 +12,11 @@ class Node{
   String idString;               
   boolean wasPrinted;                              //TEMPORARY                              
   int depth;                    
-//  Integer depth;
   color printColor;
   
-  //TAYLOR:
   int barIndex;
   int highestTotal;
   Node(int id1) {
-//  Node (Integer id1) {
     id = id1;
     total = 0;
     isPlaced = false;                             
