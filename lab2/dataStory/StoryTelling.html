@@ -1,3 +1,5 @@
+<!-- python --> 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,15 +50,17 @@ img{
 </head>
 <body>
 <h2 id = "title"> Template </h2>
-<p id = "intro">  </p>
-<p id = "p1" >  </p>
-<p id = "p2" >  </p>
-<p id = "p3" >  </p>
+<p id = "intro">  </p>	
 <canvas class = "canvas" id = "canvas1"></canvas>
 <div><img src = "dexter.jpeg" id = "poster"> </div>
 <div id = "buttons">
    <button id = "pre" onclick = "decrease()"> Previous </button>
    <button id = "next" onclick = "increase()"> Next </button>
+  	<div id = "temp">
+  		Current Temperature (between 1 and 150):
+  		<input type="number" id="value" value= "enter a temperature" min="1" max="150">
+		<button onclick="printNum()"> try it! </button>
+	</div>
 </div>
 <footer>
    <p> comp 150-07(VIZ), Lab 2: Story telling </p>
@@ -71,6 +75,7 @@ var result;
 var intColor = 0;
 var mode = 0;
 
+temperature = 0;
 d3.csv("dexter.csv", function(d){
 	return {
 	    Season: +d.Season, 
@@ -84,7 +89,11 @@ d3.csv("dexter.csv", function(d){
 	result = d;
 	run(result);
 });
-
+function printNum(){
+	var x = document.getElementById("value").value;
+    //document.getElementById("temp").innerHTML = x;
+	temperature = x;
+	}
 function run(result) {
 	var canvas = document.getElementById("canvas1");
 	var processingInstance = new Processing(canvas, sketchProc); 
@@ -99,7 +108,7 @@ function decrease(){
 	mode -= 1;
 	run(result);
 }
-
+var snowflake;
 function sketchProc(p) {	
    var margin = 30, iWidth = 600, iHeight = 400;
    
@@ -110,6 +119,10 @@ function sketchProc(p) {
 	   p.smooth();   	 
 	   p.rectMode(p.CORNER);
 	   p.ellipseMode(p.RADIUS);
+	   p.snowflake = p.loadImage("snowflake.png")
+	   p.fire = p.loadImage("fire.png")
+	   p.dist = 0;
+	   p.snowflake_i = 0;
    }
    
    p.draw = function() {
@@ -128,26 +141,19 @@ function sketchProc(p) {
        break;
    };
   };
-  
+  //var dist;
    function step0(){
+   	   	document.getElementById("temp").style.visibility="visible";
 
-	   // $()s are jQuery code. 
-	   $("#title").css("padding-top","10%");
-	   $("#pre").prop("disabled",true);
-	   $("#next").prop("disabled",false);
-	   
-	   $("#intro").css("padding-left", "40%");
-	   $("#intro").show();
-       $("#poster").show();
-       
-	   $("#intro").text("Step 0");
-       $("#canvas1").hide();
-       $("#p1").hide();
-       $("#p2").hide();
-       $("#p3").hide();
-   }
-   
-   function step1(){
+   	range = 100;
+   		BUFFER = 10;
+   		posx = p.width/10;
+   		posy = p.height/10;
+   		w = p.width*8/10;
+   		h = p.height*8/10;
+   		circles = [];
+
+   		keys = ["My Happiness"];
        $("#poster").hide();
        $("#canvas1").show();
 	   $("p").show();
@@ -157,22 +163,117 @@ function sketchProc(p) {
 	   $("#pre").prop("disabled",false);
 	   $("#next").prop("disabled",false);
 	     
-	    console.log("test");
-   		p.background(0,150,0);
-   		p.text("fuckkkkkk", 20,20);
-   		p.rect(0, 0, 10 ,10);  
+   	   	p.fill(250,250,250);
+   		p.rect(0,0,p.width,p.height);
+   		p.fill(100,100,100);
+   		p.rect(posx, posy, w, h);
+    interval = w/keys.length;
+    for(i = 0; i < keys.length; i++){
+        p.textAlign(p.CENTER);
+        p.textSize(10);
+        p.text(keys[i],i*interval + posx, posy+h+BUFFER,interval, posy+h+BUFFER + 1/10*p.height);
+     } 
+      interval = range/10;
+    for(i = 0; i <= 10; i++){
+      currInterval = i*interval;
+      currText = currInterval;
+      p.textSize(12);
+       p.text(currText, posx - 20, posy + h - h/10*i);
+    }
+    
+
 	   // The example to write processing.js code in Javasript
 	   p.textAlign(p.CENTER);
 	   // The example to use teh "result dataset"
-	   p.text(result[0].Title, p.width / 2.0, p.height / 3.0);
-	   p.text("I'm dying!!!!!!!", p.width / 2.0, p.height / 3.0 - 20);
 	   // I'm calling local JavaScript function here
-	   cat(p.width / 2.0 + Math.random() * 50, p.height / 2.0 + Math.random() * 10, 30, Math.random());
 	   $("#p1").text("p1");
 	   $("#p2").text("p2");
 	   $("#p3").text("p3");		   
-   }
-   
+}
+
+
+   function step1(){
+   	document.getElementById("temp").style.visibility="hidden";
+
+   	range = 200;
+   		BUFFER = 10;
+   		posx = p.width/10;
+   		posy = p.height/10;
+   		w = p.width*8/10;
+   		h = p.height*8/10;
+   		circles = [];
+
+   		keys = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
+   		values = [20, 25, 30, 140, 130];
+       $("#poster").hide();
+       $("#canvas1").show();
+	   $("p").show();
+	   
+	   $("#intro").hide();	   
+	   
+	   $("#pre").prop("disabled",false);
+	   $("#next").prop("disabled",false);
+	     
+   	   	p.fill(250,250,250);
+   		p.rect(0,0,p.width,p.height);
+   		p.fill(100,100,100);
+   		p.rect(posx, posy, w, h);
+
+    	xInterval = w/keys.length;
+     for (i = 0; i< keys.length; i++){
+        centerX = posx + xInterval * i + xInterval/2;
+        centerY = posy + h - (values[i]/range * h); 
+        p.fill(0,0,0);
+        p.ellipse(centerX, centerY, p.width/80, p.width/80);
+        circles[i] = [centerX,centerY];  
+     } 
+      interval = range/10;
+    for(i = 0; i <= 10; i++){
+      currInterval = i*interval;
+      currText = currInterval;
+      p.textSize(12);
+       p.text(currText, posx - 20, posy + h - h/10*i);
+    }
+    interval = w/keys.length;
+    for(i = 0; i < keys.length; i++){
+        p.textAlign(p.CENTER);
+        p.textSize(10);
+        p.text(keys[i],i*interval + posx, posy+h+BUFFER,interval, posy+h+BUFFER + 1/10*p.height);
+     } 
+     for (i = 0; i<circles.length-1; i++){
+        p.line(circles[i][0], circles[i][1], circles[i+1][0], circles[i+1][1])
+     } 
+     i = p.snowflake_i;
+     if(p.dist<1 && i < circles.length-1){
+     		x = p.lerp(circles[i][0],circles[i+1][0], p.dist);
+     		y = p.lerp(circles[i][1],circles[i+1][1], p.dist);
+     		if( y > posy + h - (50/range * h)){
+     			img = p.snowflake;
+     		}
+     		else{
+     			img = p.fire;
+     		}
+     		p.imageMode(p.CENTER);
+        	p.image(img,x,y);
+     		p.dist+=.01
+     }
+     else{
+     	p.snowflake_i++;
+     	p.dist=0
+   		if(p.snowflake_i >= circles.length){
+   			p.snowflake_i = 0;
+   		}
+     }
+
+	   // The example to write processing.js code in Javasript
+	   p.textAlign(p.CENTER);
+	   // The example to use teh "result dataset"
+	   // I'm calling local JavaScript function here
+	   $("#p1").text("p1");
+	   $("#p2").text("p2");
+	   $("#p3").text("p3");		   
+}
+
    function step2(){
 	   $("#pre").prop("disabled",false);
 	   $("#next").prop("disabled",true);
@@ -185,6 +286,8 @@ function sketchProc(p) {
    }
    
    function cat(x, y, size, random){   
+   	   	document.getElementById("temp").style.visibility="hidden";
+
 	   var headSize = size * 2 / 3, earSize = size * 0.4, eyeSize = (size * 0.005 - 1 > 0)? (size * 0.005) : 1;
 	   p.noStroke();
 	   p.triangle(x - earSize * 2, y - size * 0.15, x - earSize , y - size * 0.45, x - 1.5 * earSize, y - size * 0.15 - p.sqrt(3) * earSize);
@@ -201,7 +304,8 @@ function sketchProc(p) {
 			   x - 2 * headSize,  y + 1 /2 * size + random,
 			   x - 3 * headSize,  y + 2 /2* size + random); // head
     }
-   }
+}
+
 
 
  </script>
