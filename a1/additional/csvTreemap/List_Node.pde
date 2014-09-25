@@ -1,6 +1,8 @@
 class Node{
   int id;  //keyID
+//  Integer id;
   int total;
+//  Integer total;
   SortedSet children;
   float posx;                                       
   float posy;                                       
@@ -12,8 +14,14 @@ class Node{
   String idString;               
   boolean wasPrinted;                              //TEMPORARY                              
   int depth;                    
+//  Integer depth;
   color printColor;
+  
+  //TAYLOR:
+  int barIndex;
+  int highestTotal;
   Node(int id1) {
+//  Node (Integer id1) {
     id = id1;
     total = 0;
     isPlaced = false;                             
@@ -22,6 +30,9 @@ class Node{
     wasPrinted = false;                              //TEMPORARY    
     depth = 0;
     printColor = BACKGROUNDCOLOR;
+    
+    //TAYLOR
+    barIndex = 0;
   }
   
 
@@ -32,7 +43,7 @@ void populateRectInfo(float VA_ratio) {
   idString = Integer.toString(id);         
 }
 
-void display_rect() {                                          
+void display_rect() {        
   float printposX = posx + (depth * FRAMESIZE);
   float printposY = posy + (depth * FRAMESIZE);
   float printWidth = rectWidth - (depth * FRAMESIZE * 2);
@@ -43,11 +54,29 @@ void display_rect() {
   rect(printposX, printposY, printWidth, printHeight);             
   textAlign(CENTER);                                          
   fill(TEXTCOLOR);
-  text(idString, printposX + printWidth /2, printposY + printHeight/2);
+  String label = getLabel();
+ // if (printWidth > 75) {
+ //    text(label, printposX + printWidth /2, printposY + printHeight/2);      //TEMPORARY COMMENT OUT
+ // }
+//  text(idString, printposX + printWidth /2, printposY + printHeight/2);      //TEMPORARY COMMENT OUT
   fill(BACKGROUNDCOLOR);
 }
 
-    
+String getLabel(){
+  String retVal = "field";
+  for (int i = 0; i < parent_keys2.size(); i++) {
+    if (parent_keys2.get(i)== id) {
+      return parent_fields2.get(i);
+    } else {
+      parent_fields2.get(i);
+ //     return child_fields2.get(i);
+    }
+  }
+  return retVal;
+}
+  
+  
+
 void setColor(){
   if (within(false)){
     int returnId = findInnermost(id, false);
