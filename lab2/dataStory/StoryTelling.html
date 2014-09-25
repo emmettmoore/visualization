@@ -49,10 +49,9 @@ img{
 
 </head>
 <body>
-<h2 id = "title"> Template </h2>
+<h2 id = "title"> Ian and the Weather! </h2>
 <p id = "intro">  </p>	
 <canvas class = "canvas" id = "canvas1"></canvas>
-<div><img src = "dexter.jpeg" id = "poster"> </div>
 <div id = "buttons">
    <button id = "pre" onclick = "decrease()"> Previous </button>
    <button id = "next" onclick = "increase()"> Next </button>
@@ -120,8 +119,14 @@ function sketchProc(p) {
 	   p.ellipseMode(p.RADIUS);
 	   p.snowflake = p.loadImage("snowflake.png")
 	   p.fire = p.loadImage("fire.png")
+	   p.ian = p.loadImage("ian.jpg")
 	   p.dist = 0;
 	   p.snowflake_i = 0;
+	   p.frameCount = 0;
+	   p.ianX = (Math.random() * p.width-50 + 50);
+	   p.ianY = (Math.random() * p.height-50 + 50)
+
+
    }
    
    p.draw = function() {
@@ -141,7 +146,7 @@ function sketchProc(p) {
    };
   };
   //var dist;
-   function step0(){
+   function step2(){
    	   	document.getElementById("temp").style.visibility="visible";
 
    	range = 150;
@@ -160,7 +165,7 @@ function sketchProc(p) {
 	   $("#intro").hide();	   
 	   
 	   $("#pre").prop("disabled",false);
-	   $("#next").prop("disabled",false);
+	   $("#next").prop("disabled",true);
 	     
    	   	p.fill(250,250,250);
    		p.rect(0,0,p.width,p.height);
@@ -195,7 +200,7 @@ function sketchProc(p) {
 
 
    function step1(){
-   	document.getElementById("temp").style.visibility="hidden";
+   	   	document.getElementById("temp").style.visibility="hidden";
 
    	range = 200;
    		BUFFER = 10;
@@ -220,7 +225,7 @@ function sketchProc(p) {
    		p.rect(0,0,p.width,p.height);
    		p.fill(100,100,100);
    		p.rect(posx, posy, w, h);
-
+   		p.text("The weather this week", posx+ w/2, posy + h + 37)
     	xInterval = w/keys.length;
      for (i = 0; i< keys.length; i++){
         centerX = posx + xInterval * i + xInterval/2;
@@ -276,11 +281,25 @@ function sketchProc(p) {
 	   $("#p3").text("p3");		   
 }
 
-   function step2(){
-	   $("#pre").prop("disabled",false);
-	   $("#next").prop("disabled",true);
+   function step0(){
+   	   	document.getElementById("temp").style.visibility="hidden";
+
+	   $("#pre").prop("disabled",true);
+	   $("#next").prop("disabled",false);
 	   
-	   cat(p.width / 2.0, p.height / 2.0, 50, Math.random() * 10);
+
+	   if(p.frameCount<60){
+	   	p.frameCount+= .01;
+	 	}
+	   else if (p.frameCount < 120){
+	   		p.image(p.ian, p.ianX, p.ianY);
+	   		p.frameCount+=.01
+	   	}
+	   	else { p.frameCount = 0
+	   		p.ianX = (Math.random() * p.width-50 + 50)
+	   		p.ianY = (Math.random() * p.height-50 + 50)
+
+	   	}
 	   
 	   $("#p1").text("p1");
 	   $("#p2").text("p2");
