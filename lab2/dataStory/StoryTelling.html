@@ -58,9 +58,8 @@ img{
    <button id = "next" onclick = "increase()"> Next </button>
   	<div id = "temp">
   		Current Temperature (between 1 and 150):
-  		<input type="number" id="value" value= "enter a temperature" min="1" max="150">
-		<button onclick="printNum()"> try it! </button>
-	</div>
+  		<input type="number" id="value" value= "enter a temperature" min="1" max="150" onchange="printNum()">
+			</div>
 </div>
 <footer>
    <p> comp 150-07(VIZ), Lab 2: Story telling </p>
@@ -145,7 +144,7 @@ function sketchProc(p) {
    function step0(){
    	   	document.getElementById("temp").style.visibility="visible";
 
-   	range = 100;
+   	range = 150;
    		BUFFER = 10;
    		posx = p.width/10;
    		posy = p.height/10;
@@ -172,15 +171,18 @@ function sketchProc(p) {
         p.textAlign(p.CENTER);
         p.textSize(10);
         p.text(keys[i],i*interval + posx, posy+h+BUFFER,interval, posy+h+BUFFER + 1/10*p.height);
+        p.fill(120,0,0)
+        p.rect(posx + 50, posy + h-h*temperature/range , w-100,h*temperature/range );
      } 
-      interval = range/10;
+
+      interval = 100/10;
     for(i = 0; i <= 10; i++){
       currInterval = i*interval;
       currText = currInterval;
       p.textSize(12);
-       p.text(currText, posx - 20, posy + h - h/10*i);
+       p.text(currText + "%", posx - 20, posy + h - h/10*i);
     }
-    
+
 
 	   // The example to write processing.js code in Javasript
 	   p.textAlign(p.CENTER);
@@ -232,7 +234,7 @@ function sketchProc(p) {
       currInterval = i*interval;
       currText = currInterval;
       p.textSize(12);
-       p.text(currText, posx - 20, posy + h - h/10*i);
+       p.text(currText+"\xB0", posx - 20, posy + h - h/10*i);
     }
     interval = w/keys.length;
     for(i = 0; i < keys.length; i++){
