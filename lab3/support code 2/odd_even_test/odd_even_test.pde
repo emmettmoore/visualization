@@ -84,7 +84,7 @@ return false;
 } else {
 float isectx = (b2 * c1 - b1 * c2) / det;
 float isecty = (a1 * c2 - a2 * c1) / det;
-    ellipse(isectx, isecty,20,20);
+    ellipse(isectx, isecty,10,10);
     println ("isectx: " + isectx + " isecty: " + isecty);if ((isBetween(isecty, p1.y, q1.y) == true) &&
 (isBetween(isecty, p2.y, q2.y) == true) &&
 (isBetween(isectx, p1.x, q1.x) == true) &&
