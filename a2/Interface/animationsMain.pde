@@ -9,4 +9,7 @@ void setup(){
 void draw(){
   buttonInterface.update();
 }
+  void mouseClicked(){
+     buttonInterface.checkButtons(); 
+}
 

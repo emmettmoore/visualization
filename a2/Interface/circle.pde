@@ -1,10 +1,14 @@
 class Circle{
+   int graphNum;
+   boolean clicked;
    float centerX;
    float centerY;
    float radius;
    color C1;
    String T1;
-    Circle(float centerX1, float centerY1, float radius1, color originalColor1, String text1){
+    Circle(float centerX1, float centerY1, float radius1, color originalColor1, String text1, int graphNum1){
+        clicked = false;
+        graphNum = graphNum1;
         centerX = centerX1;
         centerY = centerY1;
         radius = radius1;
@@ -18,7 +22,6 @@ class Circle{
         ellipse(centerX, centerY, radius*2,radius*2);
         fill(0);
         textAlign(CENTER);
-        print(T1);
         text(T1,centerX, centerY);
     }
     boolean within(){
