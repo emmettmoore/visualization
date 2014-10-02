@@ -1,4 +1,4 @@
-int numPoints = 10;
+int numPoints = 4;
 Point[] shape;
 
 Point endP;

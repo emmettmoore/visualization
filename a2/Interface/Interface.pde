@@ -21,16 +21,14 @@ class animInterface{
   void update(){
     buttonArea.update(0, height * 7/8f, width*.75f, height*1/8f, color(0,250,0));
     goButtonArea.update(.75*width,7/8f*height,width*.25,height*1/8f, color(250,12,30));
-    for(int i = 0; i<buttons.length;i++){
-      buttons[i].Display();
-    }
+    redrawButtons();
+
   }
 
   void checkButtons(){
       for (int i = 0; i<buttons.length; i++){
          if(buttons[i].within()){
             if(!buttons[i].clicked){
-              print(buttons[i].graphNum + "\n");
                animOrder.add(buttons[i].graphNum);
                buttons[i].clicked = true;
             }
@@ -40,17 +38,35 @@ class animInterface{
                 buttons[i].clicked = false;
             }
          } 
+
       }
+
   }
       
-  
+  void updateOrder(){
+     for(int i = 0; i<buttons.length;i++){
+        //if buttons of i exists in the anim array, then update size;
+        int curr = buttons[i].graphNum;
+        if(animOrder.contains(curr)){
+           buttons[i].orderNum = animOrder.indexOf(curr); 
+        }
+     } 
+  }
   void initializeButtons(){
      float interval = buttonArea.w/buttons.length;
      float radius = height/8/2f;
      for(int i = 0; i<buttons.length;i++){
-         buttons[i] = new Circle(i*interval+interval/2,buttonArea.posy + radius,radius,color(250,250, 100),ButtonNames[i],i);
+         buttons[i] = new Circle(i*interval+interval/2,buttonArea.posy + radius,radius-3,color(250,250, 100),ButtonNames[i],i);
      }
   }
-  
+  void redrawButtons(){
+      updateOrder();
+
+      float interval = buttonArea.w/buttons.length;
+      float radius = height/16;
+      for(int i = 0; i<buttons.length;i++){
+        buttons[i].Redraw(i*interval+interval/2,buttonArea.posy + radius,radius-3);
+      } 
+  }
 }
 

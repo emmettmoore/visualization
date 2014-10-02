@@ -1,5 +1,6 @@
 class Circle{
    int graphNum;
+   int orderNum;
    boolean clicked;
    float centerX;
    float centerY;
@@ -22,7 +23,9 @@ class Circle{
         ellipse(centerX, centerY, radius*2,radius*2);
         fill(0);
         textAlign(CENTER);
+        textSize(12);
         text(T1,centerX, centerY);
+        clickedStatus();
     }
     boolean within(){
       double squareX = Math.pow(mouseX - centerX,2);
@@ -32,4 +35,18 @@ class Circle{
        } 
        return false;
     }   
+    void clickedStatus(){
+       if(clicked){
+         textAlign(CENTER);
+         textSize(32);
+         fill(250,0,0);
+          text(Integer.toString((Integer)orderNum +1),centerX, centerY + 20);  
+       } 
+    }
+    void Redraw(float centerX1, float centerY1, float radius1){
+        centerX = centerX1;
+        centerY = centerY1;
+        radius = radius1;
+        Display();
+    }
 }

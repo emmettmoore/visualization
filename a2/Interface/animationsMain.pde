@@ -7,6 +7,7 @@ void setup(){
 }
 
 void draw(){
+  background(250,250,250);
   buttonInterface.update();
 }
   void mouseClicked(){
