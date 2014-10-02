@@ -1,0 +1,9 @@
+Assignment:	a1
+Date:		Sept.24.2014
+Team:		Ian Cross
+		Emmett Moore
+		Taylor Maykranz
+	We implemented parts of the additional requirements. An extra
+	feature that we included is a partial-zooming functionality on
+	the additional requirements, although the squarified treemap for
+	the additional requirements does not end up splitting into bar graphs.

@@ -1,3 +1,4 @@
+
 class MyCircle {
   int id;
   int posx, posy, radius;
@@ -43,11 +44,12 @@ class MyCircle {
     fill (r, g, b, 128);
     ellipse(posx, posy, radius*2, radius*2);      
   }
-  
-  boolean isect () {
-
-    //TODO: Fill in this function
-
+boolean isect(float x1, float y1) {
+  float x0 = posx;
+  float y0 = posy;
+  if (((x1 - x0) * (x1 - x0) + (y1 - y0)*(y1-y0)) <= (radius*radius)) {
+          return true;
+        }
     return false;
   }
 }
