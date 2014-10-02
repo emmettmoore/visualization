@@ -1,0 +1,11 @@
+Assignment:	A1
+Date:		Sept.24.2014
+Team:		Ian Cross
+		Emmett Moore
+		Taylor Maykranz
+
+Teamwork:	Taylor focused on the structuring of the Squarified Treemap.
+		Emmett led the data parsing efforts of the assignment, and
+		Ian's focus was spread across both areas, with 
+		a stronger focus in the data-parsing aspect of the assignment.
+		  
