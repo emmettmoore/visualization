@@ -6,6 +6,8 @@ int BUFFER = 10;
 int NUM_INTERVALS = 10;
 class BarChart{
   boolean lineGraph = true;
+  boolean pieGraph = false;              //TAY ADD
+  boolean barGraph = false;              //TAY ADD
   Rectangle GraphOutline;
   float range;
   float w, h, posx, posy;
@@ -38,12 +40,20 @@ class BarChart{
   void Display(){
     GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
     drawLabels();
-        
+   /*     
     if(lineGraph){
       drawLineGraph();
     }
     else{
       drawBarGraph();
+    }
+    */
+    if (lineGraph) {                  //TAY ADD
+      drawLineGraph();
+    } else if (barGraph) {
+      drawBarGraph();
+    } else {
+      drawPieGraph();
     }
   }
   
@@ -57,6 +67,31 @@ class BarChart{
     drawBars();
     checkBarHover();
   }
+  void drawPieGraph() {              //TAY ADD
+    float[] angles = new float[values.length];
+    float sum = 0;
+    //calculate the sum of the values:
+    for (int i = 0; i < values.length; i++) {
+      sum = sum + values[i];
+    }
+    //populate the angles array:
+    for (int i = 0; i < values.length; i++) {
+      angles[i] = ((values[i]/ sum) * 360);
+    }
+    drawPie(300, angles);
+  }
+  
+  void drawPie(float diameter, float[] angles) {
+    float lastAngle = 0;
+    for (int i = 0; i < angles.length; i++) {
+      float shade = map(i, 0, angles.length, 0, 255);      //converting it to a shade of gray
+      fill(shade);
+      arc(width/2, height/2, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
+      lastAngle += radians(angles[i]);
+    }
+  }
+      
+  
   void drawCircles(){
      float xInterval = w/keys.length;
      for (int i = 0; i< keys.length; i++){
@@ -186,6 +221,7 @@ class BarChart{
   }
   
   //switches to a linegraph if currently bargraph and vice versa
+  /*
   void switchState(){
     if(lineGraph){
       lineGraph = false;
@@ -194,4 +230,23 @@ class BarChart{
       lineGraph = true;
     }
   }
+  */
+  
+                              //    TAY ADD  
+  /* Sequence: linegraph -> bargraph -> piegraph -> linegraph */
+  void switchState(){
+    if(lineGraph){
+      lineGraph = false;
+      barGraph = true;
+    }
+    else if (pieGraph) {
+      pieGraph = false;
+      lineGraph = true;
+    }
+    else {
+      barGraph = false;
+      pieGraph = true;
+    }
+  }
+  
 }
