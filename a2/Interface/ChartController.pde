@@ -1,7 +1,7 @@
 //doesn't work with negatives as of now
 //let the user specify the color of the hovered bar color
 int NUM_INTERVALS = 10;
-class BarChart{
+class ChartController{
   boolean lineGraph = false;
     boolean pieGraph = true;              //TAY ADD
   boolean barGraph = false;              //TAY ADD
@@ -16,7 +16,7 @@ class BarChart{
   float minOfValues;
   Rectangle[] bars;
   Circle[] circles;
-  BarChart(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
+  ChartController(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
     //data initialization; 
     w = w1;
      h = h1;
@@ -37,6 +37,7 @@ class BarChart{
   void Display(){
     GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
     drawLabels();
+    
     if (lineGraph) {              
       drawLineGraph();
     } else if (barGraph) {
@@ -212,19 +213,7 @@ class BarChart{
        }
     }
   }
-  /*
-  //switches to a linegraph if currently bargraph and vice versa
-  void switchState(){
-    if(lineGraph){
-      lineGraph = false;
-    }
-    else{
-      lineGraph = true;
-    }
-  }*/
-  
-    //    TAY ADD  
-  /* Sequence: linegraph -> bargraph -> piegraph -> linegraph */
+  // Sequence: linegraph -> bargraph -> piegraph -> linegraph */
   void switchState(){
     if(lineGraph){
       lineGraph = false;

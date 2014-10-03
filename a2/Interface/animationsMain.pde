@@ -6,7 +6,7 @@ float[] values;
 String[] labels;
 Rectangle BarLineButton;
 Rectangle GraphOutline;
-BarChart chart;
+ChartController chart;
 
 animInterface buttonInterface;
 
@@ -38,7 +38,7 @@ void drawGraphs(){
   
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
   frame.setResizable(true);
-  chart = new BarChart(width*7/10, height * 6/10, width * 1/10, height * 1/10, keys,values,labels, color(255,255,105), color(250,250,250), color(116,250,255));
+  chart = new ChartController(width*7/10, height * 6/10, width * 1/10, height * 1/10, keys,values,labels, color(255,255,105), color(250,250,250), color(116,250,255));
 }
 
 void parse_data() {
