@@ -11,7 +11,7 @@ class animInterface{
   animInterface(){
       animOrder = new ArrayList(3);
       buttonArea = new Rectangle(0, height * 7/8f, width*.75f, height*1/8f, "",color(0,250,0));
-      goButtonArea = new Rectangle(.75*width,7/8f*height,width*.25,height*1/8f,"", color(250,12,30));
+      goButtonArea = new Rectangle(.75*width,7/8f*height,width*.25,height*1/8f,"BEGIN", color(250,12,30));
       buttons = new CircleButton[ButtonNames.length];
       initializeButtons();
       update();
@@ -20,7 +20,7 @@ class animInterface{
     
   void update(){
     buttonArea.update(0, height * 7/8f, width*.75f, height*1/8f, "",color(0,250,0));
-    goButtonArea.update(.75*width,7/8f*height,width*.25,height*1/8f,"", color(250,12,30));
+    goButtonArea.update(.75*width,7/8f*height,width*.25,height*1/8f,"BEGIN", color(250,12,30));
     redrawButtons();
 
   }

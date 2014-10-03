@@ -1,4 +1,4 @@
-
+int BUFFER = 15;
 class Rectangle {
   float posx;
   float posy;
@@ -29,12 +29,15 @@ class Rectangle {
     C1 = color1;
     fill(color1); 
     rect(posx,posy,w,h);
-    textAlign(CENTER);
+    fill(color(0,0,0));
+    textSize(30);
+    textAlign(CENTER,CENTER);
     text(T1, posx + w /2 , posy + h/2);
   }
   void Display(){
       fill(C1);
       rect(posx,posy, w,h);
+      fill(0,0,0);
       textAlign(CENTER);
       text(T1, posx + w /2 , posy + h/2);
   }

@@ -22,7 +22,7 @@ class CircleButton{
         fill(C1);
         ellipse(centerX, centerY, radius*2,radius*2);
         fill(0);
-        textAlign(CENTER);
+        textAlign(CENTER,BASELINE);
         textSize(12);
         text(T1,centerX, centerY);
         clickedStatus();
@@ -37,7 +37,7 @@ class CircleButton{
     }   
     void clickedStatus(){
        if(clicked){
-         textAlign(CENTER);
+         textAlign(CENTER,BASELINE);
          textSize(32);
          fill(250,0,0);
           text(Integer.toString((Integer)orderNum +1),centerX, centerY + 20);  

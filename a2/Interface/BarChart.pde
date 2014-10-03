@@ -1,8 +1,5 @@
 //doesn't work with negatives as of now
 //let the user specify the color of the hovered bar color
-
-int BUFFER = 10;
-
 int NUM_INTERVALS = 10;
 class BarChart{
   boolean lineGraph = true;
