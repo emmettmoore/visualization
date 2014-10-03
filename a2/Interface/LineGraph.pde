@@ -1,4 +1,4 @@
-class BarGraph{
+class LineGraph{
     float posx, posy, w, h;
     float maxOfValues;
     float minOfValues;
@@ -7,8 +7,8 @@ class BarGraph{
     color backgroundColor, hoverColor;
     String[] keys,labels;
     float[] values;
-    Rectangle[] bars;
-    BarGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
+    Circle[] circles;
+    LineGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color backgroundColor1, color hoverColor1){
       posx = posx1;
       posy = posy1;
       w = w1;
@@ -16,61 +16,62 @@ class BarGraph{
       keys = keys1;
       values = values1;
       labels = labels1;
-      barColor = barColor1;
       backgroundColor = backgroundColor1;
       hoverColor = hoverColor1;
-      bars = new Rectangle[keys.length];
+      circles = new Circle[keys.length];
       Update();
     }
-  
-  
     
-  void Update(){
-    GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
-    drawLabels();
-    drawBars();
-    checkBarHover(); 
-  }
-   void checkBarHover(){
-     int toolTipIndex = -1;
-     for(int i = 0; i<keys.length;i++){
-        if(bars[i].within()){
-           bars[i].C1 = hoverColor;
-           bars[i].Display();
-           toolTipIndex = i;
-        }
-        else{
-           bars[i].C1 = barColor;
-            bars[i].Display();       
-        }
-     } 
-     if(toolTipIndex!=-1){
-       displayAdditionalInfo(toolTipIndex);
-     }
-  }
-  void drawLabels(){
-    fill(0, 102, 153);
-    labelAxes();
-  }
-  void drawBars(){
-    int xInterval = (int)w/keys.length;
-    int intervalBuffer = xInterval*1/8;
-    Rectangle temp;
-     for(int i = 0; i < keys.length; i++){
-       float barHeight = ((values[i]-minOfValues)/range * h);
-        temp = new Rectangle(posx + i*xInterval + intervalBuffer/2, posy + h - barHeight,xInterval-intervalBuffer,barHeight,"",barColor);
-        bars[i] = temp;        
-     } 
-  }
-    void displayAdditionalInfo(int index){
+    void Update(){
+      GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
+      labelAxes();
+
+      drawCircles(); 
+      drawConnectingLines(); 
+      checkCircleHover(); 
+    }
+    //draws the circles on the points of the graph
+    void drawCircles(){
+       float xInterval = w/keys.length;
+       for (int i = 0; i< keys.length; i++){
+          float centerX = posx + xInterval * i + xInterval/2;
+          float centerY = posy + h - ((values[i]-minOfValues)/range * h); 
+          circles[i] = new Circle(centerX, centerY, (float)width/80, barColor);  
+       } 
+    }
+    
+    //connects the circles in the linechart
+    void drawConnectingLines(){
+       for (int i = 0; i<circles.length-1; i++){
+          line(circles[i].centerX, circles[i].centerY, circles[i+1].centerX, circles[i+1].centerY);
+       } 
+    }
+    void checkCircleHover(){
+      int toolTipIndex = -1;
+       for(int i = 0; i<keys.length; i++){
+          if(circles[i].within()){
+             circles[i].C1 = hoverColor;
+             circles[i].Display();
+             toolTipIndex = i;
+          }
+          else{
+            circles[i].C1 = barColor;
+            circles[i].Display();
+          }
+  
+       } 
+       if(toolTipIndex!=-1){
+             displayAdditionalInfo(toolTipIndex);
+       }
+    }
+        void displayAdditionalInfo(int index){
         String info = "(" + keys[index] + ", " + Float.toString(values[index]) + ")";
         textAlign(CENTER);
         textSize(17);
         fill(color (0,0,0));
         text(info, mouseX, mouseY-20);
   }
-  
-  void labelAxes(){
+    void labelAxes(){
     findMaxMin(); 
     labelYAxis();
     labelXAxis();

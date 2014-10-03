@@ -3,21 +3,21 @@
 int NUM_INTERVALS = 10;
 class ChartController{
   //make an is_active() function in each class
-  boolean lineGraph = false;
+  boolean lineGraph = true;
   boolean pieGraph = false;              //TAY ADD
-  boolean barGraph = true;              //TAY ADD
+  boolean barGraph = false;              //TAY ADD
   float posx, posy, w, h;
   Rectangle GraphOutline;
-  Circle[] circles;
   
   BarGraph bar_graph;
+  LineGraph line_graph;
   ChartController(float posx1, float posy1,float w1, float h1, String[] keys, float[] values, String[]labels, color barColor, color backgroundColor, color hoverColor){
       posx = posx1;
       posy = posy1;
       w = w1;
       h = h1;
      bar_graph = new BarGraph(posx,posy,w,h, keys, values, labels, barColor, backgroundColor, hoverColor);
-     circles = new Circle[keys.length];
+     line_graph = new LineGraph(posx,posy,w,h, keys, values, labels, backgroundColor, hoverColor);
      Display();
   }
   
@@ -26,7 +26,7 @@ class ChartController{
     updateSizes();
 
     if (lineGraph) {              
-      //drawLineGraph();
+      line_graph.Update();
     } else if (barGraph) {
        bar_graph.Update();
     } else {
@@ -38,12 +38,11 @@ class ChartController{
      bar_graph.h = height*6/10;
      bar_graph.posx = width* 2/10;
      bar_graph.posy = height*1/10;
-  }
-  /*
-  void drawLineGraph(){
-     drawCircles(); 
-     drawConnectingLines(); 
-     checkCircleHover();
+     line_graph.w = width*6/10;
+     line_graph.h = height*6/10;
+     line_graph.posx = width* 2/10;
+     line_graph.posy = height*1/10;
+     
   }
     void drawPieGraph() {
     float[] angles = new float[values.length];
@@ -72,40 +71,6 @@ class ChartController{
       lastAngle += radians(angles[i]);
     }
   }
-  //draws the circles on the points of the graph
-  void drawCircles(){
-     float xInterval = w/keys.length;
-     for (int i = 0; i< keys.length; i++){
-        float centerX = posx + xInterval * i + xInterval/2;
-        float centerY = posy + h - ((values[i]-minOfValues)/range * h); 
-        circles[i] = new Circle(centerX, centerY, (float)width/80, barColor);  
-     } 
-  }
-  
-  //connects the circles in the linechart
-  void drawConnectingLines(){
-     for (int i = 0; i<circles.length-1; i++){
-        line(circles[i].centerX, circles[i].centerY, circles[i+1].centerX, circles[i+1].centerY);
-     } 
-  }
-  void checkCircleHover(){
-    int toolTipIndex = -1;
-     for(int i = 0; i<keys.length; i++){
-        if(circles[i].within()){
-           circles[i].C1 = hoverColor;
-           circles[i].Display();
-           toolTipIndex = i;
-        }
-        else{
-          circles[i].C1 = barColor;
-          circles[i].Display();
-        }
-
-     } 
-     if(toolTipIndex!=-1){
-           displayAdditionalInfo(toolTipIndex);
-     }
-  }*/
   // Sequence: linegraph -> bargraph -> piegraph -> linegraph */
   void switchState(){
     if(lineGraph){
