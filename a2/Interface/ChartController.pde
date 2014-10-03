@@ -3,8 +3,8 @@
 int NUM_INTERVALS = 10;
 class ChartController{
   boolean lineGraph = false;
-    boolean pieGraph = true;              //TAY ADD
-  boolean barGraph = false;              //TAY ADD
+    boolean pieGraph = true;  
+  boolean barGraph = false;   
   Rectangle GraphOutline;
   float range;
   float w, h, posx, posy;
@@ -56,6 +56,7 @@ class ChartController{
     drawBars();
     checkBarHover();
   }
+  
     void drawPieGraph() {
     float[] angles = new float[values.length];
     float sum = 0;
@@ -74,6 +75,7 @@ class ChartController{
     drawPie(smallerEdge - (smallerEdge/2), angles);
   }
   
+
   void drawPie(float diameter, float[] angles) {
     float lastAngle = 0;
     for (int i = 0; i < angles.length; i++) {
@@ -83,6 +85,7 @@ class ChartController{
       lastAngle += radians(angles[i]);
     }
   }
+  
   //draws the circles on the points of the graph
   void drawCircles(){
      float xInterval = w/keys.length;
