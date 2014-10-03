@@ -4,7 +4,7 @@ class PieGraph{
   String[] keys;
   float w, h, posx, posy;
   float total;
-  PieGraph(float posx1, float posy1, float w1, float h1, float[] values1, String[] keys1) {
+  PieGraph(float posx1, float posy1, float w1, float h1, String[] keys1, float[] values1) {
     posx = posx1; 
     posy= posy1;
     w = w1;
@@ -23,7 +23,7 @@ class PieGraph{
     }
   }
  //TO DO : add arguments x, y, width, height
- void update() {
+ void Update() {
    float smallerEdge = height;
    if (width < height) {
       smallerEdge = width;
