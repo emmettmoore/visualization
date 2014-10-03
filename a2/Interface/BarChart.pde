@@ -2,8 +2,8 @@
 //let the user specify the color of the hovered bar color
 int NUM_INTERVALS = 10;
 class BarChart{
-  boolean lineGraph = true;
-    boolean pieGraph = false;              //TAY ADD
+  boolean lineGraph = false;
+    boolean pieGraph = true;              //TAY ADD
   boolean barGraph = false;              //TAY ADD
   Rectangle GraphOutline;
   float range;
@@ -37,15 +37,7 @@ class BarChart{
   void Display(){
     GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
     drawLabels();
-  /*      
-    if(lineGraph){
-      drawLineGraph();
-    }
-    else{
-      drawBarGraph();
-    }
-    */
-        if (lineGraph) {                  //TAY ADD
+    if (lineGraph) {              
       drawLineGraph();
     } else if (barGraph) {
       drawBarGraph();
@@ -63,7 +55,7 @@ class BarChart{
     drawBars();
     checkBarHover();
   }
-    void drawPieGraph() {              //TAY ADD
+    void drawPieGraph() {
     float[] angles = new float[values.length];
     float sum = 0;
     //calculate the sum of the values:
@@ -74,7 +66,11 @@ class BarChart{
     for (int i = 0; i < values.length; i++) {
       angles[i] = ((values[i]/ sum) * 360);
     }
-    drawPie(300, angles);
+    float smallerEdge = height;
+    if (width < height) {
+      smallerEdge = width;
+    }
+    drawPie(smallerEdge - (smallerEdge/2), angles);
   }
   
   void drawPie(float diameter, float[] angles) {
@@ -82,7 +78,7 @@ class BarChart{
     for (int i = 0; i < angles.length; i++) {
       float shade = map(i, 0, angles.length, 0, 255);      //converting it to a shade of gray
       fill(shade);
-      arc(width/2, height/2, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
+      arc(GraphOutline.posx + GraphOutline.w/2, GraphOutline.posy + GraphOutline.h/2, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
       lastAngle += radians(angles[i]);
     }
   }
