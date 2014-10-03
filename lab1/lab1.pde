@@ -59,7 +59,7 @@ void redrawChart(){
    chart.Display();
 }
 void redrawButton(){
-  BarLineButton.draw_me(width/10,height/10,width - width/10, 0, "switch", color(100,100,20));
+  BarLineButton.update(width - width/10, 0,width/10,height/10, "switch", color(100,100,20));
 
 }
 

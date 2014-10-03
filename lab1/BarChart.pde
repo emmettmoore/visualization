@@ -17,7 +17,7 @@ class BarChart{
   float minOfValues;
   Rectangle[] bars;
   Circle[] circles;
-  BarChart(float w1, float h1, float posx1, float posy1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
+  BarChart(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
     //data initialization; 
     w = w1;
      h = h1;
@@ -36,7 +36,7 @@ class BarChart{
   
   //where everything is called - basically this class' draw function
   void Display(){
-    GraphOutline = new Rectangle(w, h, posx,posy, "", backgroundColor);
+    GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
     drawLabels();
         
     if(lineGraph){
@@ -123,7 +123,7 @@ class BarChart{
     Rectangle temp;
      for(int i = 0; i < keys.length; i++){
        float barHeight = ((values[i]-minOfValues)/range * h);
-        temp = new Rectangle(xInterval-intervalBuffer,barHeight,posx + i*xInterval + intervalBuffer/2, posy + h - barHeight,"",barColor);
+        temp = new Rectangle(posx + i*xInterval + intervalBuffer/2, posy + h - barHeight,xInterval-intervalBuffer,barHeight,"",barColor);
         bars[i] = temp;        
      } 
   }
