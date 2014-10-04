@@ -12,12 +12,7 @@ int ANIMATING = 2;
   boolean lineGraph;
   boolean pieGraph;
   boolean barGraph;
-class ChartController{
-
-
-  boolean lineGraph = false;
-  boolean pieGraph = true;
-  boolean barGraph = false;    
+class ChartController{   
   float posx, posy, w, h;
   Rectangle GraphOutline;
   
@@ -28,7 +23,7 @@ class ChartController{
       posy = posy1;
       w = w1;
       h = h1;
-      lineGraph = barGraph = pieGraph = true;
+      lineGraph = barGraph = pieGraph = false;
      line_graph = new LineGraph(posx,posy,w,h, keys, values, labels, backgroundColor, hoverColor);
      bar_graph = new BarGraph(posx,posy,w,h, keys, values, labels, barColor, backgroundColor, hoverColor);
      pie_graph = new PieGraph(posx, posy, w, h, keys, values);
@@ -101,20 +96,5 @@ class ChartController{
      line_graph.posx = width* 2/10;
      line_graph.posy = height*1/10;
   }
-
-  // Sequence: linegraph -> bargraph -> piegraph -> linegraph */
-  void switchState(){
-    if(lineGraph){
-      lineGraph = false;
-      barGraph = true;
-    }
-    else if (pieGraph) {
-      pieGraph = false;
-      lineGraph = true;
-    }
-    else {
-      barGraph = false;
-      pieGraph = true;
-    }
-  }
 }
+

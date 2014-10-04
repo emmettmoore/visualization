@@ -39,9 +39,9 @@ class BarGraph{
     
   void Update(){
     drawLabels();
-    if(!currAnimating){
-      GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
+    GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
 
+    if(!currAnimating){
       drawBars();
       checkBarHover();
     } 
@@ -106,6 +106,8 @@ class BarGraph{
       currInterval = startingPoint + i*interval;
       String currText = Float.toString(currInterval);
       textSize(12);
+      print("the posy from bar is " + (posy + h - h/10*i) + "\n");
+
        text(currText, posx - BUFFER, posy + h - h/10*i);
     }
     range = currInterval - minOfValues; 
@@ -159,7 +161,12 @@ class BarGraph{
            line_graph.circles[i].radius = lerp(0, line_graph.circles[i].origRadius, circleDist);
            line_graph.circles[i].Display();
          }
-         circleDist+=.05;
+         for(int i = 0; i<line_graph.circles.length-1;i++){
+           Circle circ1 = line_graph.circles[i]; 
+           Circle circ2 = line_graph.circles[i+1];
+           line(circ1.centerX,circ1.centerY,lerp(circ1.centerX,circ2.centerX,circleDist),lerp(circ1.centerY,circ2.centerY,circleDist)); 
+         }
+         circleDist+=.01;
          return true;
       }
       line_graph.currAnimating = false;

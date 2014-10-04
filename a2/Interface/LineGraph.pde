@@ -78,6 +78,7 @@ class LineGraph{
         text(info, mouseX, mouseY-20);
   }
     void labelAxes(){
+    //fill(160,160,160);
     findMaxMin(); 
     labelYAxis();
     labelXAxis();
@@ -98,7 +99,9 @@ class LineGraph{
       currInterval = startingPoint + i*interval;
       String currText = Float.toString(currInterval);
       textSize(12);
-       text(currText, posx - BUFFER, posy + h - h/10*i);
+      fill(0,0,0);
+      textAlign(CENTER,CENTER);
+      text(currText, posx - BUFFER, posy + h - h/10*i);
     }
     range = currInterval - minOfValues; 
   }
