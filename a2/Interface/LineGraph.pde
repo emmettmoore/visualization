@@ -31,7 +31,7 @@ class LineGraph{
       drawCircles(); 
 
       if(!currAnimating){
-          GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
+          //GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
           drawConnectingLines(); 
           checkCircleHover(); 
       }

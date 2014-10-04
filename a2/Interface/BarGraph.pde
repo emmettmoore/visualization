@@ -39,9 +39,10 @@ class BarGraph{
     
   void Update(){
     drawLabels();
-    GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
 
     if(!currAnimating){
+      //GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
+
       drawBars();
       checkBarHover();
     } 
@@ -170,7 +171,6 @@ class BarGraph{
          return true;
       }
       line_graph.currAnimating = false;
-      background(250,250,250);
       currAnimating = false;
       return false;                  //TEMPORARY
     }
