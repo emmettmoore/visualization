@@ -5,12 +5,14 @@ class PieLabel{
   float posy;
   PFont textFont;
   float rotationDegree;      //TEMP
-  PieLabel(float pos_x, float pos_y, String message1, float degree, float rotation_degree) {
+  float textColor;
+  PieLabel(float pos_x, float pos_y, String message1, float degree, float rotation_degree, float fillColor) {
     posx= pos_x;
     posy = pos_y;
     message = message1;
     textFont = createFont("Tahoma", 15, true);
     rotationDegree = rotation_degree; 
+    textColor = fillColor;
   }
   
   void printWord() {
@@ -21,15 +23,11 @@ class PieLabel{
     textFont(textFont);
     textAlign(CENTER);
     smooth();
-    fill(0);
+    fill(textColor);
     pushMatrix();           //push the next "translate" so that it can be undone afterwards
     translate(posx, posy);  //Set the pivot axis
     textAlign(CENTER, CENTER);
     float radianRotation = rotationDegree;
-//    int radianRotation = 0;
-//    if (message.length() > 3) {    //in the case that its not a numerical, text should be rotated
-//      radianRotation = 30;  //330
-//    }
     pushMatrix();           //push the next "rotate" so that it can be undone afterwards                
     rotate(radians(radianRotation));
     text(message, 0, 0);

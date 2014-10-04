@@ -23,9 +23,6 @@ class PieGraph{
     //calculate the sum of the values:
     for (int i = 0; i < values.length; i++) {
       total = total + values[i];
- //     if (values[i] != 0) { 
-  //      nonzeroTotal ++;
-  //    }
     }
     
     //populate the angles array:
@@ -69,35 +66,19 @@ void storeLabel(float originx, float originy, float diameter, float angle, Strin
   float radius = diameter/2;
   float textX = originx + radius *cos(angle);
   float textY = originy + radius *sin(angle);
- /*
-  print(message);
-  print(" cosine: ");
-  print(cos(angle));
-  print(", sine: ");
-  print(sin(angle));
-  print("\n");
-  
-  */
   
   if (textX > originx) {
-//    rotationDeg = 330;
-//rotationDeg = (int)(-350 * (float)(cos(angle)));
-rotationDeg = (int)(-80 * (abs((float)(sin(angle)))));
+    rotationDeg = (int)(-80 * (abs((float)(sin(angle)))));
     if (textY > originy) {
-    //  rotationDeg = 30;
-    rotationDeg = (int)(80 * (float)(sin(angle)));
+      rotationDeg = (int)(80 * (float)(sin(angle)));
     }
   } else {
-//    rotationDeg = 30;
     rotationDeg = (int)(-80 * (float)(sin(angle)));
-
     if (textY > originy) {
-//      rotationDeg = 330;
-rotationDeg = (int)(-80 * (abs((float)(sin(angle)))));
-
+      rotationDeg = (int)(-80 * (abs((float)(sin(angle)))));
     }
   }
-  pie_key_labels[position] = new PieLabel(textX, textY, message, angle, rotationDeg);
+  pie_key_labels[position] = new PieLabel(textX, textY, message, angle, rotationDeg, 0);
   
   
   rotationDeg = 0;
@@ -110,7 +91,7 @@ rotationDeg = (int)(-80 * (abs((float)(sin(angle)))));
   }
   float numericalX = originx + (2*(radius/3)) * cos(angle);
   float numericalY = originy + (2*(radius/3)) * sin(angle);
-  pie_value_labels[position] = new PieLabel(numericalX, numericalY, numerical, angle, rotationDeg);
+  pie_value_labels[position] = new PieLabel(numericalX, numericalY, numerical, angle, rotationDeg, 255);
 
 }
 
