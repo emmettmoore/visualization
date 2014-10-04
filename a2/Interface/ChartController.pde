@@ -48,7 +48,7 @@ class ChartController{
      line_graph.posy = height*1/10;
      
   }
-  
+  /*
     void drawPieGraph() {
     float[] angles = new float[values.length];
     float sum = 0;
@@ -66,8 +66,8 @@ class ChartController{
     }
     drawPie(smallerEdge - (smallerEdge/2), angles);
   }
-  
-
+  */
+/*
   void drawPie(float diameter, float[] angles) {
     float lastAngle = 0;
     for (int i = 0; i < angles.length; i++) {
@@ -77,7 +77,7 @@ class ChartController{
       lastAngle += radians(angles[i]);
     }
   }
-
+*/
   // Sequence: linegraph -> bargraph -> piegraph -> linegraph */
   void switchState(){
     if(lineGraph){
