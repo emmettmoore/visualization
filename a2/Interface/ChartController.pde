@@ -48,6 +48,39 @@ class ChartController{
      line_graph.posy = height*1/10;
      
   }
+<<<<<<< HEAD
+=======
+  /*
+    void drawPieGraph() {
+    float[] angles = new float[values.length];
+    float sum = 0;
+    //calculate the sum of the values:
+    for (int i = 0; i < values.length; i++) {
+      sum = sum + values[i];
+    }
+    //populate the angles array:
+    for (int i = 0; i < values.length; i++) {
+      angles[i] = ((values[i]/ sum) * 360);
+    }
+    float smallerEdge = height;
+    if (width < height) {
+      smallerEdge = width;
+    }
+    drawPie(smallerEdge - (smallerEdge/2), angles);
+  }
+  */
+/*
+  void drawPie(float diameter, float[] angles) {
+    float lastAngle = 0;
+    for (int i = 0; i < angles.length; i++) {
+      float shade = map(i, 0, angles.length, 0, 255);      //converting it to a shade of gray
+      fill(shade);
+      arc(GraphOutline.posx + GraphOutline.w/2, GraphOutline.posy + GraphOutline.h/2, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
+      lastAngle += radians(angles[i]);
+    }
+  }
+*/
+>>>>>>> f67648b4726e1726350655daccdd7ba58896aaef
   // Sequence: linegraph -> bargraph -> piegraph -> linegraph */
   void switchState(){
     if(lineGraph){
