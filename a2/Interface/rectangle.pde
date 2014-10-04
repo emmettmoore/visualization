@@ -4,10 +4,14 @@ class Rectangle {
   float posy;
   float w;
   float h;
+  float origH, origW, origPosx, origPosy;
   String T1;
   color C1;
   Rectangle(float posx1, float posy1, float w1, float h1, String txt, color color1) {
-
+    origH = h1;
+    origW = w1;
+    origPosx = posx1;
+    origPosy = posy1;
     update( posx1,  posy1,  w1,  h1, txt, color1);
     
   }

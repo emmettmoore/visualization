@@ -23,11 +23,18 @@ void draw(){
   size(width, height);
   buttonInterface.update();
   redrawChart();
-  chart.Display();
+  chart.Update(buttonInterface.animQueue);   
+
 }
 void mouseClicked(){
   buttonInterface.checkButtons(); 
-
+  if (chart.state != ANIMATING) {
+    
+    //copies the array over to animQueue
+    if (buttonInterface.goButtonClicked()) {
+      buttonInterface.animQueue = buttonInterface.animOrder;
+    }
+  }
 }
 
 void drawGraphs(){
@@ -57,6 +64,8 @@ void redrawChart(){
    chart.h = height*6/10;
    chart.posx = width* 2/10;
    chart.posy = height*1/10;
-   chart.Display();
+   if (chart.state != ANIMATING) {
+     chart.Update(buttonInterface.animQueue);
+   }
 }
 

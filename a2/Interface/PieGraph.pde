@@ -5,6 +5,7 @@ class PieGraph{
   float[] angles;
   String[] keys;
   float w, h, posx, posy;
+  int preAnimFrames;
   float total;
   PieLabel[] pie_key_labels;    //to hold the keys & their screen positions, i.e. "apple", "pear", "orange"
   PieLabel[] pie_value_labels;  //to hold the values of each key and its screen position, i.e. "6", "5"
@@ -19,6 +20,7 @@ class PieGraph{
     pie_key_labels = new PieLabel[angles.length];
     pie_value_labels = new PieLabel[angles.length];
     total = 0;
+    preAnimFrames = 0;
  //   int nonzeroTotal = 0;  //to be used to create size of PieLabels array
     //calculate the sum of the values:
     for (int i = 0; i < values.length; i++) {
@@ -40,8 +42,8 @@ class PieGraph{
  }
  
 void drawPie(float diameter) {
-   pushMatrix();        //to push the stroke setting so that it can be removed @ end of function
-   stroke(255);
+//   pushMatrix();        //to push the stroke setting so that it can be removed @ end of function
+//   stroke(255);          //TO MAKE THIS WHITE
     String messageToStore = null;
     float lastAngle = 0;
     for (int i = 0; i < angles.length; i++) {
@@ -58,7 +60,7 @@ void drawPie(float diameter) {
       lastAngle += radians(angles[i]);
     }
     printLabels();
-    popMatrix();    //to return to previous stroke setting
+//    popMatrix();    //to return to previous stroke setting
 }  
 
 void storeLabel(float originx, float originy, float diameter, float angle, String message, int position) {
@@ -110,6 +112,32 @@ void printLabels() {
     float arcEndY = originy + radius * sin(angleEnd);
     line(originx, originy, arcBeginX, arcBeginY);
  }
+ 
+ //returns true if still animating, false when done
+ boolean animateToLine() {
+    if (preAnimFrames < 100) {
+      Update();
+      preAnimFrames++;
+      return true;
+    } else {
+      //do transition.
+      // once finished with entire transition: preAnimFrames = 0, and return false.
+      return false;                  //TEMPORARY
+    }
+  }
+  
+  //returns true if still animating, false when done
+  boolean animateToBar() {
+    if (preAnimFrames < 100) {
+      Update();
+      preAnimFrames++;
+      return true;
+    } else {
+      //do transition.
+      // once finished with entire transition: preAnimFrames = 0, and return false.
+      return false;                  //TEMPORARY
+    }
+  }
  
 }
 

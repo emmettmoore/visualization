@@ -1,14 +1,17 @@
 class LineGraph{
     float posx, posy, w, h;
+    boolean currAnimating;
     float maxOfValues;
     float minOfValues;
     float range;
     color barColor;
     color backgroundColor, hoverColor;
+    int preAnimFrames;
     String[] keys,labels;
     float[] values;
     Circle[] circles;
     LineGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color backgroundColor1, color hoverColor1){
+      currAnimating = false;
       posx = posx1;
       posy = posy1;
       w = w1;
@@ -19,16 +22,19 @@ class LineGraph{
       backgroundColor = backgroundColor1;
       hoverColor = hoverColor1;
       circles = new Circle[keys.length];
+      preAnimFrames = 0;
       Update();
     }
     
     void Update(){
-      GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
       labelAxes();
-
       drawCircles(); 
-      drawConnectingLines(); 
-      checkCircleHover(); 
+
+      if(!currAnimating){
+          GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
+          drawConnectingLines(); 
+          checkCircleHover(); 
+      }
     }
     //draws the circles on the points of the graph
     void drawCircles(){
@@ -115,6 +121,31 @@ class LineGraph{
        if(minOfValues > values[i]){
          minOfValues = values[i];
        }
+    }
+  }
+  //returns true if still animating, false when done
+  boolean animateToBar() {
+    if (preAnimFrames < 100) {
+      Update();
+      preAnimFrames++;
+      return true;
+    } else {
+      //do transition.
+      // once finished with entire transition: preAnimFrames = 0, and return false.
+      return false;                  //TEMPORARY
+    }
+  }
+  
+  //returns true if still animating, false when done
+  boolean animateToPie() {
+    if (preAnimFrames < 100) {
+      Update();
+      preAnimFrames++;
+      return true;
+    } else {
+      //do transition.
+      // once finished with entire transition: preAnimFrames = 0, and return false.
+      return false;                  //TEMPORARY
     }
   }
 }

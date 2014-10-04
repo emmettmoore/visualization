@@ -1,41 +1,93 @@
 //doesn't work with negatives as of now
 //let the user specify the color of the hovered bar color
 int NUM_INTERVALS = 10;
-class ChartController{
+//chart states
+int NOCHART = 0;
+int ONECHART = 1;
+int ANIMATING = 2;
 
-  //make an is_active() function in each class
-  boolean lineGraph = false;
-  boolean pieGraph = true;              //TAY ADD
-  boolean barGraph = false;              //TAY ADD
-  float posx, posy, w, h;
-  Rectangle GraphOutline;
-  
   BarGraph bar_graph;
   LineGraph line_graph;
   PieGraph pie_graph;
+  boolean lineGraph;
+  boolean pieGraph;
+  boolean barGraph;
+class ChartController{
+
+  //make an is_active() function in each class
+            
+  float posx, posy, w, h;
+  Rectangle GraphOutline;
+  
+
+  int state;
   ChartController(float posx1, float posy1,float w1, float h1, String[] keys, float[] values, String[]labels, color barColor, color backgroundColor, color hoverColor){
       posx = posx1;
       posy = posy1;
       w = w1;
       h = h1;
-     bar_graph = new BarGraph(posx,posy,w,h, keys, values, labels, barColor, backgroundColor, hoverColor);
+      lineGraph = barGraph = pieGraph = true;
      line_graph = new LineGraph(posx,posy,w,h, keys, values, labels, backgroundColor, hoverColor);
+     bar_graph = new BarGraph(posx,posy,w,h, keys, values, labels, barColor, backgroundColor, hoverColor);
      pie_graph = new PieGraph(posx, posy, w, h, keys, values);
-     Display();
+     state = NOCHART;
   }
   
   //where everything is called - basically this class' draw function
-  void Display(){
-    updateSizes();
+  void Update(ArrayList animQueue) {
 
-    if (lineGraph) {              
-      line_graph.Update();
-    } else if (barGraph) {
-       bar_graph.Update();
-    } else {
-      pie_graph.Update();
-    }
+    updateSizes();
     
+    if (animQueue.size() == 0) {
+      state = NOCHART;
+      return;
+    } 
+    else if (animQueue.size() == 1) {
+      state = ONECHART;
+      if ((Integer)animQueue.get(0) == LINECHART) {
+        line_graph.Update();
+      } else if ((Integer)animQueue.get(0) == BARCHART) {
+         bar_graph.Update();
+      } else if ((Integer)animQueue.get(0) == PIECHART) {
+        pie_graph.Update();
+      }
+    } 
+    else if (animQueue.size() > 1) {
+      state = ANIMATING;
+      if ((Integer)animQueue.get(0) == LINECHART) {
+        if ((Integer)animQueue.get(1) == BARCHART) {
+          
+          if (line_graph.animateToBar() == false) {
+            animQueue.remove(0);
+          }
+        } else if ((Integer)animQueue.get(1) == PIECHART) {
+          if (line_graph.animateToPie() == false) {
+            animQueue.remove(0);
+          }
+        }
+      } else if ((Integer)animQueue.get(0) == BARCHART) {
+          if ((Integer)animQueue.get(1) == LINECHART) {
+            if (bar_graph.animateToLine() == false) {
+            animQueue.remove(0);
+            }
+          } else if ((Integer)animQueue.get(1) == PIECHART) {
+            if (bar_graph.animateToPie() == false) {
+            animQueue.remove(0);
+            }  
+          }
+      } else if ((Integer)animQueue.get(0) == PIECHART) {
+         if ((Integer)animQueue.get(1) == LINECHART) {
+           if (pie_graph.animateToLine() == false) {
+           animQueue.remove(0);
+           }
+          } else if ((Integer)animQueue.get(1) == BARCHART) {
+            if (pie_graph.animateToBar() == false) {
+            animQueue.remove(0);
+            } 
+          }
+      }
+    }
+      
   }
   void updateSizes(){
      bar_graph.w = width*6/10;
@@ -46,38 +98,7 @@ class ChartController{
      line_graph.h = height*6/10;
      line_graph.posx = width* 2/10;
      line_graph.posy = height*1/10;
-     
   }
-  /*
-    void drawPieGraph() {
-    float[] angles = new float[values.length];
-    float sum = 0;
-    //calculate the sum of the values:
-    for (int i = 0; i < values.length; i++) {
-      sum = sum + values[i];
-    }
-    //populate the angles array:
-    for (int i = 0; i < values.length; i++) {
-      angles[i] = ((values[i]/ sum) * 360);
-    }
-    float smallerEdge = height;
-    if (width < height) {
-      smallerEdge = width;
-    }
-    drawPie(smallerEdge - (smallerEdge/2), angles);
-  }
-  */
-/*
-  void drawPie(float diameter, float[] angles) {
-    float lastAngle = 0;
-    for (int i = 0; i < angles.length; i++) {
-      float shade = map(i, 0, angles.length, 0, 255);      //converting it to a shade of gray
-      fill(shade);
-      arc(GraphOutline.posx + GraphOutline.w/2, GraphOutline.posy + GraphOutline.h/2, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
-      lastAngle += radians(angles[i]);
-    }
-  }
-*/
   // Sequence: linegraph -> bargraph -> piegraph -> linegraph */
   void switchState(){
     if(lineGraph){

@@ -1,8 +1,13 @@
+// TO DO:
+//    - window set-resizable while in transition-- set to false
+
+
 int LINECHART = 0;
 int PIECHART = 1;
 int BARCHART = 2;
 class animInterface{
-  ArrayList animOrder;
+  ArrayList animOrder; //list of currently pressed buttons  
+  ArrayList animQueue; //list of buttons pressed at time of last "GO" Press
   CircleButton[] buttons;
   String[] ButtonNames = {"Line Graph", "Pie Chart", "Bar Chart"};
   Rectangle buttonArea;
@@ -10,6 +15,7 @@ class animInterface{
 
   animInterface(){
       animOrder = new ArrayList(3);
+      animQueue = new ArrayList(3);
       buttonArea = new Rectangle(0, height * 7/8f, width*.75f, height*1/8f, "",color(0,250,0));
       goButtonArea = new Rectangle(.75*width,7/8f*height,width*.25,height*1/8f,"BEGIN", color(250,12,30));
       buttons = new CircleButton[ButtonNames.length];
@@ -25,7 +31,12 @@ class animInterface{
 
   }
 
+boolean goButtonClicked() {
+  return goButtonArea.within(); 
+}
+
   void checkButtons(){
+    if (chart.state != ANIMATING) {
       for (int i = 0; i<buttons.length; i++){
          if(buttons[i].within()){
             if(!buttons[i].clicked){
@@ -40,7 +51,7 @@ class animInterface{
          } 
 
       }
-
+    }
   }
       
   void updateOrder(){
