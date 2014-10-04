@@ -14,8 +14,10 @@ int ANIMATING = 2;
   boolean barGraph;
 class ChartController{
 
-  //make an is_active() function in each class
-            
+
+  boolean lineGraph = false;
+  boolean pieGraph = true;
+  boolean barGraph = false;    
   float posx, posy, w, h;
   Rectangle GraphOutline;
   
@@ -99,6 +101,7 @@ class ChartController{
      line_graph.posx = width* 2/10;
      line_graph.posy = height*1/10;
   }
+
   // Sequence: linegraph -> bargraph -> piegraph -> linegraph */
   void switchState(){
     if(lineGraph){
