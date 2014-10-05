@@ -12,19 +12,26 @@ int curr_state;
 void check_state(animInterface bi){
   if (chart.state != curr_state) {
     if (chart.state == 0) {
-      print("BEGIN STATE\n");
-      print(bi.animOrder);
-      print(bi.animQueue);
-      print('\n');
+//      print("BEGIN STATE\n");
+//      print(bi.animOrder);
+//      print(bi.animQueue);
+//      print('\n');
     }
     if (chart.state == 1) {
-      print("WAITING STATE\n");
-      print(bi.animOrder);
-      print(bi.animQueue);
-      print('\n');
+//      print("WAITING STATE\n");
+//      print(bi.animOrder);
+//      print(bi.animQueue);
+//      print('\n');
     }
     if (chart.state == 2) {
+<<<<<<< HEAD
 
+=======
+ //     print("ANIMATING STATE\n");
+  //    print(bi.animOrder);
+  //    print(bi.animQueue);
+  //    print('\n');
+>>>>>>> f1d4f6722d9fcc12b47aacba0765aa43e34d3614
     }
     curr_state = chart.state;
   }
@@ -55,6 +62,13 @@ void mouseClicked(){
     //copies queues buttons for animation
     if (chart.state == NOCHART) {
       buttonInterface.animQueue =  new ArrayList<Integer>(buttonInterface.animOrder);
+<<<<<<< HEAD
+=======
+ //     print("in mouseclicked\n");
+ //     print(buttonInterface.animQueue);
+ //     print(buttonInterface.animOrder);
+ //     print('\n');
+>>>>>>> f1d4f6722d9fcc12b47aacba0765aa43e34d3614
     }
     //reset interface and buttons
     else if (chart.state == ONECHART) {
@@ -80,7 +94,7 @@ void drawGraphs(){
   
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
   frame.setResizable(true);
-  chart = new ChartController(width*7/10, height * 6/10, width * 1/10, height * 1/10, keys,values,labels, color(255,255,105), color(250,250,250), color(116,250,255));
+  chart = new ChartController(width, height, width*7/10, height * 6/10, width * 1/10, height * 1/10, keys,values,labels, color(255,255,105), color(250,250,250), color(116,250,255));
 }
 
 void parse_data() {
