@@ -26,7 +26,6 @@ class PieGraph{
     total = 0;
     diameter = w1;      //taylor
     if (h1 < w1) { diameter = h1; }
-    print(diameter + "\n");
     preAnimFrames = 0;
     //calculate the sum of the values:
     for (int i = 0; i < values.length; i++) {

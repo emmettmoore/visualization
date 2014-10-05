@@ -215,32 +215,35 @@ class BarGraph{
       switchAxisDist+=.007;
       return true;
       }
-      else if(numWedges < values.length){
-       //print("testing values size " + values.length + "\n");
+      else if(numWedges <= values.length){
        if(fillPieDist >= 1){
-         newKeys = new String[numWedges+1];        //taylor NEW
-         newValues = new float[numWedges+1];        //taylor NEW
-         newKeys[0] = "";                                  //taylor NEW
+         newKeys = new String[numWedges+1];
+         newValues = new float[numWedges+1];
+         newKeys[0] = "";                                  
          newValues[0] = pieRemain; 
-         print("total at runtime" + newValues[0] + "\n");
+         print("pieRemain: " + pieRemain + "\n");
 
          int i;
+         float largest = 0;
          for(i = 1; i<=numWedges; i++){
-           newValues[i] = values[i];
-           newKeys[i] = keys[i];
+           newValues[i] = values[i-1];
+           newKeys[i] = keys[i-1];
+           largest = values[i-1];
          }
-         pieRemain -= values[i-1];
-         print("------------------" + pieRemain + "\n");
-
+         pieRemain -= largest;
+         newValues[0] = pieRemain;
          numWedges++;                            //TAYOR
          fillPieDist = 0;                        //taylor NEW
        }
-       fillPieDist+=.007;
+       fillPieDist+=.05;
        PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,newKeys,newValues);   //new comment out
        temp.firstValueWhite = true;                                                                                //new comment out
        temp.Update();                            //TAYLOR
        return true;
       }
+      //else if (numWedges == values.length) {
+        
+      //}  
       //do transition.
       // once finished with entire transition: preAnimFrames = 0, and return false.
       fillPieDist = 0;
@@ -250,5 +253,6 @@ class BarGraph{
       currAnimating = true;
       return false;                //TEMPORARY
     }
+    
   }
 }
