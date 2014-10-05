@@ -11,7 +11,8 @@ class BarGraph{
     String[] keys,labels;
     float[] values;
     Rectangle[] bars;
-    
+    String[] newKeys;    //used in bar to pie transition
+    float[] newValues;   //used in bar to pie transition
     //lerp factor for shrinking bars
     float barDist;
     //lerp factor for making circles bigger
@@ -31,7 +32,8 @@ class BarGraph{
       barDist = 0;
       circleDist =0;
       switchAxisDist = 0;
-      fillPieDist = 0;
+//      fillPieDist = 0;
+      fillPieDist = 1;      //taylor new
       numWedges = 0;
       labels = labels1;
       barColor = barColor1;
@@ -212,26 +214,23 @@ class BarGraph{
       return true;
       }
       else if(numWedges < values.length){
+       print("testing values size " + values.length + "\n");
        float total = pie_graph.total;
-//       float[] newKeys = new float[numWedges];
-//       String[] newValues = new String[numWedges];
-       String[] newKeys = new String[numWedges+1];
-       float[] newValues = new float[numWedges+1];
-       newKeys[0] = "";
-       newValues[0] = total;
        if(fillPieDist >= 1){
+         newKeys = new String[numWedges+1];        //taylor NEW
+         newValues = new float[numWedges+1];        //taylor NEW
+         newKeys[0] = "";                                  //taylor NEW
+         newValues[0] = total;                            //taylor NEW
          for(int i = 1; i<=numWedges; i++){
              newValues[i] = values[i];
              newKeys[i] = keys[i];
-//             newValues.add((Float)values[i]);
-//             newKeys.add(keys[i]);
          }
-       numWedges++;                            //TAYOR
+         numWedges++;                            //TAYOR
+         fillPieDist = 0;                        //taylor NEW
        }
-       fillPieDist+=.01;
-//       PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,(String[])newKeys.toArray(),(float[])((Float[])newValues.toArray())); 
-       PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,newKeys,newValues); 
-       temp.firstValueWhite = true;
+       fillPieDist+=.1;
+       PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,newKeys,newValues);   //new comment out
+       temp.firstValueWhite = true;                                                                                //new comment out
        temp.Update();                            //TAYLOR
        return true;
       }
