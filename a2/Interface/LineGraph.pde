@@ -89,16 +89,16 @@ class LineGraph{
   }
   
   void labelYAxis(){
-       int startingPoint;
+           int startingPoint;
     if(minOfValues > 0){
       startingPoint = 0;
     }
     else{
       startingPoint = (int)minOfValues;
     }
-    range = (abs(maxOfValues) + abs(startingPoint));
-    int interval = (int)range/10;
-    int currInterval = 0;
+    range = (float) (maxOfValues - startingPoint);
+    float interval = (float)range/10.0;
+    float currInterval = 0;
     for(int i = 0; i <= NUM_INTERVALS; i++){
       currInterval = startingPoint + i*interval;
       String currText = Float.toString(currInterval);
