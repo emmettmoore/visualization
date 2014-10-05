@@ -12,26 +12,22 @@ int curr_state;
 void check_state(animInterface bi){
   if (chart.state != curr_state) {
     if (chart.state == 0) {
-//      print("BEGIN STATE\n");
-//      print(bi.animOrder);
-//      print(bi.animQueue);
-//      print('\n');
+      print("BEGIN STATE\n");
+      print(bi.animOrder);
+      print(bi.animQueue);
+      print('\n');
     }
     if (chart.state == 1) {
-//      print("WAITING STATE\n");
-//      print(bi.animOrder);
-//      print(bi.animQueue);
-//      print('\n');
+      print("WAITING STATE\n");
+      print(bi.animOrder);
+      print(bi.animQueue);
+      print('\n');
     }
     if (chart.state == 2) {
-<<<<<<< HEAD
-
-=======
- //     print("ANIMATING STATE\n");
-  //    print(bi.animOrder);
-  //    print(bi.animQueue);
-  //    print('\n');
->>>>>>> f1d4f6722d9fcc12b47aacba0765aa43e34d3614
+      print("ANIMATING STATE\n");
+      print(bi.animOrder);
+      print(bi.animQueue);
+      print('\n');
     }
     curr_state = chart.state;
   }
@@ -62,13 +58,6 @@ void mouseClicked(){
     //copies queues buttons for animation
     if (chart.state == NOCHART) {
       buttonInterface.animQueue =  new ArrayList<Integer>(buttonInterface.animOrder);
-<<<<<<< HEAD
-=======
- //     print("in mouseclicked\n");
- //     print(buttonInterface.animQueue);
- //     print(buttonInterface.animOrder);
- //     print('\n');
->>>>>>> f1d4f6722d9fcc12b47aacba0765aa43e34d3614
     }
     //reset interface and buttons
     else if (chart.state == ONECHART) {
@@ -87,7 +76,7 @@ void mouseClicked(){
   }
 
 void drawGraphs(){
-  lines = loadStrings("Dataset1.csv.bak");
+  lines = loadStrings("Dataset1.csv");
   keys = new String[lines.length-1];
   values = new float[lines.length-1];
   parse_data();
