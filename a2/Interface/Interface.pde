@@ -1,6 +1,6 @@
 // TO DO:
 //    - window set-resizable while in transition-- set to false
-
+//    - make bars half the screen
 
 int LINECHART = 0;
 int PIECHART = 1;

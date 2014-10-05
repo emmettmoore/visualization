@@ -7,9 +7,11 @@ class PieGraph{
   float w, h, posx, posy;
   int preAnimFrames;
   float total;
+  boolean currAnimating;
   PieLabel[] pie_key_labels;    //to hold the keys & their screen positions, i.e. "apple", "pear", "orange"
   PieLabel[] pie_value_labels;  //to hold the values of each key and its screen position, i.e. "6", "5"
   PieGraph(float posx1, float posy1, float w1, float h1, String[] keys1, float[] values1) {
+    currAnimating = false;
     posx = posx1; 
     posy= posy1;
     w = w1;
@@ -34,11 +36,13 @@ class PieGraph{
   }
  //TO DO : add arguments x, y, width, height
  void Update() {
-   float smallerEdge = height;
-   if (width < height) {
-      smallerEdge = width;
+   if(!currAnimating){
+     float smallerEdge = height;
+     if (width < height) {
+        smallerEdge = width;
+     }
+     drawPie(smallerEdge/2);
    }
-   drawPie(smallerEdge/2);
  }
  
 void drawPie(float diameter) {
@@ -50,8 +54,10 @@ void drawPie(float diameter) {
       messageToStore = null;
       float shade = map (i+1, 0, angles.length, 60, 255);  //converting it to a shade of green
       fill(0, shade, 0);
-      arc(width/2 , height/2 - height/8, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
-      outlineWedge(width/2, height/2 - height/8, diameter, lastAngle, lastAngle+radians(angles[i]));
+      posx = width/2;
+      posy = height/2 - height/8;
+      arc(posx , posy, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
+      outlineWedge(posx,posy, diameter, lastAngle, lastAngle+radians(angles[i]));
 
       if (radians(angles[i]) > 0) {
         messageToStore = keys[i];
