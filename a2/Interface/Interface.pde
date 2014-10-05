@@ -5,10 +5,11 @@
 int LINECHART = 0;
 int PIECHART = 1;
 int BARCHART = 2;
+CircleButton[] buttons;
+
 class animInterface{
   ArrayList animOrder; //list of currently pressed buttons  
   ArrayList animQueue; //list of buttons pressed at time of last "GO" Press
-  CircleButton[] buttons;
   String[] ButtonNames = {"Line Graph", "Pie Chart", "Bar Chart"};
   Rectangle buttonArea;
   Rectangle goButtonArea;

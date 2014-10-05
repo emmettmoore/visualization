@@ -48,6 +48,7 @@ class ChartController{
       } else if ((Integer)animQueue.get(0) == PIECHART) {
         pie_graph.Update();
       }
+      updateClickStatus();
     } 
     else if (animQueue.size() > 1) {
       state = ANIMATING;
@@ -96,5 +97,11 @@ class ChartController{
      line_graph.posx = width* 2/10;
      line_graph.posy = height*1/10;
   }
+  void updateClickStatus(){
+     for(int i = 0; i<buttons.length; i++){
+        buttons[i].clicked = false;
+     } 
+  }
+
 }
 
