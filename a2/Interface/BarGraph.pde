@@ -142,6 +142,8 @@ class BarGraph{
       return true;
     } else {
       currAnimating = true;
+      GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
+
       if(barDist < 1){
         for(int i = 0; i<bars.length; i++){
            bars[i].h = lerp(bars[i].origH,0, barDist);
