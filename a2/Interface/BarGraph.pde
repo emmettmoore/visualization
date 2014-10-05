@@ -20,6 +20,8 @@ class BarGraph{
     float switchAxisDist;
     float fillPieDist;
     int numWedges;
+    int indexOfMax;          //TAYLOR SCREEN
+    float horizFrac;        //TAYLOR SCREEN
     float pieRemain;
     float total;
     BarGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
@@ -27,6 +29,7 @@ class BarGraph{
       posy = posy1;
       w = w1;
       h = h1;
+      indexOfMax = 0;        //TAYLOR SCREEN
       keys = keys1;
       values = values1;
       preAnimFrames = 0;
@@ -62,6 +65,7 @@ class BarGraph{
       checkBarHover();
     } 
   }
+
    void checkBarHover(){
      int toolTipIndex = -1;
      for(int i = 0; i<keys.length;i++){
@@ -133,16 +137,24 @@ class BarGraph{
   void findMaxMin(){
     maxOfValues = values[0];
     minOfValues = values[0];
+    indexOfMax = 0;                        //TAYLOR SCREEN
     for(int i = 1; i<values.length;i++){
        if(maxOfValues < values[i]){
          maxOfValues = values[i]; 
+         indexOfMax = i;                  //TAYLOR SCREEN
        }
        if(minOfValues > values[i]){
          minOfValues = values[i];
        }
     }
   }
-  
+  //Calculates the fractional value by which a rectangles original height
+  //  must be multiplied in order that the graph of rectangles can be displayed
+  //  so that the longest one runs to the midpoint of the graph.
+  void calculateShrinkFactor() {
+      horizFrac = width / (2* bars[indexOfMax].origH);        //TAYLOR SCREEN
+
+  }
     //returns true if still animating, false when done
   boolean animateToLine() {
     if (preAnimFrames < 100) {
@@ -203,44 +215,73 @@ class BarGraph{
       currAnimating = true;
       float interval = 6/8f*height/bars.length;
       if (switchAxisDist < 1){
+        calculateShrinkFactor();      //taylor likes this
         for(int i = 0; i<bars.length;i++){
          //move bars to left side
          bars[i].posx = lerp(bars[i].origPosx,10,switchAxisDist); 
          bars[i].posy = lerp(bars[i].origPosy,10 + i*interval,switchAxisDist); 
          //twist the bars
-         bars[i].w = lerp(bars[i].origW, bars[i].origH,switchAxisDist);
+         bars[i].w = lerp(bars[i].origW, bars[i].origH*horizFrac,switchAxisDist);    //taylor likes this
          bars[i].h = lerp(bars[i].origH, interval,switchAxisDist);
          bars[i].Display();
       }
       switchAxisDist+=.007;
       return true;
-      }
-      else if(numWedges < values.length){
+      }// temp:
+       else if(numWedges < values.length){
        //print("testing values size " + values.length + "\n");
        if(fillPieDist >= 1){
-         newKeys = new String[numWedges+1];        //taylor NEW
-         newValues = new float[numWedges+1];        //taylor NEW
-         newKeys[0] = "";                                  //taylor NEW
-         newValues[0] = pieRemain; 
-         print("total at runtime" + newValues[0] + "\n");
+         newKeys = new String[numWedges+1];      
+         newValues = new float[numWedges+1];        
 
+         print("total at runtime" + newValues[0] + "\n");
          int i;
-         for(i = 1; i<=numWedges; i++){
-           newValues[i] = values[i];
-           newKeys[i] = keys[i];
+         for(i = 0; i<numWedges; i++){
+          newValues[i] = values[i];
+          newKeys[i] = keys[i];
          }
-         pieRemain -= values[i-1];
+         newKeys[i] = "";                                  
+         newValues[i] = pieRemain; 
+         pieRemain -= values[i];
+
          print("------------------" + pieRemain + "\n");
 
-         numWedges++;                            //TAYOR
-         fillPieDist = 0;                        //taylor NEW
+         numWedges++;                          
+         fillPieDist = 0;                      
        }
-       fillPieDist+=.007;
+       fillPieDist+=.03;
        PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,newKeys,newValues);   //new comment out
        temp.firstValueWhite = true;                                                                                //new comment out
        temp.Update();                            //TAYLOR
        return true;
-      }
+      }  //^temp
+   /*   else if(numWedges < values.length){
+       //print("testing values size " + values.length + "\n");
+       if(fillPieDist >= 1){
+         newKeys = new String[numWedges+1];      
+         newValues = new float[numWedges+1];        
+         newKeys[0] = "";                                  
+         newValues[0] = pieRemain; 
+         print("total at runtime" + newValues[0] + "\n");
+         int i;
+         for(i = 1; i<=numWedges; i++){
+          newValues[i] = values[i-1];
+          newKeys[i] = keys[i-1];
+         }
+         pieRemain -= values[i-1];
+
+         newValues[0] = pieRemain;
+         print("------------------" + pieRemain + "\n");
+
+         numWedges++;                          
+         fillPieDist = 0;                      
+       }
+       fillPieDist+=.03;
+       PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,newKeys,newValues);   //new comment out
+       temp.firstValueWhite = true;                                                                                //new comment out
+       temp.Update();                            //TAYLOR
+       return true;
+      } */
       //do transition.
       // once finished with entire transition: preAnimFrames = 0, and return false.
       fillPieDist = 0;
