@@ -16,6 +16,8 @@ class BarGraph{
     float barDist;
     //lerp factor for making circles bigger
     float circleDist;
+    float switchAxisDist;
+    float fillPieDist;
     BarGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
       posx = posx1;
       posy = posy1;
@@ -27,6 +29,8 @@ class BarGraph{
       currAnimating = false;
       barDist = 0;
       circleDist =0;
+      switchAxisDist = 0;
+      fillPieDist = 0;
       labels = labels1;
       barColor = barColor1;
       backgroundColor = backgroundColor1;
@@ -106,7 +110,6 @@ class BarGraph{
       currInterval = startingPoint + i*interval;
       String currText = Float.toString(currInterval);
       textSize(12);
-      print("the posy from bar is " + (posy + h - h/10*i) + "\n");
 
        text(currText, posx - BUFFER, posy + h - h/10*i);
     }
@@ -185,8 +188,35 @@ class BarGraph{
       preAnimFrames++;
       return true;
     } else {
+      currAnimating = true;
+      float interval = 6/8f*height/bars.length;
+      if (switchAxisDist < 1){
+        for(int i = 0; i<bars.length;i++){
+         //move bars to left side
+         bars[i].posx = lerp(bars[i].origPosx,10,switchAxisDist); 
+         bars[i].posy = lerp(bars[i].origPosy,10 + i*interval,switchAxisDist); 
+         //twist the bars
+         bars[i].w = lerp(bars[i].origW, bars[i].origH,switchAxisDist);
+         bars[i].h = lerp(bars[i].origH, interval,switchAxisDist);
+         bars[i].Display();
+      }
+      switchAxisDist+=.007;
+      return true;
+      }
+      else if(fillPieDist < 1){
+        pie_graph.currAnimating = true;
+       for(int i = 0; i<bars.length;i++){
+          print(pie_graph.total);   
+       }
+       fillPieDist +=.01;
+       return true;
+      }
       //do transition.
       // once finished with entire transition: preAnimFrames = 0, and return false.
+      fillPieDist = 0;
+      switchAxisDist = 0;
+      pie_graph.currAnimating = false;
+      currAnimating = true;
       return false;                  //TEMPORARY
     }
   }
