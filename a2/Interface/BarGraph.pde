@@ -41,8 +41,7 @@ class BarGraph{
     drawLabels();
 
     if(!currAnimating){
-      //GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
-
+      GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
       drawBars();
       checkBarHover();
     } 
@@ -157,6 +156,7 @@ class BarGraph{
       else if(circleDist<1){    //begin phase 2
          line_graph.currAnimating = true;
          line_graph.Update();
+        GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
 
          for(int i = 0; i<line_graph.circles.length; i++){
            line_graph.circles[i].radius = lerp(0, line_graph.circles[i].origRadius, circleDist);

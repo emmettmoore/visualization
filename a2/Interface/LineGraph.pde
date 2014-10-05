@@ -10,10 +10,14 @@ class LineGraph{
     String[] keys,labels;
     float[] values;
     Circle[] circles;
+    float circleDist;
+    float barDist;
     LineGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color backgroundColor1, color hoverColor1){
       currAnimating = false;
       posx = posx1;
       posy = posy1;
+      circleDist = 0;
+      barDist= 0;
       w = w1;
       h = h1;
       keys = keys1;
@@ -31,7 +35,8 @@ class LineGraph{
       drawCircles(); 
 
       if(!currAnimating){
-          //GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
+          GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
+
           drawConnectingLines(); 
           checkCircleHover(); 
       }
@@ -133,6 +138,37 @@ class LineGraph{
       preAnimFrames++;
       return true;
     } else {
+      currAnimating = true;
+      GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
+
+      if(circleDist < 1){
+          for(int i = 0;i<circles.length;i++){
+             circles[i].radius = lerp(circles[i].origRadius,0,circleDist); 
+             circles[i].Display();
+          }
+          for(int i = 0; i<line_graph.circles.length-1;i++){
+            Circle circ1 = line_graph.circles[i]; 
+            Circle circ2 = line_graph.circles[i+1];
+            line(circ1.centerX,circ1.centerY,lerp(circ2.centerX,circ1.centerX,circleDist),lerp(circ2.centerY,circ1.centerY,circleDist)); 
+         }
+          Update();
+          circleDist+=.01;
+          return true;
+      }
+      else if(barDist < 1){
+        //bar_graph.currAnimating = true;
+        bar_graph.Update();
+        GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
+        
+        for(int i = 0; i<bar_graph.bars.length; i++){
+           bar_graph.bars[i].h = lerp(0,bar_graph.bars[i].origH, barDist);
+           bar_graph.bars[i].w = lerp(0,bar_graph.bars[i].origW,barDist);
+           bar_graph.bars[i].posx = lerp(bar_graph.bars[i].origPosx +bar_graph.bars[i].origW/2, bar_graph.bars[i].origPosx,barDist);
+           bar_graph.bars[i].Display();
+        }
+        barDist+=.01; 
+        return true;
+      }
       //do transition.
       // once finished with entire transition: preAnimFrames = 0, and return false.
       return false;                  //TEMPORARY
