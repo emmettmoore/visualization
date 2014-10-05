@@ -214,7 +214,7 @@ class BarGraph{
       return true;
       }
       else if(numWedges < values.length){
-       print("testing values size " + values.length + "\n");
+  //     print("testing values size " + values.length + "\n");
        float total = pie_graph.total;
        if(fillPieDist >= 1){
          newKeys = new String[numWedges+1];        //taylor NEW

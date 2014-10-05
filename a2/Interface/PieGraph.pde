@@ -7,6 +7,7 @@ class PieGraph{
   float w, h, posx, posy;
   int preAnimFrames;
   float total;
+  float diameter;      //taylor
   boolean currAnimating;
   boolean firstValueWhite;      //if the very first value of values[] is to be printed as a white wedge
   PieLabel[] pie_key_labels;    //to hold the keys & their screen positions, i.e. "apple", "pear", "orange"
@@ -23,8 +24,10 @@ class PieGraph{
     pie_key_labels = new PieLabel[angles.length];
     pie_value_labels = new PieLabel[angles.length];
     total = 0;
+    diameter = w1;      //taylor
+    if (h1 < w1) { diameter = h1; }
+    print(diameter + "\n");
     preAnimFrames = 0;
- //   int nonzeroTotal = 0;  //to be used to create size of PieLabels array
     //calculate the sum of the values:
     for (int i = 0; i < values.length; i++) {
       total = total + values[i];
@@ -35,16 +38,18 @@ class PieGraph{
       angles[i] = ((values[i]/ total) * 360);
     }
   }
+  
+  void calculateDiameter() {
+    diameter = height/2;
+    if (width < height) {
+        diameter = width/2;
+     }
+  }
  //TO DO : add arguments x, y, width, height
  void Update() {
-     float smallerEdge = height;
-     if (width < height) {
-        smallerEdge = width;
-     }
-     drawPie(smallerEdge/2);
+   drawPie();
  }
- 
-void drawPie(float diameter) {
+void drawPie(){ 
 //   pushMatrix();        //to push the stroke setting so that it can be removed @ end of function
 //   stroke(255);          //TO MAKE THIS WHITE
     String messageToStore = null;
@@ -56,22 +61,22 @@ void drawPie(float diameter) {
       if ((i==0) && (firstValueWhite == true)) {    //to fill the first value wedge as white
         fill(255, 255, 255);
       }
-      posx = width/2;
-      posy = height/2 - height/8;
       arc(posx , posy, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
-      outlineWedge(posx,posy, diameter, lastAngle, lastAngle+radians(angles[i]));
+      outlineWedge(posx,posy, lastAngle, lastAngle+radians(angles[i]));
 
       if (radians(angles[i]) > 0) {
         messageToStore = keys[i];
       }
-      storeLabel(width/2, height/2 - height/8, diameter, lastAngle + (radians(angles[i]))/2, messageToStore, i);
+      storeLabel(posx, posy, lastAngle + (radians(angles[i]))/2, messageToStore, i);
+
       lastAngle += radians(angles[i]);
     }
     printLabels();
 //    popMatrix();    //to return to previous stroke setting
 }  
 
-void storeLabel(float originx, float originy, float diameter, float angle, String message, int position) {
+//void storeLabel(float originx, float originy, float diameter, float angle, String message, int position) {
+void storeLabel(float originx, float originy, float angle, String message, int position) {
   int rotationDeg = 0;
   float radius = diameter/2;
   float textX = originx + radius *cos(angle);
@@ -112,7 +117,7 @@ void printLabels() {
   }
 }
 
- void outlineWedge(float originx, float originy, float diameter, float angleStart, float angleEnd) {
+ void outlineWedge(float originx, float originy, float angleStart, float angleEnd) {
     float radius = diameter/2;
     float arcBeginX = originx + radius *cos(angleStart);
     float arcBeginY = originy + radius *sin(angleStart);
