@@ -24,10 +24,7 @@ void check_state(animInterface bi){
       print('\n');
     }
     if (chart.state == 2) {
-      print("ANIMATING STATE\n");
-      print(bi.animOrder);
-      print(bi.animQueue);
-      print('\n');
+
     }
     curr_state = chart.state;
   }
@@ -41,7 +38,7 @@ void setup(){
   drawGraphs();
   buttonInterface = new animInterface();
   curr_state = -1;
-  check_state(buttonInterface);
+  //check_state(buttonInterface);
 }
 
 void draw(){
@@ -49,7 +46,7 @@ void draw(){
   size(width, height);
   buttonInterface.update();
   redrawChart();
-  check_state(buttonInterface);
+  //check_state(buttonInterface);
   chart.Update(buttonInterface.animQueue);   
 }
 void mouseClicked(){
@@ -58,10 +55,6 @@ void mouseClicked(){
     //copies queues buttons for animation
     if (chart.state == NOCHART) {
       buttonInterface.animQueue =  new ArrayList<Integer>(buttonInterface.animOrder);
-      print("in mouseclicked\n");
-      print(buttonInterface.animQueue);
-      print(buttonInterface.animOrder);
-      print('\n');
     }
     //reset interface and buttons
     else if (chart.state == ONECHART) {
@@ -80,7 +73,7 @@ void mouseClicked(){
   }
 
 void drawGraphs(){
-  lines = loadStrings("Dataset1.csv");
+  lines = loadStrings("Dataset1.csv.bak");
   keys = new String[lines.length-1];
   values = new float[lines.length-1];
   parse_data();

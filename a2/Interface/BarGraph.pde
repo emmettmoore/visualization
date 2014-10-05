@@ -20,6 +20,8 @@ class BarGraph{
     float switchAxisDist;
     float fillPieDist;
     int numWedges;
+    float pieRemain;
+    float total;
     BarGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
       posx = posx1;
       posy = posy1;
@@ -35,6 +37,12 @@ class BarGraph{
 //      fillPieDist = 0;
       fillPieDist = 1;      //taylor new
       numWedges = 0;
+      total = 0;
+      for (int i = 0;i<values.length;i++){
+          total += values[i];
+      }
+      pieRemain = total;
+      print("total at beginning" + pieRemain + "\n");
       labels = labels1;
       barColor = barColor1;
       backgroundColor = backgroundColor1;
@@ -80,7 +88,7 @@ class BarGraph{
     int intervalBuffer = xInterval*1/8;
     Rectangle temp;
      for(int i = 0; i < keys.length; i++){
-       float barHeight = ((values[i]-minOfValues)/range * h);
+       float barHeight = (values[i]/range * h);
         temp = new Rectangle(posx + i*xInterval + intervalBuffer/2, posy + h - barHeight,xInterval-intervalBuffer,barHeight,"",barColor);
         bars[i] = temp;        
      } 
@@ -101,23 +109,17 @@ class BarGraph{
   
   void labelYAxis(){
     int startingPoint;
-    if(minOfValues > 0){
-      startingPoint = 0;
-    }
-    else{
-      startingPoint = (int)minOfValues;
-    }
-    range = (float) (maxOfValues - startingPoint);
+    startingPoint = 0;
+    range = (float) maxOfValues;
     float interval = (float)range/10.0;
     float currInterval = 0;
     for(int i = 0; i <= NUM_INTERVALS; i++){
-      currInterval = startingPoint + i*interval;
+      currInterval = i*interval;
       String currText = Float.toString(currInterval);
       textSize(12);
 
        text(currText, posx - BUFFER, posy + h - h/10*i);
     }
-    range = currInterval - minOfValues; 
   }
   void labelXAxis(){
      int interval = (int)w/keys.length;
@@ -214,21 +216,26 @@ class BarGraph{
       return true;
       }
       else if(numWedges < values.length){
-       print("testing values size " + values.length + "\n");
-       float total = pie_graph.total;
+       //print("testing values size " + values.length + "\n");
        if(fillPieDist >= 1){
          newKeys = new String[numWedges+1];        //taylor NEW
          newValues = new float[numWedges+1];        //taylor NEW
          newKeys[0] = "";                                  //taylor NEW
-         newValues[0] = total;                            //taylor NEW
-         for(int i = 1; i<=numWedges; i++){
-             newValues[i] = values[i];
-             newKeys[i] = keys[i];
+         newValues[0] = pieRemain; 
+         print("total at runtime" + newValues[0] + "\n");
+
+         int i;
+         for(i = 1; i<=numWedges; i++){
+           newValues[i] = values[i];
+           newKeys[i] = keys[i];
          }
+         pieRemain -= values[i-1];
+         print("------------------" + pieRemain + "\n");
+
          numWedges++;                            //TAYOR
          fillPieDist = 0;                        //taylor NEW
        }
-       fillPieDist+=.1;
+       fillPieDist+=.007;
        PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,newKeys,newValues);   //new comment out
        temp.firstValueWhite = true;                                                                                //new comment out
        temp.Update();                            //TAYLOR

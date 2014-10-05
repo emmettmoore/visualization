@@ -45,7 +45,7 @@ class LineGraph{
        float xInterval = w/keys.length;
        for (int i = 0; i< keys.length; i++){
           float centerX = posx + xInterval * i + xInterval/2;
-          float centerY = posy + h - ((values[i]-minOfValues)/range * h); 
+          float centerY = posy + h - (values[i]/range * h); 
           circles[i] = new Circle(centerX, centerY, (float)width/80, barColor);  
        } 
     }
@@ -89,14 +89,9 @@ class LineGraph{
   }
   
   void labelYAxis(){
-           int startingPoint;
-    if(minOfValues > 0){
-      startingPoint = 0;
-    }
-    else{
-      startingPoint = (int)minOfValues;
-    }
-    range = (float) (maxOfValues - startingPoint);
+    int startingPoint = 0;
+ 
+    range = (float) (maxOfValues);
     float interval = (float)range/10.0;
     float currInterval = 0;
     for(int i = 0; i <= NUM_INTERVALS; i++){
@@ -107,7 +102,6 @@ class LineGraph{
       textAlign(CENTER,CENTER);
       text(currText, posx - BUFFER, posy + h - h/10*i);
     }
-    range = currInterval - minOfValues; 
   }
   void labelXAxis(){
      int interval = (int)w/keys.length;
