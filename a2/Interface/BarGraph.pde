@@ -179,6 +179,12 @@ class BarGraph{
       }
       line_graph.currAnimating = false;
       currAnimating = false;
+      preAnimFrames = 0;
+      barDist = 0;
+      circleDist = 0;
+      switchAxisDist = 0;
+      fillPieDist = 0;
+      numWedges = 0;
       return false;                  //TEMPORARY
     }
   }
@@ -214,9 +220,10 @@ class BarGraph{
       // once finished with entire transition: preAnimFrames = 0, and return false.
       fillPieDist = 0;
       switchAxisDist = 0;
+      preAnimFrames = 0;
       pie_graph.currAnimating = false;
       currAnimating = true;
-      return false;                  //TEMPORARY
+      return false;                //TEMPORARY
     }
   }
   void pieHelper(){

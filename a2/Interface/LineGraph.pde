@@ -170,7 +170,11 @@ class LineGraph{
       }
       //do transition.
       // once finished with entire transition: preAnimFrames = 0, and return false.
-      return false;                  //TEMPORARY
+      preAnimFrames = 0;
+      circleDist = 0;
+      barDist= 0;
+      currAnimating = false;
+      return false;                  
     }
   }
   
