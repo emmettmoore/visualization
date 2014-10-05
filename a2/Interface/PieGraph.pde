@@ -8,9 +8,11 @@ class PieGraph{
   int preAnimFrames;
   float total;
   boolean currAnimating;
+  boolean firstValueWhite;      //if the very first value of values[] is to be printed as a white wedge
   PieLabel[] pie_key_labels;    //to hold the keys & their screen positions, i.e. "apple", "pear", "orange"
   PieLabel[] pie_value_labels;  //to hold the values of each key and its screen position, i.e. "6", "5"
   PieGraph(float posx1, float posy1, float w1, float h1, String[] keys1, float[] values1) {
+    firstValueWhite = false;
     posx = posx1; 
     posy= posy1;
     w = w1;
@@ -51,6 +53,9 @@ void drawPie(float diameter) {
       messageToStore = null;
       float shade = map (i+1, 0, angles.length, 60, 255);  //converting it to a shade of green
       fill(0, shade, 0);
+      if ((i==0) && (firstValueWhite == true)) {    //to fill the first value wedge as white
+        fill(255, 255, 255);
+      }
       posx = width/2;
       posy = height/2 - height/8;
       arc(posx , posy, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));

@@ -212,20 +212,27 @@ class BarGraph{
       return true;
       }
       else if(numWedges < values.length){
-       /*float total = pie_graph.total;
-       float[] newKeys = new float[numWedges];
-       String[] newValues = new String[numWedges];
-       newValues.add(total);
-       newKeys.add("");
+       float total = pie_graph.total;
+//       float[] newKeys = new float[numWedges];
+//       String[] newValues = new String[numWedges];
+       String[] newKeys = new String[numWedges+1];
+       float[] newValues = new float[numWedges+1];
+       newKeys[0] = "";
+       newValues[0] = total;
        if(fillPieDist >= 1){
          for(int i = 1; i<=numWedges; i++){
-             newValues.add((Float)values[i]);
-             newKeys.add(keys[i]);
+             newValues[i] = values[i];
+             newKeys[i] = keys[i];
+//             newValues.add((Float)values[i]);
+//             newKeys.add(keys[i]);
          }
+       numWedges++;                            //TAYOR
        }
        fillPieDist+=.01;
-       PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,(String[])newKeys.toArray(),(float[])((Float[])newValues.toArray())); 
-       */
+//       PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,(String[])newKeys.toArray(),(float[])((Float[])newValues.toArray())); 
+       PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,newKeys,newValues); 
+       temp.firstValueWhite = true;
+       temp.Update();                            //TAYLOR
        return true;
       }
       //do transition.
