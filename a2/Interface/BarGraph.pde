@@ -106,7 +106,7 @@ class BarGraph{
       currInterval = startingPoint + i*interval;
       String currText = Float.toString(currInterval);
       textSize(12);
-      print("the posy from bar is " + (posy + h - h/10*i) + "\n");
+      //print("the posy from bar is " + (posy + h - h/10*i) + "\n");
 
        text(currText, posx - BUFFER, posy + h - h/10*i);
     }

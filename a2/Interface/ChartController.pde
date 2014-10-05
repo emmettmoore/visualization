@@ -19,11 +19,11 @@ class ChartController{
 
   int state;
   ChartController(float posx1, float posy1,float w1, float h1, String[] keys, float[] values, String[]labels, color barColor, color backgroundColor, color hoverColor){
-      posx = posx1;
-      posy = posy1;
-      w = w1;
-      h = h1;
-      lineGraph = barGraph = pieGraph = false;
+     posx = posx1;
+     posy = posy1;
+     w = w1;
+     h = h1;
+     lineGraph = barGraph = pieGraph = false;
      line_graph = new LineGraph(posx,posy,w,h, keys, values, labels, backgroundColor, hoverColor);
      bar_graph = new BarGraph(posx,posy,w,h, keys, values, labels, barColor, backgroundColor, hoverColor);
      pie_graph = new PieGraph(posx, posy, w, h, keys, values);
@@ -48,7 +48,6 @@ class ChartController{
       } else if ((Integer)animQueue.get(0) == PIECHART) {
         pie_graph.Update();
       }
-      updateClickStatus();
     } 
     else if (animQueue.size() > 1) {
       state = ANIMATING;
@@ -97,11 +96,5 @@ class ChartController{
      line_graph.posx = width* 2/10;
      line_graph.posy = height*1/10;
   }
-  void updateClickStatus(){
-     for(int i = 0; i<buttons.length; i++){
-        buttons[i].clicked = false;
-     } 
-  }
-
 }
 

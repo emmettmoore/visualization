@@ -27,7 +27,7 @@ class animInterface{
     
   void update(){
     buttonArea.update(0, height * 7/8f, width*.75f, height*1/8f, "",color(0,250,0));
-    goButtonArea.update(.75*width,7/8f*height,width*.25,height*1/8f,"BEGIN", color(250,12,30));
+    goButtonArea.update(.75*width,7/8f*height,width*.25,height*1/8f,"BEGIN/CLEAR", color(250,12,30));
     redrawButtons();
 
   }
@@ -37,7 +37,7 @@ boolean goButtonClicked() {
 }
 
   void checkButtons(){
-    if (chart.state != ANIMATING) {
+    if (chart.state == NOCHART) {
       for (int i = 0; i<buttons.length; i++){
          if(buttons[i].within()){
             if(!buttons[i].clicked){

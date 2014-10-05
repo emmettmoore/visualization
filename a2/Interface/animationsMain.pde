@@ -7,15 +7,41 @@ String[] labels;
 Rectangle BarLineButton;
 Rectangle GraphOutline;
 ChartController chart;
+int curr_state;
+
+void check_state(animInterface bi){
+  if (chart.state != curr_state) {
+    if (chart.state == 0) {
+      print("BEGIN STATE\n");
+      print(bi.animOrder);
+      print(bi.animQueue);
+      print('\n');
+    }
+    if (chart.state == 1) {
+      print("WAITING STATE\n");
+      print(bi.animOrder);
+      print(bi.animQueue);
+      print('\n');
+    }
+    if (chart.state == 2) {
+      print("ANIMATING STATE\n");
+      print(bi.animOrder);
+      print(bi.animQueue);
+      print('\n');
+    }
+    curr_state = chart.state;
+  }
+}
 
 animInterface buttonInterface;
-
 void setup(){
   size(600,600);
   background(250,250,250);
   frame.setResizable(true);
   drawGraphs();
-  buttonInterface = new animInterface(); 
+  buttonInterface = new animInterface();
+  curr_state = -1;
+  check_state(buttonInterface);
 }
 
 void draw(){
@@ -23,19 +49,35 @@ void draw(){
   size(width, height);
   buttonInterface.update();
   redrawChart();
+  check_state(buttonInterface);
   chart.Update(buttonInterface.animQueue);   
-
 }
 void mouseClicked(){
   buttonInterface.checkButtons(); 
-  if (chart.state != ANIMATING) {
-    
-    //copies the array over to animQueue
-    if (buttonInterface.goButtonClicked()) {
-      buttonInterface.animQueue = buttonInterface.animOrder;
+  if (buttonInterface.goButtonClicked()) {
+    //copies queues buttons for animation
+    if (chart.state == NOCHART) {
+      buttonInterface.animQueue =  new ArrayList<Integer>(buttonInterface.animOrder);
+      print("in mouseclicked\n");
+      print(buttonInterface.animQueue);
+      print(buttonInterface.animOrder);
+      print('\n');
+    }
+    //reset interface and buttons
+    else if (chart.state == ONECHART) {
+      buttonInterface.animQueue.clear();
+      buttonInterface.animOrder.clear();
+      updateClickStatus();
+      chart.state = NOCHART;
     }
   }
 }
+
+ void updateClickStatus(){
+     for(int i = 0; i<buttons.length; i++){
+        buttons[i].clicked = false;
+     } 
+  }
 
 void drawGraphs(){
   lines = loadStrings("lab1-data.csv");
@@ -64,8 +106,5 @@ void redrawChart(){
    chart.h = height*6/10;
    chart.posx = width* 2/10;
    chart.posy = height*1/10;
-   if (chart.state != ANIMATING) {
-     chart.Update(buttonInterface.animQueue);
-   }
 }
 
