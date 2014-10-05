@@ -23,6 +23,7 @@ class BarGraph{
     float pieRemain;
     int curr_slice;
     float total;
+    float[] origWidths;
     BarGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
       posx = posx1;
       posy = posy1;
@@ -38,6 +39,7 @@ class BarGraph{
       fillPieIncrement = 0.05;
       numWedges = 0;
       curr_slice = 1;
+      origWidths = new float[values.length];
       
       total = 0;
       for (int i = 0;i<values.length;i++){
@@ -223,10 +225,15 @@ class BarGraph{
          bars[i].w = lerp(bars[i].origW, bars[i].origH,switchAxisDist);
          bars[i].h = lerp(bars[i].origH, interval,switchAxisDist);
          bars[i].Display();
+         
         }
-      switchAxisDist+=.007;
-      return true;
+        switchAxisDist+=.007;
+        for(int i = 0; i<bars.length; i++){
+          origWidths[i] = bars[i].w; 
+        }
+        return true;
       }
+             
       //pieKeys and pieValues
       else if(curr_slice <= values.length){
          if (pieValues[curr_slice] < values[curr_slice - 1]) { // still filling in this slice (curr_slice)
@@ -238,21 +245,33 @@ class BarGraph{
          PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,pieKeys,pieValues);
          temp.firstValueWhite = true;
          temp.Update();
-         }         
+         
+         bars[curr_slice - 1].w -= origWidths[curr_slice - 1] * fillPieIncrement;
+         if (bars[curr_slice - 1].w < 0) {
+           bars[curr_slice - 1].w = 0; // emmett
+         }
+           
+         for (int i = 0; i<bars.length; i++){
+           bars[i].Display();  
+         }
+         }        
          else {
          curr_slice++;
          } 
          return true;
       }      
 
-      // once finished with entire transition: preAnimFrames = 0, and return false.
-      fillPieIncrement = 0;
       switchAxisDist = 0;
       preAnimFrames = 0;
       pie_graph.currAnimating = false;
       currAnimating = true;
       return false;                //TEMPORARY
   }
-    
+  float max( float f1, float f2) {
+    if (f1 > f2) {
+     return f1;
+    }
+    return f2; 
+  }
 }
 
