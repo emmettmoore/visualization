@@ -206,20 +206,20 @@ class BarGraph{
       return true;
       }
       else if(numWedges < values.length){
-       float total = pie_graph.total;
-       ArrayList newKeys = new ArrayList();
-       ArrayList newValues = new ArrayList();
+       /*float total = pie_graph.total;
+       float[] newKeys = new float[numWedges];
+       String[] newValues = new String[numWedges];
        newValues.add(total);
        newKeys.add("");
        if(fillPieDist >= 1){
          for(int i = 1; i<=numWedges; i++){
-             newValues.add(values[i]);
+             newValues.add((Float)values[i]);
              newKeys.add(keys[i]);
          }
        }
        fillPieDist+=.01;
-       PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,(String[])newKeys.toArray(),(float[])newValues.toArray()); 
-       
+       PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,(String[])newKeys.toArray(),(float[])((Float[])newValues.toArray())); 
+       */
        return true;
       }
       //do transition.
