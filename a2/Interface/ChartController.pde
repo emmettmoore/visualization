@@ -18,7 +18,7 @@ class ChartController{
   
 
   int state;
-  ChartController(float screenwidth, float screenheight, float w1, float h1,float posx1, float posy1, String[] keys, float[] values, String[]labels, color barColor, color backgroundColor, color hoverColor){
+  ChartController(float screenwidth, float screenheight, float w1, float h1,float posx1, float posy1, String[] keys, float[] values, String[]labels, color barColor, color backgroundColor, color hoverColor){ //taylor likes this
      posx = posx1;
      posy = posy1;
      w = w1;
@@ -26,7 +26,7 @@ class ChartController{
      lineGraph = barGraph = pieGraph = false;
      line_graph = new LineGraph(posx,posy,w,h, keys, values, labels, backgroundColor, hoverColor);
      bar_graph = new BarGraph(posx,posy,w,h, keys, values, labels, barColor, backgroundColor, hoverColor);
-     pie_graph = new PieGraph(posx, posy, screenwidth/2, screenheight/2, keys, values);
+     pie_graph = new PieGraph((screenwidth* (3/4f)), (screenheight * (1/2f)), screenwidth/2, screenheight/2, keys, values);    //taylor likes this
      state = NOCHART;
   }
   
@@ -95,8 +95,10 @@ class ChartController{
      line_graph.h = height*6/10;
      line_graph.posx = width* 2/10;
      line_graph.posy = height*1/10;
-     pie_graph.posx = width/2;              //TAYLOR
-     pie_graph.posy = height/2 - height/8;  //TAYLOR
+          pie_graph.posx = width * (3/4f);              //TAYLOR likes this
+     pie_graph.posy = height * (1/2f); 
+//     pie_graph.posx = width/2;              //TAYLOR likes this
+//     pie_graph.posy = height/2;  //TAYLOR likes this
      pie_graph.calculateDiameter();
   }
 }

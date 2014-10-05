@@ -20,6 +20,8 @@ class BarGraph{
     float switchAxisDist;
     float fillPieIncrement;
     int numWedges;
+    int indexOfMax;          //TAYLOR SCREEN
+    float horizFrac;        //TAYLOR SCREEN
     float pieRemain;
     int curr_slice;
     float total;
@@ -29,6 +31,7 @@ class BarGraph{
       posy = posy1;
       w = w1;
       h = h1;
+      indexOfMax = 0;        //TAYLOR SCREEN
       keys = keys1;
       values = values1;
       preAnimFrames = 0;
@@ -79,6 +82,7 @@ class BarGraph{
       checkBarHover();
     } 
   }
+
    void checkBarHover(){
      int toolTipIndex = -1;
      for(int i = 0; i<keys.length;i++){
@@ -150,16 +154,24 @@ class BarGraph{
   void findMaxMin(){
     maxOfValues = values[0];
     minOfValues = values[0];
+    indexOfMax = 0;                        //TAYLOR SCREEN
     for(int i = 1; i<values.length;i++){
        if(maxOfValues < values[i]){
          maxOfValues = values[i]; 
+         indexOfMax = i;                  //TAYLOR SCREEN
        }
        if(minOfValues > values[i]){
          minOfValues = values[i];
        }
     }
   }
-  
+  //Calculates the fractional value by which a rectangles original height
+  //  must be multiplied in order that the graph of rectangles can be displayed
+  //  so that the longest one runs to the midpoint of the graph.
+  void calculateShrinkFactor() {
+      horizFrac = width / (2* bars[indexOfMax].origH);        //TAYLOR SCREEN
+
+  }
     //returns true if still animating, false when done
   boolean animateToLine() {
     if (preAnimFrames < 100) {
@@ -220,12 +232,13 @@ class BarGraph{
       currAnimating = true;
       float interval = 6/8f*height/bars.length;
       if (switchAxisDist < 1){
+        calculateShrinkFactor();      //taylor likes this
         for(int i = 0; i<bars.length;i++){
          //move bars to left side
          bars[i].posx = lerp(bars[i].origPosx,10,switchAxisDist); 
          bars[i].posy = lerp(bars[i].origPosy,10 + i*interval,switchAxisDist); 
          //twist the bars
-         bars[i].w = lerp(bars[i].origW, bars[i].origH,switchAxisDist);
+         bars[i].w = lerp(bars[i].origW, bars[i].origH*horizFrac,switchAxisDist);    //taylor likes this
          bars[i].h = lerp(bars[i].origH, interval,switchAxisDist);
          bars[i].Display();
          
@@ -236,8 +249,6 @@ class BarGraph{
         }
         return true;
       }
-             
-      //pieKeys and pieValues
       else if(curr_slice < values.length){
          if (pieValues[curr_slice] < values[curr_slice]) { // still filling in this slice (curr_slice)
          print("pieRemain: " + pieRemain + "\n");
@@ -263,6 +274,7 @@ class BarGraph{
          } 
          return true;
       }      
+
 
       switchAxisDist = 0;
       preAnimFrames = 0;
