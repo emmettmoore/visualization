@@ -80,7 +80,7 @@ void mouseClicked(){
   }
 
 void drawGraphs(){
-  lines = loadStrings("lab1-data.csv");
+  lines = loadStrings("Dataset1.csv");
   keys = new String[lines.length-1];
   values = new float[lines.length-1];
   parse_data();
