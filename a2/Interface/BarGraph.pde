@@ -11,16 +11,17 @@ class BarGraph{
     String[] keys,labels;
     float[] values;
     Rectangle[] bars;
-    String[] newKeys;    //used in bar to pie transition
-    float[] newValues;   //used in bar to pie transition
+    String[] pieKeys;    //used in bar to pie transition
+    float[] pieValues;   //used in bar to pie transition 
     //lerp factor for shrinking bars
     float barDist;
     //lerp factor for making circles bigger
     float circleDist;
     float switchAxisDist;
-    float fillPieDist;
+    float fillPieIncrement;
     int numWedges;
     float pieRemain;
+    int curr_slice;
     float total;
     BarGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
       posx = posx1;
@@ -34,14 +35,25 @@ class BarGraph{
       barDist = 0;
       circleDist =0;
       switchAxisDist = 0;
-//      fillPieDist = 0;
-      fillPieDist = 1;      //taylor new
+      fillPieIncrement = 0.05;
       numWedges = 0;
+      curr_slice = 1;
+      
       total = 0;
       for (int i = 0;i<values.length;i++){
           total += values[i];
       }
+      //for pie transition
+      pieKeys = new String[values.length + 1];
+      pieValues = new float[values.length + 1];
+      pieKeys[0] = "";                                  
       pieRemain = total;
+      pieValues[0] = pieRemain;
+      for(int i = 1; i<pieValues.length; i++){
+           pieValues[i] = 0;
+           pieKeys[i] = "";           
+      }
+      
       print("total at beginning" + pieRemain + "\n");
       labels = labels1;
       barColor = barColor1;
@@ -187,7 +199,7 @@ class BarGraph{
       barDist = 0;
       circleDist = 0;
       switchAxisDist = 0;
-      fillPieDist = 0;
+      fillPieIncrement = 0;
       numWedges = 0;
       return false;                  //TEMPORARY
     }
@@ -199,7 +211,7 @@ class BarGraph{
       Update();
       preAnimFrames++;
       return true;
-    } else {
+    }
       currAnimating = true;
       float interval = 6/8f*height/bars.length;
       if (switchAxisDist < 1){
@@ -211,48 +223,36 @@ class BarGraph{
          bars[i].w = lerp(bars[i].origW, bars[i].origH,switchAxisDist);
          bars[i].h = lerp(bars[i].origH, interval,switchAxisDist);
          bars[i].Display();
-      }
+        }
       switchAxisDist+=.007;
       return true;
       }
-      else if(numWedges <= values.length){
-       if(fillPieDist >= 1){
-         newKeys = new String[numWedges+1];
-         newValues = new float[numWedges+1];
-         newKeys[0] = "";                                  
-         newValues[0] = pieRemain; 
+      //pieKeys and pieValues
+      else if(curr_slice <= values.length){
+         if (pieValues[curr_slice] < values[curr_slice - 1]) { // still filling in this slice (curr_slice)
          print("pieRemain: " + pieRemain + "\n");
+         pieValues[curr_slice] += values[curr_slice-1] * fillPieIncrement;
+         pieKeys[curr_slice] = keys[curr_slice-1];
+         pieRemain -= values[curr_slice-1] * fillPieIncrement;
+         pieValues[0] = pieRemain;
+         PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,pieKeys,pieValues);
+         temp.firstValueWhite = true;
+         temp.Update();
+         }         
+         else {
+         curr_slice++;
+         } 
+         return true;
+      }      
 
-         int i;
-         float largest = 0;
-         for(i = 1; i<=numWedges; i++){
-           newValues[i] = values[i-1];
-           newKeys[i] = keys[i-1];
-           largest = values[i-1];
-         }
-         pieRemain -= largest;
-         newValues[0] = pieRemain;
-         numWedges++;                            //TAYOR
-         fillPieDist = 0;                        //taylor NEW
-       }
-       fillPieDist+=.05;
-       PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,newKeys,newValues);   //new comment out
-       temp.firstValueWhite = true;                                                                                //new comment out
-       temp.Update();                            //TAYLOR
-       return true;
-      }
-      //else if (numWedges == values.length) {
-        
-      //}  
-      //do transition.
       // once finished with entire transition: preAnimFrames = 0, and return false.
-      fillPieDist = 0;
+      fillPieIncrement = 0;
       switchAxisDist = 0;
       preAnimFrames = 0;
       pie_graph.currAnimating = false;
       currAnimating = true;
       return false;                //TEMPORARY
-    }
-    
   }
+    
 }
+
