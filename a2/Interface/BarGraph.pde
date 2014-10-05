@@ -38,7 +38,7 @@ class BarGraph{
       switchAxisDist = 0;
       fillPieIncrement = 0.05;
       numWedges = 0;
-      curr_slice = 1;
+      curr_slice = 0;
       origWidths = new float[values.length];
       
       total = 0;
@@ -48,13 +48,16 @@ class BarGraph{
       //for pie transition
       pieKeys = new String[values.length + 1];
       pieValues = new float[values.length + 1];
-      pieKeys[0] = "";                                  
-      pieRemain = total;
-      pieValues[0] = pieRemain;
+
+      
+      
       for(int i = 1; i<pieValues.length; i++){
            pieValues[i] = 0;
            pieKeys[i] = "";           
       }
+      pieKeys[pieKeys.length - 1] = "";
+      pieRemain = total;
+      pieValues[pieValues.length - 1] = pieRemain;
       
       print("total at beginning" + pieRemain + "\n");
       labels = labels1;
@@ -235,20 +238,20 @@ class BarGraph{
       }
              
       //pieKeys and pieValues
-      else if(curr_slice <= values.length){
-         if (pieValues[curr_slice] < values[curr_slice - 1]) { // still filling in this slice (curr_slice)
+      else if(curr_slice < values.length){
+         if (pieValues[curr_slice] < values[curr_slice]) { // still filling in this slice (curr_slice)
          print("pieRemain: " + pieRemain + "\n");
-         pieValues[curr_slice] += values[curr_slice-1] * fillPieIncrement;
-         pieKeys[curr_slice] = keys[curr_slice-1];
-         pieRemain -= values[curr_slice-1] * fillPieIncrement;
-         pieValues[0] = pieRemain;
+         pieValues[curr_slice] += values[curr_slice] * fillPieIncrement;
+         pieKeys[curr_slice] = keys[curr_slice];
+         pieRemain -= values[curr_slice] * fillPieIncrement;
+         pieValues[pieValues.length - 1] = pieRemain;
          PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,pieKeys,pieValues);
          temp.firstValueWhite = true;
          temp.Update();
          
-         bars[curr_slice - 1].w -= origWidths[curr_slice - 1] * fillPieIncrement;
-         if (bars[curr_slice - 1].w < 0) {
-           bars[curr_slice - 1].w = 0; // emmett
+         bars[curr_slice].w -= origWidths[curr_slice] * fillPieIncrement;
+         if (bars[curr_slice].w < 0) {
+           bars[curr_slice].w = 0; // emmett
          }
            
          for (int i = 0; i<bars.length; i++){
