@@ -11,7 +11,6 @@ class PieGraph{
   PieLabel[] pie_key_labels;    //to hold the keys & their screen positions, i.e. "apple", "pear", "orange"
   PieLabel[] pie_value_labels;  //to hold the values of each key and its screen position, i.e. "6", "5"
   PieGraph(float posx1, float posy1, float w1, float h1, String[] keys1, float[] values1) {
-    currAnimating = false;
     posx = posx1; 
     posy= posy1;
     w = w1;
@@ -36,13 +35,11 @@ class PieGraph{
   }
  //TO DO : add arguments x, y, width, height
  void Update() {
-   if(!currAnimating){
      float smallerEdge = height;
      if (width < height) {
         smallerEdge = width;
      }
      drawPie(smallerEdge/2);
-   }
  }
  
 void drawPie(float diameter) {

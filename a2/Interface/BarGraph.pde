@@ -205,9 +205,21 @@ class BarGraph{
       switchAxisDist+=.007;
       return true;
       }
-      else if(fillPieDist < 1){
-        pieHelper();
-
+      else if(numWedges < values.length){
+       float total = pie_graph.total;
+       ArrayList newKeys = new ArrayList();
+       ArrayList newValues = new ArrayList();
+       newValues.add(total);
+       newKeys.add("");
+       if(fillPieDist >= 1){
+         for(int i = 1; i<=numWedges; i++){
+             newValues.add(values[i]);
+             newKeys.add(keys[i]);
+         }
+       }
+       fillPieDist+=.01;
+       PieGraph temp = new PieGraph(pie_graph.posx,pie_graph.posy, pie_graph.w, pie_graph.h,(String[])newKeys.toArray(),(float[])newValues.toArray()); 
+       
        return true;
       }
       //do transition.
@@ -218,15 +230,5 @@ class BarGraph{
       currAnimating = true;
       return false;                  //TEMPORARY
     }
-  }
-  void pieHelper(){
-       float total = pie_graph.total;
-       pie_graph.currAnimating = true;
-       for(int i = 0; i<bars.length;i++){
-          bars[i].Display();
-          print(pie_graph.total);   
-       }
-       pie_graph.posx = 
-       fillPieDist +=.01; 
   }
 }
