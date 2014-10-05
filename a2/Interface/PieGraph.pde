@@ -54,8 +54,10 @@ void drawPie(float diameter) {
       messageToStore = null;
       float shade = map (i+1, 0, angles.length, 60, 255);  //converting it to a shade of green
       fill(0, shade, 0);
-      arc(width/2 , height/2 - height/8, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
-      outlineWedge(width/2, height/2 - height/8, diameter, lastAngle, lastAngle+radians(angles[i]));
+      posx = width/2;
+      posy = height/2 - height/8;
+      arc(posx , posy, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
+      outlineWedge(posx,posy, diameter, lastAngle, lastAngle+radians(angles[i]));
 
       if (radians(angles[i]) > 0) {
         messageToStore = keys[i];

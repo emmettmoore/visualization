@@ -18,6 +18,7 @@ class BarGraph{
     float circleDist;
     float switchAxisDist;
     float fillPieDist;
+    int numWedges;
     BarGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
       posx = posx1;
       posy = posy1;
@@ -31,6 +32,7 @@ class BarGraph{
       circleDist =0;
       switchAxisDist = 0;
       fillPieDist = 0;
+      numWedges = 0;
       labels = labels1;
       barColor = barColor1;
       backgroundColor = backgroundColor1;
@@ -204,11 +206,8 @@ class BarGraph{
       return true;
       }
       else if(fillPieDist < 1){
-        pie_graph.currAnimating = true;
-       for(int i = 0; i<bars.length;i++){
-          print(pie_graph.total);   
-       }
-       fillPieDist +=.01;
+        pieHelper();
+
        return true;
       }
       //do transition.
@@ -219,5 +218,15 @@ class BarGraph{
       currAnimating = true;
       return false;                  //TEMPORARY
     }
+  }
+  void pieHelper(){
+       float total = pie_graph.total;
+       pie_graph.currAnimating = true;
+       for(int i = 0; i<bars.length;i++){
+          bars[i].Display();
+          print(pie_graph.total);   
+       }
+       pie_graph.posx = 
+       fillPieDist +=.01; 
   }
 }
