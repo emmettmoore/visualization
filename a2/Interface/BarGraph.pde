@@ -232,8 +232,9 @@ class BarGraph{
       return true;
     }
       currAnimating = true;
-      float interval = 6/8f*height/bars.length;
       if (switchAxisDist < 1){
+                   float interval = 6/8f*height/bars.length;
+
         calculateShrinkFactor();      //taylor likes this
         for(int i = 0; i<bars.length;i++){
          //move bars to left side

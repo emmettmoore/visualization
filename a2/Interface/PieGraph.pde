@@ -248,25 +248,10 @@ void printLabels() {
   
   //returns true if still animating, false when done
   boolean animateToBar() {
-    if(firstValueWhite == false){  
-      print("HEHALKSFDKALSD");
-        float[] temp = values;
-        values = new float[temp.length +1];
-        int i;
-        for(i = 0; i<values.length-1;i++){
-           values[i] = temp[i];
-        }
-        values[i] = 0;
-        
-        String[] temp1 = keys;
-        keys = new String[keys.length + 1];
-        for(i = 0; i<keys.length-1;i++){
-            keys[i] = temp1[i];
-        }
-        keys[i] = ""; 
-        firstValueWhite = true;
-        Update();
-    }
+    bar_graph.Update();
+    fill(250,250,250);
+    rect(0,0,width,height*7/8f);
+    checkValueSizes();
     
     if (preAnimFrames < 100) {
       Update();
@@ -274,10 +259,10 @@ void printLabels() {
       return true;
     } 
     else if (currWedge < values.length - 1){
-      print(currWedge + "\n");
       if(values[currWedge]>0){
         values[currWedge] -= fillPieIncrement * total/360;
         values[values.length-1] += fillPieIncrement * total/360;
+        //bars[currWedge].w +
         Update();
       }
       else{
@@ -285,6 +270,8 @@ void printLabels() {
         keys[currWedge] = "";
         currWedge++;
       }
+      drawBars();
+
       return true;
     }
     print("test");
@@ -292,13 +279,47 @@ void printLabels() {
     preAnimFrames = 0;
     return false;
   }
-  
+
     //Calculates the fractional value by which a rectangles original height
   //  must be multiplied in order that the graph of rectangles can be displayed
   //  so that the longest one runs to the midpoint of the graph.
     void calculateShrinkFactor() {
 //      horizFrac = width / (2* circles[indexOfMax].origY);  
+    }
+  void checkValueSizes(){
+    if(firstValueWhite == false){  
+      float[] temp = values;
+      values = new float[temp.length +1];
+      int i;
+      for(i = 0; i<values.length-1;i++){
+         values[i] = temp[i];
+      }
+      values[i] = 0;
+      
+      String[] temp1 = keys;
+      keys = new String[keys.length + 1];
+      for(i = 0; i<keys.length-1;i++){
+          keys[i] = temp1[i];
+      }
+      keys[i] = ""; 
+      firstValueWhite = true;
+      Update();
+    }
+  }
+  void drawBars(){
+     float horizFrac = width / (2* bar_graph.bars[bar_graph.indexOfMax].origH); 
+     float interval = 6/8f*height/bar_graph.bars.length;
 
+      for(int i = 0; i<bar_graph.bars.length;i++){
+     //move bars to left side
+     bar_graph.bars[i].posx = 10; 
+     bar_graph.bars[i].posy = 10 + i*interval; 
+     //twist the bars
+     bar_graph.bars[i].w = bar_graph.bars[i].origH*horizFrac;    
+     bar_graph.bars[i].h = interval;
+     bar_graph.bars[i].Display();
+     }
   }
 }
+
 
