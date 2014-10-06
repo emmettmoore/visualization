@@ -45,7 +45,8 @@ class BarGraph{
       numWedges = 0;
       curr_slice = 0;
       origWidths = new float[values.length];
-      
+      findMaxMin();                                  //taylor
+      range = maxOfValues - SMALLEST_Y_AXIS_LABEL;    //taylor
       total = 0;
       for (int i = 0;i<values.length;i++){
           total += values[i];

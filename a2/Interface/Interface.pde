@@ -3,6 +3,9 @@
 //    - make bars half the screen
 //    - see if clicking bar to pie, go, clear, then bar to pie works
 //    - make the "BEGIN/CLEAR" button label font size depend upon the screensize.
+//    - display labels on vertical line graph in line to pie
+//   - make the line graph have its max value go to half of the screen width when its displayed horizontally
+//     during transition from line to pie
 
 int LINECHART = 0;
 int PIECHART = 1;
