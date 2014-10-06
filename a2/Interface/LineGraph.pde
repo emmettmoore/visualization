@@ -45,9 +45,7 @@ class LineGraph{
       preAnimFrames = 0;
       fillPieIncrement = 0.05;
       origWidths = new float[values.length];
-
-      Update();
-   
+      
       total = 0;
       for (int i = 0;i<values.length;i++){
           total += values[i];

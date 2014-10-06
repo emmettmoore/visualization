@@ -68,7 +68,6 @@ class BarGraph{
       backgroundColor = backgroundColor1;
       hoverColor = hoverColor1;
       bars = new Rectangle[keys.length];
-      Update();
     }
   
   
