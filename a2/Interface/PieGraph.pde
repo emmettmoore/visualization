@@ -10,8 +10,10 @@ class PieGraph{
   float fillPieIncrement;
   int preAnimFrames;
   float total;
-  float diameter;    
+  float diameter;   
+  float[] origWidths; 
   boolean currAnimating;
+  boolean origWidthInit;
   boolean firstValueWhite;      //if the very first value of values[] is to be printed as a white wedge
   PieLabel[] pie_key_labels;    //to hold the keys & their screen positions, i.e. "apple", "pear", "orange"
   PieLabel[] pie_value_labels;  //to hold the values of each key and its screen position, i.e. "6", "5"
@@ -25,9 +27,9 @@ class PieGraph{
     int i;
     values = values1;
     keys = keys1;
-    
+    origWidthInit = false;
     currWedge = 0;
-    fillPieIncrement = 1;
+    fillPieIncrement = .05;
     keys = keys1;
     angles = new float[values.length];
     pie_key_labels = new PieLabel[angles.length];
@@ -170,11 +172,8 @@ void printLabels() {
   
   //returns true if still animating, false when done
   boolean animateToBar() {
-    bar_graph.Update();
-    fill(250,250,250);
-    rect(0,0,width,height*7/8f);
-    checkValueSizes();
-    
+          drawBars();
+
     if (preAnimFrames < 100) {
       Update();
       preAnimFrames++;
@@ -182,9 +181,17 @@ void printLabels() {
     } 
     else if (currWedge < values.length - 1){
       if(values[currWedge]>0){
-        values[currWedge] -= fillPieIncrement * total/360;
-        values[values.length-1] += fillPieIncrement * total/360;
-        //bars[currWedge].w +
+        print(valuesCopy[currWedge] + "copy\n");
+        print(values[currWedge] + "values\n");
+
+        values[currWedge] -= valuesCopy[currWedge] * fillPieIncrement;
+        values[values.length-1] += valuesCopy[currWedge] * fillPieIncrement;
+        if(bar_graph.bars[currWedge].w < origWidths[currWedge]){
+          bar_graph.bars[currWedge].w += origWidths[currWedge] * fillPieIncrement;
+        }
+        for(int i = 0; i<bar_graph.bars.length;i++){
+           bar_graph.bars[i].Display(); 
+        }
         Update();
       }
       else{
@@ -192,24 +199,32 @@ void printLabels() {
         keys[currWedge] = "";
         currWedge++;
       }
-      drawBars();
 
       return true;
     }
     print("test");
     currWedge = 0;
+    origWidthInit = false;
     preAnimFrames = 0;
     return false;
   }
   void checkValueSizes(){
-    if(firstValueWhite == false){  
-      float[] temp = values;
-      values = new float[temp.length +1];
+    if(firstValueWhite == false){ 
+    print("dick");
+ 
+      valuesCopy = values;
+      values = new float[valuesCopy.length +1];
       int i;
       for(i = 0; i<values.length-1;i++){
-         values[i] = temp[i];
+         values[i] = valuesCopy[i];
       }
       values[i] = 0;
+
+      valuesCopy = new float[values.length +1];
+      for(i = 0; i<values.length-1;i++){
+         valuesCopy[i] = values[i];
+      }
+      valuesCopy[i] = 0;
       
       String[] temp1 = keys;
       keys = new String[keys.length + 1];
@@ -222,17 +237,33 @@ void printLabels() {
     }
   }
   void drawBars(){
-     float horizFrac = width / (2* bar_graph.bars[bar_graph.indexOfMax].origH); 
-     float interval = 6/8f*height/bar_graph.bars.length;
 
-      for(int i = 0; i<bar_graph.bars.length;i++){
-     //move bars to left side
-     bar_graph.bars[i].posx = 10; 
-     bar_graph.bars[i].posy = 10 + i*interval; 
-     //twist the bars
-     bar_graph.bars[i].w = bar_graph.bars[i].origH*horizFrac;    
-     bar_graph.bars[i].h = interval;
-     bar_graph.bars[i].Display();
+     if(!origWidthInit){
+        checkValueSizes();
+
+        bar_graph.Update();
+        fill(250,250,250);
+        rect(0,0,width,height*7/8f);
+
+       
+       float horizFrac = width / (2* bar_graph.bars[bar_graph.indexOfMax].origH); 
+       float interval = 6/8f*height/bar_graph.bars.length;
+  
+       for(int i = 0; i<bar_graph.bars.length;i++){
+         //move bars to left side
+         bar_graph.bars[i].posx = 10; 
+         bar_graph.bars[i].posy = 10 + i*interval; 
+         //twist the bars
+         bar_graph.bars[i].w = bar_graph.bars[i].origH*horizFrac;    
+         bar_graph.bars[i].h = interval;
+       }
+        origWidths = new float[bar_graph.bars.length];
+        for(int i = 0; i<origWidths.length; i++){
+           origWidths[i] = bar_graph.bars[i].w;
+           bar_graph.bars[i].w = 0;
+        } 
+        origWidthInit = true;
+
      }
   }
 }
