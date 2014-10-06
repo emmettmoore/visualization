@@ -65,13 +65,11 @@ class BarGraph{
       pieRemain = total;
       pieValues[pieValues.length - 1] = pieRemain;
       
-      print("total at beginning" + pieRemain + "\n");
       labels = labels1;
       barColor = barColor1;
       backgroundColor = backgroundColor1;
       hoverColor = hoverColor1;
       bars = new Rectangle[keys.length];
-      Update();
     }
   
   
@@ -258,7 +256,6 @@ class BarGraph{
       }
       else if(curr_slice < values.length){
          if (pieValues[curr_slice] < values[curr_slice]) { // still filling in this slice (curr_slice)
-         print("pieRemain: " + pieRemain + "\n");
          pieValues[curr_slice] += values[curr_slice] * fillPieIncrement;
          pieKeys[curr_slice] = keys[curr_slice];
          pieRemain -= values[curr_slice] * fillPieIncrement;
@@ -292,14 +289,12 @@ class BarGraph{
        } 
        return true;
      }      
-  
-
-
+ 
       switchAxisDist = 0;
       preAnimFrames = 0;
       pie_graph.currAnimating = false;
       currAnimating = true;
-      return false;                //TEMPORARY
+      return false;
   }
   
   void displayHorizBarLabels() {

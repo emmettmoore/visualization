@@ -5,6 +5,9 @@ class PieGraph{
   float[] angles;
   String[] keys;
   float w, h, posx, posy;
+  float[] valuesCopy;
+  int currWedge;
+  float fillPieIncrement;
   int preAnimFrames;
   float total;
   float diameter;    
@@ -13,15 +16,18 @@ class PieGraph{
   PieLabel[] pie_key_labels;    //to hold the keys & their screen positions, i.e. "apple", "pear", "orange"
   PieLabel[] pie_value_labels;  //to hold the values of each key and its screen position, i.e. "6", "5"
   PieGraph(float posx1, float posy1, float w1, float h1, String[] keys1, float[] values1) {
+    
     firstValueWhite = false;
     posx = posx1; 
     posy= posy1;
     w = w1;
     h = h1;
+    int i;
     values = values1;
-
+    keys = keys1;
     
-    
+    currWedge = 0;
+    fillPieIncrement = 1;
     keys = keys1;
     angles = new float[values.length];
     pie_key_labels = new PieLabel[angles.length];
@@ -31,12 +37,11 @@ class PieGraph{
     if (h1 < w1) { diameter = h1; }
     preAnimFrames = 0;
     //calculate the sum of the values:
-    for (int i = 0; i < values.length; i++) {
+    for (i = 0; i < values.length; i++) {
       total = total + values[i];
     }
-    
     //populate the angles array:
-    for (int i = 0; i < values.length; i++) {
+    for (i = 0; i < values.length; i++) {
       angles[i] = ((values[i]/ total) * 360);
     }
   }
@@ -53,20 +58,28 @@ class PieGraph{
    drawPie();
  }
 
-
-
 void drawPie(){ 
 //   pushMatrix();        //to push the stroke setting so that it can be removed @ end of function
 //   stroke(255);          //TO MAKE THIS WHITE
+    //calculate the sum of the values:
+    total = 0;
+    for (int i = 0; i < values.length; i++) {
+      total = total + values[i];
+    }
+    //populate the angles array:
+    angles = new float[values.length];
+    for (int i = 0; i < values.length; i++) {
+      angles[i] = ((values[i]/ total) * 360);
+    }
+    pie_key_labels = new PieLabel[angles.length];
+    pie_value_labels = new PieLabel[angles.length];
+
     String messageToStore = null;
     float lastAngle = 0;
     for (int i = angles.length -1; i >=0; --i) {
       messageToStore = null;
       float shade = map (i+1, 0, angles.length, 60, 255);  //converting it to a shade of green
       fill(0, shade, 0);
-//      if ((i==0) && (firstValueWhite == true)) {    //to fill the first value wedge as white
-//        fill(255, 255, 255);
-//      }
       if ((i==values.length -1) && (firstValueWhite == true)) {    //to fill the first value wedge as white
         fill(255, 255, 255);
       }
@@ -157,17 +170,49 @@ void printLabels() {
   
   //returns true if still animating, false when done
   boolean animateToBar() {
+    if(firstValueWhite == false){  
+      print("HEHALKSFDKALSD");
+        float[] temp = values;
+        values = new float[temp.length +1];
+        int i;
+        for(i = 0; i<values.length-1;i++){
+           values[i] = temp[i];
+        }
+        values[i] = 0;
+        
+        String[] temp1 = keys;
+        keys = new String[keys.length + 1];
+        for(i = 0; i<keys.length-1;i++){
+            keys[i] = temp1[i];
+        }
+        keys[i] = ""; 
+        firstValueWhite = true;
+        Update();
+    }
+    
     if (preAnimFrames < 100) {
       Update();
       preAnimFrames++;
       return true;
-    } else {
-      //do transition.
-      // once finished with entire transition: preAnimFrames = 0, and return false.
-      return false;                  //TEMPORARY
+    } 
+    else if (currWedge < values.length - 1){
+      print(currWedge + "\n");
+      if(values[currWedge]>0){
+        values[currWedge] -= fillPieIncrement * total/360;
+        values[values.length-1] += fillPieIncrement * total/360;
+        Update();
+      }
+      else{
+        values[currWedge] = 0;
+        keys[currWedge] = "";
+        currWedge++;
+      }
+      return true;
     }
+    print("test");
+    currWedge = 0;
+    preAnimFrames = 0;
+    return false;
   }
-  
- 
 }
 

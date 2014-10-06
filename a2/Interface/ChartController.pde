@@ -14,14 +14,20 @@ int ANIMATING = 2;
   boolean barGraph;
 class ChartController{   
   float posx, posy, w, h;
-  Rectangle GraphOutline;
-  color backgroundColor, hoverColor, barColor;
-  float screenwidth;
-  float screenheight;
+  color backgroundColor;
+  color hoverColor;
+  color barColor;
+  float screenwidth, screenheight;
   String[] keys;
   float[] values;
+  float[] labels1;
+  
+
+  Rectangle GraphOutline;
+  
+
   int state;
-  ChartController(float screenwidth1, float screenheight1, float w1, float h1,float posx1, float posy1, String[] keys1, float[] values1, String[]labels, color barColor1, color backgroundColor1, color hoverColor1){ //taylor likes this
+  ChartController(float screenwidth1, float screenheight1, float w1, float h1,float posx1, float posy1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){ //taylor likes this
      posx = posx1;
      posy = posy1;
      w = w1;
@@ -29,25 +35,23 @@ class ChartController{
      backgroundColor = backgroundColor1;
      hoverColor = hoverColor1;
      barColor = barColor1;
-     keys = keys1;
-     values = values1;
      screenwidth = screenwidth1;
      screenheight = screenheight1;
+     keys = keys1.clone();
+     values = values1.clone();
+     labels = labels1.clone();
      lineGraph = barGraph = pieGraph = false;
-     line_graph = new LineGraph(posx,posy,w,h, keys, values, labels, backgroundColor, hoverColor);
-     bar_graph = new BarGraph(posx,posy,w,h, keys, values, labels, barColor, backgroundColor, hoverColor);
-     pie_graph = new PieGraph((screenwidth* (3/4f)), (screenheight * (1/2f)), screenwidth/2, screenheight/2, keys, values);    //taylor likes this
+
      state = NOCHART;
   }
   
   //where everything is called - basically this class' draw function
   void Update(ArrayList animQueue) {
-
-    updateSizes();
-    
     if (animQueue.size() == 0) {
+      line_graph = new LineGraph(posx,posy,w,h, keys, values, labels, backgroundColor, hoverColor);
+      bar_graph = new BarGraph(posx,posy,w,h, keys, values, labels, barColor, backgroundColor, hoverColor);
+      pie_graph = new PieGraph((screenwidth* (3/4f)), (screenheight * (1/2f)), screenwidth/2, screenheight/2, keys, values);
       state = NOCHART;
-      resetGraph();
       return;
     } 
     else if (animQueue.size() == 1) {
@@ -95,6 +99,8 @@ class ChartController{
           }
       }
     }
+        updateSizes();
+
       
   }
   void updateSizes(){
@@ -111,13 +117,6 @@ class ChartController{
 //     pie_graph.posx = width/2;              //TAYLOR likes this
 //     pie_graph.posy = height/2;  //TAYLOR likes this
      pie_graph.calculateDiameter();
-  }
-  void resetGraph(){
-      line_graph = new LineGraph(posx,posy,w,h, keys, values, labels, backgroundColor, hoverColor);  /////////////////////////////////////////IAN DID THIS FUCKKKKKKK
-      bar_graph = new BarGraph(posx,posy,w,h, keys, values, labels, barColor, backgroundColor, hoverColor);  /////////////////////////////////////////IAN DID THIS FUCKKKKKKK
-      pie_graph = new PieGraph((screenwidth* (3/4f)), (screenheight * (1/2f)), screenwidth/2, screenheight/2, keys, values);  /////////////////////////////////////////IAN DID THIS FUCKKKKKKK AHHHHHH DONT RUIN EVERYTHING
-      fill(250,250,250);
-      rect(0,0, width,height*7/8f); 
   }
 }
 
