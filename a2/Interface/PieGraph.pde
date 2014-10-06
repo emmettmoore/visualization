@@ -39,7 +39,7 @@ class PieGraph{
     diameter = w1;      //taylor
     if (h1 < w1) { diameter = h1; }
     preAnimFrames = 0;      
-    //calculate the sum of the values, AND correctly populate maxOfValues: 
+    //calculate the sum of the values, AND correctly populate maxOfValues & index of max: 
     maxOfValues = values[0];    
     for (i = 0; i < values.length; i++) {
       total = total + values[i];
@@ -280,12 +280,14 @@ void printLabels() {
     return false;
   }
 
-    //Calculates the fractional value by which a rectangles original height
-  //  must be multiplied in order that the graph of rectangles can be displayed
+  // Arguments: The originalY position of the largest value in the array of circles/ array of rects
+  // Calculates the fractional value by which a rectangles (graph dot's) original height
+  //  must be multiplied in order that the graph of rectangles (circles) can be displayed
   //  so that the longest one runs to the midpoint of the graph.
-    void calculateShrinkFactor() {
-//      horizFrac = width / (2* circles[indexOfMax].origY);  
+    void calculateShrinkFactor(float position) {
+      horizFrac = width / (2* position);  
     }
+    
   void checkValueSizes(){
     if(firstValueWhite == false){  
       float[] temp = values;
