@@ -170,7 +170,7 @@ void printLabels() {
  }
  
  //returns true if still animating, false when done
- 
+ /*
  boolean animateToLine() {
   if(firstValueWhite == false){  
         float[] temp = values;
@@ -267,8 +267,64 @@ void printLabels() {
     return false;
   }
 
+*/
 
+boolean animateToLine() {
+  drawCirclesAndLines();
+      if (preAnimFrames < 100) {
+      Update();
+      preAnimFrames++;
+      return true;
+    } 
+        else if (currWedge < values.length - 1){
+      if(values[currWedge]>0){
+  //      print(valuesCopy[currWedge] + "copy\n");
+  //      print(values[currWedge] + "values\n");
 
+        values[currWedge] -= valuesCopy[currWedge] * fillPieIncrement;
+        values[values.length-1] += valuesCopy[currWedge] * fillPieIncrement;
+ //       if(bar_graph.bars[currWedge].w < origWidths[currWedge]){
+        if(line_graph.circles[currWedge].centerX < (origWidths[currWedge] + 10)){      //current LINE HERE
+            line_graph.circles[currWedge].centerX += origWidths[currWedge] * fillPieIncrement;
+
+ //         bar_graph.bars[currWedge].w += origWidths[currWedge] * fillPieIncrement;
+        }
+        for(int i = 0; i<line_graph.circles.length;i++){
+           line_graph.circles[i].Display(); 
+        }
+        line_graph.drawConnectingLines();
+        Update();
+      }
+      else{
+        values[currWedge] = 0;
+        keys[currWedge] = "";
+        currWedge++;
+      }
+
+      return true;
+    }
+     else if(switchAxisDist <1){
+        for(int i = 0; i<line_graph.circles.length;i++){
+         //move bars to left side
+         line_graph.circles[i].centerX = lerp(10 + origWidths[i],line_graph.circles[i].origX,switchAxisDist); 
+         line_graph.circles[i].centerY = lerp(10 + i*interval,line_graph.circles[i].origY,switchAxisDist); 
+         //twist the bars
+//         bar_graph.bars[i].w = lerp(bar_graph.bars[i].origH*horizFrac,bar_graph.bars[i].origW, switchAxisDist);    //taylor likes this
+//         bar_graph.bars[i].h = lerp(interval,bar_graph.bars[i].origH, switchAxisDist);
+//         bar_graph.bars[i].Display();
+          line_graph.circles[i].Display();
+         //add label to array of labels:
+        }
+        line_graph.drawConnectingLines();
+        switchAxisDist += .01;
+        return true;
+    }
+    switchAxisDist = 0;
+    currWedge = 0;
+    origWidthInit = false;
+    preAnimFrames = 0;
+    return false;
+  }
   
   //returns true if still animating, false when done
   boolean animateToBar() {
@@ -333,7 +389,6 @@ void printLabels() {
     
   void checkValueSizes(){
     if(firstValueWhite == false){ 
-    print("dick");
  
       valuesCopy = values;
       values = new float[valuesCopy.length +1];
@@ -359,6 +414,40 @@ void printLabels() {
       Update();
     }
   }
+  
+  //equivalent of drawBars, but for line graph
+  void drawCirclesAndLines() {
+    if(!origWidthInit){
+        checkValueSizes();
+
+        line_graph.Update();
+        fill(250,250,250);
+        rect(0,0,width,height*7/8f);
+
+
+       calculateShrinkFactor(line_graph.values[line_graph.indexOfMax] / line_graph.range * line_graph.h);
+//       horizFrac = width / (2* line_graph.bars[bar_graph.indexOfMax].origH);  //his
+       interval = 6/8f*height/line_graph.circles.length;
+  
+       for(int i = 0; i<line_graph.circles.length;i++){
+         //move bars to left side
+         line_graph.circles[i].centerX = 10; 
+         line_graph.circles[i].centerY = 10 + i*interval; 
+         //twist the bars
+ //        line_graph.bars[i].w = bar_graph.bars[i].origH*horizFrac;    
+ //        bar_graph.bars[i].h = interval;
+       }
+        origWidths = new float[line_graph.circles.length];
+        for(int i = 0; i<origWidths.length; i++){
+          origWidths[i] = (line_graph.values[i]/ line_graph.range * line_graph.h);
+           //origWidths[i] = line_graph.bars[i].w;
+ //          bar_graph.bars[i].w = 0;
+        } 
+        origWidthInit = true;
+
+     }
+  }
+  
   void drawBars(){
 
      if(!origWidthInit){
