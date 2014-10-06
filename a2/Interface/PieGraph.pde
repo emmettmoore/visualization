@@ -190,6 +190,16 @@ boolean animateToLine() {
            line_graph.circles[i].Display(); 
         }
         line_graph.drawConnectingLines();
+
+         float newMessage = (line_graph.values[currWedge] - values[currWedge]);
+         if (newMessage >= line_graph.values[currWedge]) {
+           newMessage = line_graph.values[currWedge];
+           horizBarValues[currWedge].message = String.valueOf(newMessage);
+         }
+         else {
+            horizBarValues[currWedge].message = Integer.toString(int(newMessage));
+         }
+         displayHorizBarLabels();
         Update();
       }
       else{
@@ -229,9 +239,6 @@ boolean animateToLine() {
     } 
     else if (currWedge < values.length - 1){
       if(values[currWedge]>0){
-//        print(valuesCopy[currWedge] + "copy\n");
-//        print(values[currWedge] + "values\n");
-
         values[currWedge] -= valuesCopy[currWedge] * fillPieIncrement;
         values[values.length-1] += valuesCopy[currWedge] * fillPieIncrement;
         if(bar_graph.bars[currWedge].w < origWidths[currWedge]){
@@ -240,29 +247,16 @@ boolean animateToLine() {
         for(int i = 0; i<bar_graph.bars.length;i++){
            bar_graph.bars[i].Display(); 
         }
-        //Taylor add:
- //        float currMessage = Float.parseFloat(horizBarValues[currWedge].message);
- //        float newMessage = (currMessage + (values[currWedge]));
-//         float currMessage = Float.parseFloat(horizBarValues[currWedge].message);
-         float newMessage = (bar_graph.values[currWedge] - values[currWedge]);
+         float newMessage = (bar_graph.values[currWedge] - values[currWedge]);    //For bar labels
          if (newMessage >= bar_graph.values[currWedge]) {
            newMessage = bar_graph.values[currWedge];
            horizBarValues[currWedge].message = String.valueOf(newMessage);
-
          }
          else {
             horizBarValues[currWedge].message = Integer.toString(int(newMessage));
          }
-
-//         horizBarValues[currWedge].message = Integer.toString(int(newMessage));
-        // horizBarValues[currWedge].message = Float.toString(newMessage);          //good
-//         horizBarValues[currWedge].message = String.valueOf(newMessage);
-//         print(newMessage + "\n");
-
          displayHorizBarLabels();
-
-        //Taylor add^
-        
+      
         Update();
       }
       else{
@@ -347,6 +341,9 @@ boolean animateToLine() {
          //move dots to left side
          line_graph.circles[i].centerX = 10; 
          line_graph.circles[i].centerY = 10 + i*interval; 
+         
+         horizBarValues[i] = new PieLabel((line_graph.circles[i].centerX + (BUFFER*4)), (line_graph.circles[i].centerY + (line_graph.values[i]/ (line_graph.range * line_graph.h))/2), Float.toString(0f), 0f, 0f, 0f);
+         horizBarKeys[i] = new PieLabel((line_graph.circles[i].centerX + (BUFFER)), (line_graph.circles[i].centerY + (line_graph.values[i]/ (line_graph.range * line_graph.h))/2), line_graph.keys[i], 0f, 0f, 0f);
        }
         origWidths = new float[line_graph.circles.length];
         for(int i = 0; i<origWidths.length; i++){
@@ -377,7 +374,6 @@ boolean animateToLine() {
          //twist the bars
          bar_graph.bars[i].w = bar_graph.bars[i].origH*horizFrac;    
          bar_graph.bars[i].h = interval;
-         
          horizBarValues[i] = new PieLabel((bar_graph.bars[i].posx + (BUFFER*4)), (bar_graph.bars[i].posy + bar_graph.bars[i].h/2), Float.toString(0f), 0f, 0f, 0f);
          horizBarKeys[i] = new PieLabel((bar_graph.bars[i].posx + (BUFFER)), (bar_graph.bars[i].posy + bar_graph.bars[i].h/2), bar_graph.keys[i], 0f, 0f, 0f);
        }
