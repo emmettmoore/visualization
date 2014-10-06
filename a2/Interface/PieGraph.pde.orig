@@ -1,8 +1,6 @@
 // Do we want it to display the percentage instead?
 
 class PieGraph{
-      PieLabel[] horizBarKeys;      //TAYLOR  //to hold the labels that will appear for the horizontal bars
-    PieLabel[] horizBarValues;
   float[] values;
   float[] angles;
   String[] keys;
@@ -10,14 +8,11 @@ class PieGraph{
   float[] valuesCopy;
   int currWedge;
   int preAnimFrames;
-  boolean origWidthInit;
   float fillPieIncrement;
   float total;
   float diameter;    
   float horizFrac;
-  float interval;
   float maxOfValues;
-  float switchAxisDist;
   boolean currAnimating;
   float[] origWidths;           //to hold the post-animation heights of the bars/lines 
   boolean firstValueWhite;      //if the very first value of values[] is to be printed as a white wedge
@@ -36,7 +31,6 @@ class PieGraph{
     origWidthInit = false;
     currWedge = 0;
     fillPieIncrement = .05;
-    switchAxisDist = 0;
     keys = keys1;
     angles = new float[values.length];
     pie_key_labels = new PieLabel[angles.length];
@@ -285,21 +279,7 @@ void printLabels() {
 
       return true;
     }
-    else if(switchAxisDist <1){
-        for(int i = 0; i<bar_graph.bars.length;i++){
-         //move bars to left side
-         bar_graph.bars[i].posx = lerp(10,bar_graph.bars[i].origPosx,switchAxisDist); 
-         bar_graph.bars[i].posy = lerp(10 + i*interval,bar_graph.bars[i].origPosy,switchAxisDist); 
-         //twist the bars
-         bar_graph.bars[i].w = lerp(bar_graph.bars[i].origH*horizFrac,bar_graph.bars[i].origW, switchAxisDist);    //taylor likes this
-         bar_graph.bars[i].h = lerp(interval,bar_graph.bars[i].origH, switchAxisDist);
-         bar_graph.bars[i].Display();
-         //add label to array of labels:
-        }
-        switchAxisDist += .01;
-        return true;
-    }
-    switchAxisDist = 0;
+    print("test");
     currWedge = 0;
     origWidthInit = false;
     preAnimFrames = 0;
@@ -352,8 +332,8 @@ void printLabels() {
         rect(0,0,width,height*7/8f);
 
        
-       horizFrac = width / (2* bar_graph.bars[bar_graph.indexOfMax].origH); 
-       interval = 6/8f*height/bar_graph.bars.length;
+       float horizFrac = width / (2* bar_graph.bars[bar_graph.indexOfMax].origH); 
+       float interval = 6/8f*height/bar_graph.bars.length;
   
        for(int i = 0; i<bar_graph.bars.length;i++){
          //move bars to left side
