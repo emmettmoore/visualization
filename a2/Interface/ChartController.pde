@@ -1,6 +1,7 @@
 //doesn't work with negatives as of now
 //let the user specify the color of the hovered bar color
 int NUM_INTERVALS = 10;
+float SMALLEST_Y_AXIS_LABEL = 0;  //y axis value for the graph to start at.
 //chart states
 int NOCHART = 0;
 int ONECHART = 1;

@@ -13,9 +13,9 @@ class LineGraph{
     float circleDist;
     float barDist;
     float total;
-    float horizFrac;        //TAYLOR SCREEN
+    float horizFrac;      
 
-    int indexOfMax;          //TAYLOR SCREEN
+    int indexOfMax;         
 
     
     float switchAxisDist;
@@ -45,7 +45,8 @@ class LineGraph{
       preAnimFrames = 0;
       fillPieIncrement = 0.05;
       origWidths = new float[values.length];
-      
+      findMaxMin();                                //taylor                      
+      range = maxOfValues - SMALLEST_Y_AXIS_LABEL; //taylor
       total = 0;
       for (int i = 0;i<values.length;i++){
           total += values[i];
@@ -148,11 +149,11 @@ class LineGraph{
   void findMaxMin(){
     maxOfValues = values[0];
     minOfValues = values[0];
-    indexOfMax = 0;                        //TAYLOR SCREEN
+    indexOfMax = 0;                        
     for(int i = 1; i<values.length;i++){
        if(maxOfValues < values[i]){
          maxOfValues = values[i]; 
-         indexOfMax = i;                  //TAYLOR SCREEN
+         indexOfMax = i; 
 
        }
        if(minOfValues > values[i]){
@@ -229,7 +230,7 @@ class LineGraph{
         }
         switchAxisDist+=.007;
         for(int i = 0; i<circles.length; i++){
-          origWidths[i] = circles[i].centerX; 
+          origWidths[i] = circles[i].centerX;     //assumption: line graph is now displayed horizontally
         }
         return true;
       }
@@ -247,7 +248,7 @@ class LineGraph{
           
           circles[curr_slice].centerX -= origWidths[curr_slice] * fillPieIncrement;  //centerX feels dirty
           if (circles[curr_slice].centerX < 0) {
-            circles[curr_slice].centerX = 0; // emmett
+            circles[curr_slice].centerX = 0; // emmett loves kittens
           }
            
           for (int i = 0; i<circles.length; i++){
@@ -272,7 +273,7 @@ class LineGraph{
   //  must be multiplied in order that the graph of rectangles can be displayed
   //  so that the longest one runs to the midpoint of the graph.
   void calculateShrinkFactor() {
-      horizFrac = width / (2* circles[indexOfMax].origY);        //TAYLOR SCREEN
+      horizFrac = width / (2* circles[indexOfMax].origY);
 
   }
 }
