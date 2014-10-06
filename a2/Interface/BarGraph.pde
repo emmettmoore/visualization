@@ -20,10 +20,12 @@ class BarGraph{
     float switchAxisDist;
     float fillPieIncrement;
     int numWedges;
-    int indexOfMax;          //TAYLOR SCREEN
-    float horizFrac;        //TAYLOR SCREEN
+    int indexOfMax;        
+    float horizFrac;       
     float pieRemain;
     int curr_slice;
+    PieLabel[] horizBarKeys;      //TAYLOR  //to hold the labels that will appear for the horizontal bars
+    PieLabel[] horizBarValues;
     float total;
     float[] origWidths;
     BarGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color barColor1, color backgroundColor1, color hoverColor1){
@@ -31,7 +33,7 @@ class BarGraph{
       posy = posy1;
       w = w1;
       h = h1;
-      indexOfMax = 0;        //TAYLOR SCREEN
+      indexOfMax = 0;      
       keys = keys1;
       values = values1;
       preAnimFrames = 0;
@@ -51,7 +53,8 @@ class BarGraph{
       //for pie transition
       pieKeys = new String[values.length + 1];
       pieValues = new float[values.length + 1];
-
+      horizBarKeys = new PieLabel[values.length];
+      horizBarValues = new PieLabel[values.length];
       
       
       for(int i = 1; i<pieValues.length; i++){
@@ -186,7 +189,7 @@ class BarGraph{
         for(int i = 0; i<bars.length; i++){
            bars[i].h = lerp(bars[i].origH,0, barDist);
            bars[i].w = lerp(bars[i].origW,0,barDist);
-           bars[i].posx = lerp(bars[i].origPosx, bars[i].origPosx +bars[i].origW/2,barDist);
+           bars[i].posx = lerp(bars[i].origPosx, bars[i].origPosx +bars[i].origW/2,barDist); 
            bars[i].Display();
         }
         barDist+=.01; 
@@ -241,12 +244,16 @@ class BarGraph{
          bars[i].w = lerp(bars[i].origW, bars[i].origH*horizFrac,switchAxisDist);    //taylor likes this
          bars[i].h = lerp(bars[i].origH, interval,switchAxisDist);
          bars[i].Display();
-         
+         //add label to array of labels:
+         horizBarValues[i] = new PieLabel((bars[i].posx + (BUFFER*4)), (bars[i].posy + bars[i].h/2), Float.toString(values[i]), 0f, 0f, 0f);
+         horizBarKeys[i] = new PieLabel((bars[i].posx + (BUFFER)), (bars[i].posy + bars[i].h/2), keys[i], 0f, 0f, 0f);
         }
         switchAxisDist+=.007;
         for(int i = 0; i<bars.length; i++){
           origWidths[i] = bars[i].w; 
         }
+        //display labels
+        displayHorizBarLabels();
         return true;
       }
       else if(curr_slice < values.length){
@@ -260,6 +267,13 @@ class BarGraph{
          temp.firstValueWhite = true;
          temp.Update();
          
+         float currMessage = Float.parseFloat(horizBarValues[curr_slice].message);
+         float newMessage = (currMessage - (values[curr_slice] * fillPieIncrement));
+         if (newMessage < 1){
+           newMessage = 0;
+         }
+         horizBarValues[curr_slice].message = Integer.toString(int(newMessage));
+         
          bars[curr_slice].w -= origWidths[curr_slice] * fillPieIncrement;
          if (bars[curr_slice].w < 0) {
            bars[curr_slice].w = 0; // emmett
@@ -267,13 +281,17 @@ class BarGraph{
            
          for (int i = 0; i<bars.length; i++){
            bars[i].Display();  
+         //  displayHorizBarLabels();
+
          }
-         }        
-         else {
-         curr_slice++;
-         } 
-         return true;
-      }      
+         displayHorizBarLabels();
+
+       }        
+       else {
+       curr_slice++;
+       } 
+       return true;
+     }      
   
 
 
@@ -282,6 +300,13 @@ class BarGraph{
       pie_graph.currAnimating = false;
       currAnimating = true;
       return false;                //TEMPORARY
+  }
+  
+  void displayHorizBarLabels() {
+    for (int i = 0; i < horizBarKeys.length; i++) {
+      horizBarKeys[i].printWord();
+      horizBarValues[i].printWord();
+    }
   }
   float max( float f1, float f2) {
     if (f1 > f2) {

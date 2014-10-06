@@ -52,42 +52,7 @@ class PieGraph{
  void Update() {
    drawPie();
  }
- 
- /*
-void drawPie(){ 
-//   pushMatrix();        //to push the stroke setting so that it can be removed @ end of function
-//   stroke(255);          //TO MAKE THIS WHITE
-    String messageToStore = null;
-    float lastAngle = 0;
-//    for (int i = 0; i < angles.length; i++) {
-      for (int i = angles.length -1; i >=0; --i) {
 
-      messageToStore = null;
-      float shade = map (i+1, 0, angles.length, 60, 255);  //converting it to a shade of green
-      fill(0, shade, 0);
-//      if ((i==0) && (firstValueWhite == true)) {    //to fill the first value wedge as white
-//        fill(255, 255, 255);
-//      }
-      if ((i==values.length -1) && (firstValueWhite == true)) {    //to fill the first value wedge as white
-        fill(255, 255, 255);
-      }
-
-      arc(posx , posy, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
-
-      outlineWedge(posx,posy, lastAngle, lastAngle+radians(angles[i]));
-
-      if (radians(angles[i]) > 0) {
-        messageToStore = keys[i];
-      }
-      storeLabel(posx, posy, lastAngle + (radians(angles[i]))/2, messageToStore, i);
-
-      lastAngle += radians(angles[i]);
-
-    }
-    printLabels();
-//    popMatrix();    //to return to previous stroke setting
-}  
-*/
 
 
 void drawPie(){ 
