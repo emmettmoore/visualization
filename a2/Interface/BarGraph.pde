@@ -273,14 +273,12 @@ class BarGraph{
          curr_slice++;
          } 
          return true;
-      }      
-
-
+      }
       switchAxisDist = 0;
       preAnimFrames = 0;
       pie_graph.currAnimating = false;
       currAnimating = true;
-      return false;                //TEMPORARY
+      return false;
   }
   float max( float f1, float f2) {
     if (f1 > f2) {
