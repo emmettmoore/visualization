@@ -1,8 +1,8 @@
 // Do we want it to display the percentage instead?
 
 class PieGraph{
-      PieLabel[] horizBarKeys;      //TAYLOR  //to hold the labels that will appear for the horizontal bars
-    PieLabel[] horizBarValues;
+  PieLabel[] horizBarKeys;      //to hold the labels that will appear for the horizontal bars
+  PieLabel[] horizBarValues;
   float[] values;
   float[] angles;
   String[] keys;
@@ -42,6 +42,8 @@ class PieGraph{
     pie_key_labels = new PieLabel[angles.length];
     pie_value_labels = new PieLabel[angles.length];
     origWidths = new float[values.length];    //to hold the post-animation heights of the bars/lines 
+    horizBarKeys = new PieLabel[values.length];
+    horizBarValues = new PieLabel[values.length];
     total = 0;
     diameter = w1;      //taylor
     if (h1 < w1) { diameter = h1; }
@@ -169,106 +171,7 @@ void printLabels() {
     line(originx, originy, arcBeginX, arcBeginY);
  }
  
- //returns true if still animating, false when done
- /*
- boolean animateToLine() {
-  if(firstValueWhite == false){  
-        float[] temp = values;
-        values = new float[temp.length +1];
-        int i;
-        for(i = 0; i<values.length-1;i++){
-           values[i] = temp[i];
-        }
-        values[i] = 0;
-        
-        String[] temp1 = keys;
-        keys = new String[keys.length + 1];
-        for(i = 0; i<keys.length-1;i++){
-            keys[i] = temp1[i];
-        }
-        keys[i] = ""; 
-        firstValueWhite = true;
-        Update();
-    }
-    
-    if (preAnimFrames < 100) {
-      Update();
-      preAnimFrames++;
-      return true;
-    } 
-    else if (preAnimFrames==100) {      // taylor start 
-      currAnimating = true;
-      float interval = 6/8f*height/(line_graph.circles.length);  //space between each circle on line graph
-  //    print(line_graph.circles.length + "\n");
-      line_graph.drawCircles();
-      for(int i = 0; i<line_graph.circles.length;i++){
-         //move circles to left side
-  //       print("center of x before: ");
-  //       print(line_graph.circles[i].centerX + "\n");
-  //       print("center of y before: ");
-   //      print(line_graph.circles[i].centerY + "\n");
-         line_graph.circles[i].centerX = 0;
-         line_graph.circles[i].centerY = 10 + i*interval; 
-         line_graph.circles[i].Display();
-         line_graph.drawConnectingLines(); 
-        }
-        preAnimFrames++;
-        calculateShrinkFactor(values[line_graph.indexOfMax] / line_graph.range * line_graph.h);
-        
-        for(int i = 0; i<line_graph.circles.length; i++){
-          origWidths[i] = (values[i]/ line_graph.range * line_graph.h);
-        }
-        return true;
-    
-    }      //taylor end 
-    else if (currWedge < values.length - 1){
-      line_graph.drawConnectingLines();               //taylor
-      if(values[currWedge]>0){
-        values[currWedge] -= fillPieIncrement * total/360;
-        values[values.length-1] += fillPieIncrement * total/360;
-        Update();
-        
-        
-       // taylor adding: 
-       
-        line_graph.circles[currWedge].centerX += origWidths[currWedge] * fillPieIncrement;  //centerX feels dirty
-   //     print("origin width of current wedge: " + origWidths[currWedge] + ", horiz frac: " + horizFrac + ", prod: " + origWidths[currWedge] * horizFrac);
-        if (line_graph.circles[currWedge].centerX > (origWidths[currWedge] * horizFrac)) {      //hmmmm....
-          line_graph.circles[currWedge].centerX = (origWidths[currWedge] * horizFrac);
-        }
-        for (int i = 0; i<line_graph.circles.length; i++){
-            line_graph.circles[i].Display();  
-        }
-          // taylor adding ^ 
-      }
-      else{
-        values[currWedge] = 0;
-        keys[currWedge] = "";
-        currWedge++;
-      }
-      
-      
-              if (currWedge == values.length - 1) {                    //temporary START
-          for(int i = 0; i<line_graph.circles.length;i++){
-         //move circles to left side
-         print("X IS: " + (line_graph.circles[i].centerX/horizFrac) + " AND Y IS: " + "\n");
-         print(line_graph.circles[i].centerY + "and horix frac: " + horizFrac);
-
-        }
-        }           //temporary END
-      
-      
-      
-      return true;
-    }
- //   print("test");
-    currWedge = 0;
-    preAnimFrames = 0;
-    return false;
-  }
-
-*/
-
+//returns true if still animating, false when done.
 boolean animateToLine() {
   drawCirclesAndLines();
       if (preAnimFrames < 100) {
@@ -278,16 +181,10 @@ boolean animateToLine() {
     } 
         else if (currWedge < values.length - 1){
       if(values[currWedge]>0){
-  //      print(valuesCopy[currWedge] + "copy\n");
-  //      print(values[currWedge] + "values\n");
-
         values[currWedge] -= valuesCopy[currWedge] * fillPieIncrement;
         values[values.length-1] += valuesCopy[currWedge] * fillPieIncrement;
- //       if(bar_graph.bars[currWedge].w < origWidths[currWedge]){
-        if(line_graph.circles[currWedge].centerX < (origWidths[currWedge] + 10)){      //current LINE HERE
+        if(line_graph.circles[currWedge].centerX < (origWidths[currWedge] + 10)){  
             line_graph.circles[currWedge].centerX += origWidths[currWedge] * fillPieIncrement;
-
- //         bar_graph.bars[currWedge].w += origWidths[currWedge] * fillPieIncrement;
         }
         for(int i = 0; i<line_graph.circles.length;i++){
            line_graph.circles[i].Display(); 
@@ -305,15 +202,10 @@ boolean animateToLine() {
     }
      else if(switchAxisDist <1){
         for(int i = 0; i<line_graph.circles.length;i++){
-         //move bars to left side
+         //move dots to left side
          line_graph.circles[i].centerX = lerp(10 + origWidths[i],line_graph.circles[i].origX,switchAxisDist); 
          line_graph.circles[i].centerY = lerp(10 + i*interval,line_graph.circles[i].origY,switchAxisDist); 
-         //twist the bars
-//         bar_graph.bars[i].w = lerp(bar_graph.bars[i].origH*horizFrac,bar_graph.bars[i].origW, switchAxisDist);    //taylor likes this
-//         bar_graph.bars[i].h = lerp(interval,bar_graph.bars[i].origH, switchAxisDist);
-//         bar_graph.bars[i].Display();
-          line_graph.circles[i].Display();
-         //add label to array of labels:
+         line_graph.circles[i].Display();
         }
         line_graph.drawConnectingLines();
         switchAxisDist += .01;
@@ -337,8 +229,8 @@ boolean animateToLine() {
     } 
     else if (currWedge < values.length - 1){
       if(values[currWedge]>0){
-        print(valuesCopy[currWedge] + "copy\n");
-        print(values[currWedge] + "values\n");
+//        print(valuesCopy[currWedge] + "copy\n");
+//        print(values[currWedge] + "values\n");
 
         values[currWedge] -= valuesCopy[currWedge] * fillPieIncrement;
         values[values.length-1] += valuesCopy[currWedge] * fillPieIncrement;
@@ -348,6 +240,29 @@ boolean animateToLine() {
         for(int i = 0; i<bar_graph.bars.length;i++){
            bar_graph.bars[i].Display(); 
         }
+        //Taylor add:
+ //        float currMessage = Float.parseFloat(horizBarValues[currWedge].message);
+ //        float newMessage = (currMessage + (values[currWedge]));
+//         float currMessage = Float.parseFloat(horizBarValues[currWedge].message);
+         float newMessage = (bar_graph.values[currWedge] - values[currWedge]);
+         if (newMessage >= bar_graph.values[currWedge]) {
+           newMessage = bar_graph.values[currWedge];
+           horizBarValues[currWedge].message = String.valueOf(newMessage);
+
+         }
+         else {
+            horizBarValues[currWedge].message = Integer.toString(int(newMessage));
+         }
+
+//         horizBarValues[currWedge].message = Integer.toString(int(newMessage));
+        // horizBarValues[currWedge].message = Float.toString(newMessage);          //good
+//         horizBarValues[currWedge].message = String.valueOf(newMessage);
+//         print(newMessage + "\n");
+
+         displayHorizBarLabels();
+
+        //Taylor add^
+        
         Update();
       }
       else{
@@ -426,22 +341,16 @@ boolean animateToLine() {
 
 
        calculateShrinkFactor(line_graph.values[line_graph.indexOfMax] / line_graph.range * line_graph.h);
-//       horizFrac = width / (2* line_graph.bars[bar_graph.indexOfMax].origH);  //his
        interval = 6/8f*height/line_graph.circles.length;
   
        for(int i = 0; i<line_graph.circles.length;i++){
-         //move bars to left side
+         //move dots to left side
          line_graph.circles[i].centerX = 10; 
          line_graph.circles[i].centerY = 10 + i*interval; 
-         //twist the bars
- //        line_graph.bars[i].w = bar_graph.bars[i].origH*horizFrac;    
- //        bar_graph.bars[i].h = interval;
        }
         origWidths = new float[line_graph.circles.length];
         for(int i = 0; i<origWidths.length; i++){
           origWidths[i] = (line_graph.values[i]/ line_graph.range * line_graph.h);
-           //origWidths[i] = line_graph.bars[i].w;
- //          bar_graph.bars[i].w = 0;
         } 
         origWidthInit = true;
 
@@ -468,6 +377,9 @@ boolean animateToLine() {
          //twist the bars
          bar_graph.bars[i].w = bar_graph.bars[i].origH*horizFrac;    
          bar_graph.bars[i].h = interval;
+         
+         horizBarValues[i] = new PieLabel((bar_graph.bars[i].posx + (BUFFER*4)), (bar_graph.bars[i].posy + bar_graph.bars[i].h/2), Float.toString(0f), 0f, 0f, 0f);
+         horizBarKeys[i] = new PieLabel((bar_graph.bars[i].posx + (BUFFER)), (bar_graph.bars[i].posy + bar_graph.bars[i].h/2), bar_graph.keys[i], 0f, 0f, 0f);
        }
         origWidths = new float[bar_graph.bars.length];
         for(int i = 0; i<origWidths.length; i++){
@@ -475,8 +387,16 @@ boolean animateToLine() {
            bar_graph.bars[i].w = 0;
         } 
         origWidthInit = true;
+ //       displayHorizBarLabels();
 
      }
+  }
+  
+    void displayHorizBarLabels() {
+    for (int i = 0; i < horizBarKeys.length; i++) {
+      horizBarKeys[i].printWord();
+      horizBarValues[i].printWord();
+    }
   }
 }
 
