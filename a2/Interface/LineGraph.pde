@@ -235,6 +235,14 @@ class LineGraph{
         return true;
       }
       else if(curr_slice < values.length){
+        if (curr_slice == 0) {                    //temporary START
+          for(int i = 0; i<circles.length;i++){
+         //move circles to left side
+         print("x: " + circles[i].centerX + " and y: " + "\n");
+         print(circles[i].centerY);
+
+        }
+        }           //temporary END
         drawConnectingLines(); 
         if (pieValues[curr_slice] < values[curr_slice]) { // still filling in this slice (curr_slice)
           print("pieRemain: " + pieRemain + "\n");

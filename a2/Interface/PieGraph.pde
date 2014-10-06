@@ -163,6 +163,7 @@ void printLabels() {
  }
  
  //returns true if still animating, false when done
+ 
  boolean animateToLine() {
   if(firstValueWhite == false){  
         float[] temp = values;
@@ -188,61 +189,77 @@ void printLabels() {
       preAnimFrames++;
       return true;
     } 
-    else if (preAnimFrames==100) {      /* taylor start */
+    else if (preAnimFrames==100) {      // taylor start 
       currAnimating = true;
       float interval = 6/8f*height/(line_graph.circles.length);  //space between each circle on line graph
-      print(line_graph.circles.length + "\n");
+  //    print(line_graph.circles.length + "\n");
       line_graph.drawCircles();
       for(int i = 0; i<line_graph.circles.length;i++){
          //move circles to left side
-         print("center of x before: ");
-         print(line_graph.circles[i].centerX + "\n");
-         print("center of y before: ");
-         print(line_graph.circles[i].centerY + "\n");
+  //       print("center of x before: ");
+  //       print(line_graph.circles[i].centerX + "\n");
+  //       print("center of y before: ");
+   //      print(line_graph.circles[i].centerY + "\n");
          line_graph.circles[i].centerX = 0;
          line_graph.circles[i].centerY = 10 + i*interval; 
          line_graph.circles[i].Display();
          line_graph.drawConnectingLines(); 
         }
         preAnimFrames++;
+        calculateShrinkFactor(values[line_graph.indexOfMax] / line_graph.range * line_graph.h);
         
         for(int i = 0; i<line_graph.circles.length; i++){
-          origWidths[i] = line_graph.circles[i].origY; 
-          print(origWidths[i] + "\n");
+          origWidths[i] = (values[i]/ line_graph.range * line_graph.h);
         }
         return true;
     
-    }      /* taylor end */
+    }      //taylor end 
     else if (currWedge < values.length - 1){
       line_graph.drawConnectingLines();               //taylor
-      print(currWedge + "\n");
       if(values[currWedge]>0){
         values[currWedge] -= fillPieIncrement * total/360;
         values[values.length-1] += fillPieIncrement * total/360;
         Update();
         
         
-       /* taylor adding: */
+       // taylor adding: 
        
         line_graph.circles[currWedge].centerX += origWidths[currWedge] * fillPieIncrement;  //centerX feels dirty
- 
+   //     print("origin width of current wedge: " + origWidths[currWedge] + ", horiz frac: " + horizFrac + ", prod: " + origWidths[currWedge] * horizFrac);
+        if (line_graph.circles[currWedge].centerX > (origWidths[currWedge] * horizFrac)) {      //hmmmm....
+          line_graph.circles[currWedge].centerX = (origWidths[currWedge] * horizFrac);
+        }
         for (int i = 0; i<line_graph.circles.length; i++){
             line_graph.circles[i].Display();  
         }
-          /* taylor adding ^ */
+          // taylor adding ^ 
       }
       else{
         values[currWedge] = 0;
         keys[currWedge] = "";
         currWedge++;
       }
+      
+      
+              if (currWedge == values.length - 1) {                    //temporary START
+          for(int i = 0; i<line_graph.circles.length;i++){
+         //move circles to left side
+         print("X IS: " + (line_graph.circles[i].centerX/horizFrac) + " AND Y IS: " + "\n");
+         print(line_graph.circles[i].centerY + "and horix frac: " + horizFrac);
+
+        }
+        }           //temporary END
+      
+      
+      
       return true;
     }
-    print("test");
+ //   print("test");
     currWedge = 0;
     preAnimFrames = 0;
     return false;
   }
+
 
 
   
@@ -280,12 +297,12 @@ void printLabels() {
     return false;
   }
 
-  // Arguments: The originalY position of the largest value in the array of circles/ array of rects
+  // Arguments: The originalY height of the largest value in the array of circles/ array of rects
   // Calculates the fractional value by which a rectangles (graph dot's) original height
   //  must be multiplied in order that the graph of rectangles (circles) can be displayed
   //  so that the longest one runs to the midpoint of the graph.
-    void calculateShrinkFactor(float position) {
-      horizFrac = width / (2* position);  
+    void calculateShrinkFactor(float maxValueHeight) {
+      horizFrac = width / (2* maxValueHeight);  
     }
     
   void checkValueSizes(){
