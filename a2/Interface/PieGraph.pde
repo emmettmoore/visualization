@@ -27,7 +27,7 @@ class PieGraph{
     keys = keys1;
     
     currWedge = 0;
-    fillPieIncrement = .5;
+    fillPieIncrement = 1;
     keys = keys1;
     angles = new float[values.length];
     pie_key_labels = new PieLabel[angles.length];
@@ -170,7 +170,6 @@ void printLabels() {
   
   //returns true if still animating, false when done
   boolean animateToBar() {
-    //if(keys[keys.length-1] != ""){
     if(firstValueWhite == false){  
       print("HEHALKSFDKALSD");
         float[] temp = values;
@@ -188,7 +187,6 @@ void printLabels() {
         }
         keys[i] = ""; 
         firstValueWhite = true;
-
         Update();
     }
     
@@ -197,7 +195,8 @@ void printLabels() {
       preAnimFrames++;
       return true;
     } 
-    else if (currWedge < values.length){
+    else if (currWedge < values.length - 1){
+      print(currWedge + "\n");
       if(values[currWedge]>0){
         values[currWedge] -= fillPieIncrement * total/360;
         values[values.length-1] += fillPieIncrement * total/360;
@@ -210,6 +209,8 @@ void printLabels() {
       }
       return true;
     }
+    print("test");
+    currWedge = 0;
     preAnimFrames = 0;
     return false;
   }
