@@ -15,14 +15,24 @@ int ANIMATING = 2;
 class ChartController{   
   float posx, posy, w, h;
   Rectangle GraphOutline;
-  
-
+  color backgroundColor, hoverColor, barColor;
+  float screenwidth;
+  float screenheight;
+  String[] keys;
+  float[] values;
   int state;
-  ChartController(float screenwidth, float screenheight, float w1, float h1,float posx1, float posy1, String[] keys, float[] values, String[]labels, color barColor, color backgroundColor, color hoverColor){ //taylor likes this
+  ChartController(float screenwidth1, float screenheight1, float w1, float h1,float posx1, float posy1, String[] keys1, float[] values1, String[]labels, color barColor1, color backgroundColor1, color hoverColor1){ //taylor likes this
      posx = posx1;
      posy = posy1;
      w = w1;
      h = h1;
+     backgroundColor = backgroundColor1;
+     hoverColor = hoverColor1;
+     barColor = barColor1;
+     keys = keys1;
+     values = values1;
+     screenwidth = screenwidth1;
+     screenheight = screenheight1;
      lineGraph = barGraph = pieGraph = false;
      line_graph = new LineGraph(posx,posy,w,h, keys, values, labels, backgroundColor, hoverColor);
      bar_graph = new BarGraph(posx,posy,w,h, keys, values, labels, barColor, backgroundColor, hoverColor);
@@ -37,6 +47,7 @@ class ChartController{
     
     if (animQueue.size() == 0) {
       state = NOCHART;
+      resetGraph();
       return;
     } 
     else if (animQueue.size() == 1) {
@@ -100,6 +111,13 @@ class ChartController{
 //     pie_graph.posx = width/2;              //TAYLOR likes this
 //     pie_graph.posy = height/2;  //TAYLOR likes this
      pie_graph.calculateDiameter();
+  }
+  void resetGraph(){
+      line_graph = new LineGraph(posx,posy,w,h, keys, values, labels, backgroundColor, hoverColor);  /////////////////////////////////////////IAN DID THIS FUCKKKKKKK
+      bar_graph = new BarGraph(posx,posy,w,h, keys, values, labels, barColor, backgroundColor, hoverColor);  /////////////////////////////////////////IAN DID THIS FUCKKKKKKK
+      pie_graph = new PieGraph((screenwidth* (3/4f)), (screenheight * (1/2f)), screenwidth/2, screenheight/2, keys, values);  /////////////////////////////////////////IAN DID THIS FUCKKKKKKK AHHHHHH DONT RUIN EVERYTHING
+      fill(250,250,250);
+      rect(0,0, width,height*7/8f); 
   }
 }
 

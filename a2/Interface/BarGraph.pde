@@ -274,6 +274,7 @@ class BarGraph{
          } 
          return true;
       }      
+  
 
 
       switchAxisDist = 0;
