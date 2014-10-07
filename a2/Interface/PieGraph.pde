@@ -191,6 +191,10 @@ boolean animateToLine() {
         }
         line_graph.drawConnectingLines();
 
+       horizBarValues[currWedge].posx = (line_graph.circles[currWedge].centerX + line_graph.circles[currWedge].radius * 2 + BUFFER);  //move value's position in
+        if (horizBarValues[currWedge].posx < (BUFFER*4)){    //minimum value for value's position to come towards left edge
+        horizBarValues[currWedge].posx = BUFFER*4;
+        }
          float newMessage = (line_graph.values[currWedge] - values[currWedge]);
          if (newMessage >= line_graph.values[currWedge]) {
            newMessage = line_graph.values[currWedge];
@@ -247,6 +251,8 @@ boolean animateToLine() {
         for(int i = 0; i<bar_graph.bars.length;i++){
            bar_graph.bars[i].Display(); 
         }
+        
+ 
          float newMessage = (bar_graph.values[currWedge] - values[currWedge]);    //For bar labels
          if (newMessage >= bar_graph.values[currWedge]) {
            newMessage = bar_graph.values[currWedge];
@@ -342,7 +348,10 @@ boolean animateToLine() {
          line_graph.circles[i].centerX = 10; 
          line_graph.circles[i].centerY = 10 + i*interval; 
          
-         horizBarValues[i] = new PieLabel((line_graph.circles[i].centerX + (BUFFER*4)), (line_graph.circles[i].centerY + (line_graph.values[i]/ (line_graph.range * line_graph.h))/2), Float.toString(0f), 0f, 0f, 0f);
+         //         horizBarValues[i] = new PieLabel(circles[i].centerX + circles[i].radius * 2 + BUFFER, (circles[i].centerY + (values[i]/ (range * h))/2), Float.toString(values[i]), 0f, 0f, 0f);
+         horizBarValues[i] = new PieLabel((line_graph.circles[i].centerX + line_graph.circles[i].radius * 2 + BUFFER*4), (line_graph.circles[i].centerY + (line_graph.values[i]/ (line_graph.range * line_graph.h))/2), Float.toString(0f), 0f, 0f, 0f);
+
+//         horizBarValues[i] = new PieLabel((line_graph.circles[i].centerX + (BUFFER*4)), (line_graph.circles[i].centerY + (line_graph.values[i]/ (line_graph.range * line_graph.h))/2), Float.toString(0f), 0f, 0f, 0f);
          horizBarKeys[i] = new PieLabel((line_graph.circles[i].centerX + (BUFFER)), (line_graph.circles[i].centerY + (line_graph.values[i]/ (line_graph.range * line_graph.h))/2), line_graph.keys[i], 0f, 0f, 0f);
        }
         origWidths = new float[line_graph.circles.length];

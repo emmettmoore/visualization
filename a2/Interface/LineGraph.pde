@@ -233,21 +233,30 @@ class LineGraph{
    
 //         horizBarValues[i] = new PieLabel((circles[i].centerX + (BUFFER*4)), (circles[i].centerY + (values[i]/ (range * h))/2), Float.toString(0f), 0f, 0f, 0f);
 //         horizBarKeys[i] = new PieLabel((circles[i].centerX + (BUFFER)), (circles[i].centerY + (values[i]/ (range * h))/2), keys[i], 0f, 0f, 0f);
-         horizBarValues[i] = new PieLabel((BUFFER*4), (circles[i].centerY + (values[i]/ (range * h))/2), Float.toString(values[i]), 0f, 0f, 0f);
-         horizBarKeys[i] = new PieLabel(BUFFER, (circles[i].centerY + (values[i]/ (range * h))/2), keys[i], 0f, 0f, 0f);
+//         horizBarValues[i] = new PieLabel((BUFFER*4), (circles[i].centerY + (values[i]/ (range * h))/2), Float.toString(values[i]), 0f, 0f, 0f);
+         horizBarValues[i] = new PieLabel(circles[i].centerX + circles[i].radius * 2 + BUFFER, (circles[i].centerY + (values[i]/ (range * h))/2), Float.toString(values[i]), 0f, 0f, 0f);
+//         horizBarKeys[i] = new PieLabel(BUFFER, (circles[i].centerY + (values[i]/ (range * h))/2), keys[i], 0f, 0f, 0f);
+         horizBarKeys[i] = new PieLabel(circles[i].centerX - BUFFER, (circles[i].centerY + (values[i]/ (range * h))/2), keys[i], 0f, 0f, 0f);
 
          
          //horizBarValues[i] = new PieLabel((bars[i].posx + (BUFFER*4)), (bars[i].posy + bars[i].h/2), Float.toString(values[i]), 0f, 0f, 0f);
          //horizBarKeys[i] = new PieLabel((bars[i].posx + (BUFFER)), (bars[i].posy + bars[i].h/2), keys[i], 0f, 0f, 0f);
+         
+
         }
         switchAxisDist+=.007;
         for(int i = 0; i<circles.length; i++){
           origWidths[i] = circles[i].centerX;     //assumption: line graph is now displayed horizontally
         }
-//        displayHorizBarLabels();                                        //TAYLOR
+        displayHorizBarLabels(); 
         return true;
       }
       else if(curr_slice < values.length){
+        if (curr_slice == 0) {
+          for (int i = 0; i < circles.length; i ++) {
+           horizBarKeys[i].posx = BUFFER;      
+        }
+        }
         drawConnectingLines(); 
         if (pieValues[curr_slice] < values[curr_slice]) { // still filling in this slice (curr_slice)
           pieValues[curr_slice] += values[curr_slice] * fillPieIncrement;
@@ -261,6 +270,11 @@ class LineGraph{
           
           
         float newMessage = values[curr_slice] - pieValues[curr_slice];
+        horizBarValues[curr_slice].posx = (circles[curr_slice].centerX + circles[curr_slice].radius * 2 + BUFFER);  //move value's position in
+        horizBarKeys[curr_slice].posx = BUFFER;    //try
+        if (horizBarValues[curr_slice].posx < (BUFFER*4)){    //minimum value for value's position to come towards left edge
+        horizBarValues[curr_slice].posx = BUFFER*4;
+        }
          if (newMessage < 1){
            newMessage = 0;
            horizBarValues[curr_slice].message = String.valueOf(newMessage);
