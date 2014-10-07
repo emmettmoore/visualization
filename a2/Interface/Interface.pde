@@ -1,15 +1,3 @@
-// TO DO:
-//    - window set-resizable while in transition-- set to false
-//    - make bars half the screen
-//    - see if clicking bar to pie, go, clear, then bar to pie works
-//    - make the "BEGIN/CLEAR" button label font size depend upon the screensize.
-//    - display labels on vertical line graph in line to pie
-//   - make the line graph have its max value go to half of the screen width when its displayed horizontally
-//     during transition from line to pie
-//  - label the horizontal bars in bar to pie
-//  - in the beginning of pie to line, where line_graph.update() is called, try calling circles
-//    instead so graph doesnt flash onto screen
-
 int LINECHART = 0;
 int PIECHART = 1;
 int BARCHART = 2;

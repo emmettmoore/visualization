@@ -24,7 +24,7 @@ class BarGraph{
     float horizFrac;       
     float pieRemain;
     int curr_slice;
-    PieLabel[] horizBarKeys;      //TAYLOR  //to hold the labels that will appear for the horizontal bars
+    PieLabel[] horizBarKeys;       //to hold the labels that will appear for the horizontal bars
     PieLabel[] horizBarValues;
     float total;
     float[] origWidths;
@@ -45,8 +45,8 @@ class BarGraph{
       numWedges = 0;
       curr_slice = 0;
       origWidths = new float[values.length];
-      findMaxMin();                                  //taylor
-      range = maxOfValues - SMALLEST_Y_AXIS_LABEL;    //taylor
+      findMaxMin();                         
+      range = maxOfValues - SMALLEST_Y_AXIS_LABEL;    
       total = 0;
       for (int i = 0;i<values.length;i++){
           total += values[i];
@@ -156,11 +156,11 @@ class BarGraph{
   void findMaxMin(){
     maxOfValues = values[0];
     minOfValues = values[0];
-    indexOfMax = 0;                        //TAYLOR SCREEN
+    indexOfMax = 0;                     
     for(int i = 1; i<values.length;i++){
        if(maxOfValues < values[i]){
          maxOfValues = values[i]; 
-         indexOfMax = i;                  //TAYLOR SCREEN
+         indexOfMax = i;            
        }
        if(minOfValues > values[i]){
          minOfValues = values[i];
@@ -171,7 +171,7 @@ class BarGraph{
   //  must be multiplied in order that the graph of rectangles can be displayed
   //  so that the longest one runs to the midpoint of the graph.
   void calculateShrinkFactor() {
-      horizFrac = width / (2* bars[indexOfMax].origH);        //TAYLOR SCREEN
+      horizFrac = width / (2* bars[indexOfMax].origH);    
 
   }
     //returns true if still animating, false when done
@@ -220,7 +220,7 @@ class BarGraph{
       switchAxisDist = 0;
       fillPieIncrement = 0;
       numWedges = 0;
-      return false;                  //TEMPORARY
+      return false;                 
     }
   }
   
@@ -235,13 +235,13 @@ class BarGraph{
       if (switchAxisDist < 1){
                    float interval = 6/8f*height/bars.length;
 
-        calculateShrinkFactor();      //taylor likes this
+        calculateShrinkFactor();     
         for(int i = 0; i<bars.length;i++){
          //move bars to left side
          bars[i].posx = lerp(bars[i].origPosx,10,switchAxisDist); 
          bars[i].posy = lerp(bars[i].origPosy,10 + i*interval,switchAxisDist); 
          //twist the bars
-         bars[i].w = lerp(bars[i].origW, bars[i].origH*horizFrac,switchAxisDist);    //taylor likes this
+         bars[i].w = lerp(bars[i].origW, bars[i].origH*horizFrac,switchAxisDist);  
          bars[i].h = lerp(bars[i].origH, interval,switchAxisDist);
          bars[i].Display();
          //add label to array of labels:
@@ -280,8 +280,6 @@ class BarGraph{
            
          for (int i = 0; i<bars.length; i++){
            bars[i].Display();  
-         //  displayHorizBarLabels();
-
          }
          displayHorizBarLabels();
 

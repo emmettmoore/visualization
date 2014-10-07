@@ -1,5 +1,3 @@
-//doesn't work with negatives as of now
-//let the user specify the color of the hovered bar color
 int NUM_INTERVALS = 10;
 float SMALLEST_Y_AXIS_LABEL = 0;  //y axis value for the graph to start at.
 //chart states
@@ -113,10 +111,8 @@ class ChartController{
      line_graph.h = height*6/10;
      line_graph.posx = width* 2/10;
      line_graph.posy = height*1/10;
-          pie_graph.posx = width * (3/4f);              //TAYLOR likes this
+     pie_graph.posx = width * (3/4f);
      pie_graph.posy = height * (1/2f); 
-//     pie_graph.posx = width/2;              //TAYLOR likes this
-//     pie_graph.posy = height/2;  //TAYLOR likes this
      pie_graph.calculateDiameter();
   }
 }

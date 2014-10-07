@@ -1,5 +1,3 @@
-// Do we want it to display the percentage instead?
-
 class PieGraph{
   PieLabel[] horizBarKeys;      //to hold the labels that will appear for the horizontal bars
   PieLabel[] horizBarValues;
@@ -45,7 +43,7 @@ class PieGraph{
     horizBarKeys = new PieLabel[values.length];
     horizBarValues = new PieLabel[values.length];
     total = 0;
-    diameter = w1;      //taylor
+    diameter = w1;  
     if (h1 < w1) { diameter = h1; }
     preAnimFrames = 0;      
     //calculate the sum of the values, AND correctly populate maxOfValues & index of max: 
@@ -75,8 +73,6 @@ class PieGraph{
  }
 
 void drawPie(){ 
-//   pushMatrix();        //to push the stroke setting so that it can be removed @ end of function
-//   stroke(255);          //TO MAKE THIS WHITE
     //calculate the sum of the values:
     total = 0;
     for (int i = 0; i < values.length; i++) {
@@ -113,14 +109,12 @@ void drawPie(){
 
     }
     printLabels();
-//    popMatrix();    //to return to previous stroke setting
 } 
 
 
 
 
 
-//void storeLabel(float originx, float originy, float diameter, float angle, String message, int position) {
 void storeLabel(float originx, float originy, float angle, String message, int position) {
   int rotationDeg = 0;
   float radius = diameter/2;
@@ -279,7 +273,7 @@ boolean animateToLine() {
          bar_graph.bars[i].posx = lerp(10,bar_graph.bars[i].origPosx,switchAxisDist); 
          bar_graph.bars[i].posy = lerp(10 + i*interval,bar_graph.bars[i].origPosy,switchAxisDist); 
          //twist the bars
-         bar_graph.bars[i].w = lerp(bar_graph.bars[i].origH*horizFrac,bar_graph.bars[i].origW, switchAxisDist);    //taylor likes this
+         bar_graph.bars[i].w = lerp(bar_graph.bars[i].origH*horizFrac,bar_graph.bars[i].origW, switchAxisDist);
          bar_graph.bars[i].h = lerp(interval,bar_graph.bars[i].origH, switchAxisDist);
          bar_graph.bars[i].Display();
          //add label to array of labels:
@@ -347,11 +341,7 @@ boolean animateToLine() {
          //move dots to left side
          line_graph.circles[i].centerX = 10; 
          line_graph.circles[i].centerY = 10 + i*interval; 
-         
-         //         horizBarValues[i] = new PieLabel(circles[i].centerX + circles[i].radius * 2 + BUFFER, (circles[i].centerY + (values[i]/ (range * h))/2), Float.toString(values[i]), 0f, 0f, 0f);
          horizBarValues[i] = new PieLabel((line_graph.circles[i].centerX + line_graph.circles[i].radius * 2 + BUFFER*4), (line_graph.circles[i].centerY + (line_graph.values[i]/ (line_graph.range * line_graph.h))/2), Float.toString(0f), 0f, 0f, 0f);
-
-//         horizBarValues[i] = new PieLabel((line_graph.circles[i].centerX + (BUFFER*4)), (line_graph.circles[i].centerY + (line_graph.values[i]/ (line_graph.range * line_graph.h))/2), Float.toString(0f), 0f, 0f, 0f);
          horizBarKeys[i] = new PieLabel((line_graph.circles[i].centerX + (BUFFER)), (line_graph.circles[i].centerY + (line_graph.values[i]/ (line_graph.range * line_graph.h))/2), line_graph.keys[i], 0f, 0f, 0f);
        }
         origWidths = new float[line_graph.circles.length];
@@ -392,8 +382,6 @@ boolean animateToLine() {
            bar_graph.bars[i].w = 0;
         } 
         origWidthInit = true;
- //       displayHorizBarLabels();
-
      }
   }
   

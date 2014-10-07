@@ -49,8 +49,8 @@ class LineGraph{
       origWidths = new float[values.length];
       horizBarKeys = new PieLabel[values.length];
       horizBarValues = new PieLabel[values.length];
-      findMaxMin();                                //taylor                      
-      range = maxOfValues - SMALLEST_Y_AXIS_LABEL; //taylor
+      findMaxMin();                                                    
+      range = maxOfValues - SMALLEST_Y_AXIS_LABEL; 
       total = 0;
       for (int i = 0;i<values.length;i++){
           total += values[i];
@@ -223,30 +223,20 @@ class LineGraph{
          currAnimating = true;
       float interval = 6/8f*height/circles.length;
       if (switchAxisDist < 1){
-        calculateShrinkFactor();      //taylor likes this
+        calculateShrinkFactor();      
         for(int i = 0; i<circles.length;i++){
          //move circles to left side
          circles[i].centerX = lerp(circles[i].origX,10 + values[i],switchAxisDist);
          circles[i].centerY = lerp(circles[i].origY,10 + i*interval,switchAxisDist); 
          circles[i].Display();
          drawConnectingLines(); 
-   
-//         horizBarValues[i] = new PieLabel((circles[i].centerX + (BUFFER*4)), (circles[i].centerY + (values[i]/ (range * h))/2), Float.toString(0f), 0f, 0f, 0f);
-//         horizBarKeys[i] = new PieLabel((circles[i].centerX + (BUFFER)), (circles[i].centerY + (values[i]/ (range * h))/2), keys[i], 0f, 0f, 0f);
-//         horizBarValues[i] = new PieLabel((BUFFER*4), (circles[i].centerY + (values[i]/ (range * h))/2), Float.toString(values[i]), 0f, 0f, 0f);
          horizBarValues[i] = new PieLabel(circles[i].centerX + circles[i].radius * 2 + BUFFER, (circles[i].centerY + (values[i]/ (range * h))/2), Float.toString(values[i]), 0f, 0f, 0f);
-//         horizBarKeys[i] = new PieLabel(BUFFER, (circles[i].centerY + (values[i]/ (range * h))/2), keys[i], 0f, 0f, 0f);
          horizBarKeys[i] = new PieLabel(circles[i].centerX - BUFFER, (circles[i].centerY + (values[i]/ (range * h))/2), keys[i], 0f, 0f, 0f);
-
-         
-         //horizBarValues[i] = new PieLabel((bars[i].posx + (BUFFER*4)), (bars[i].posy + bars[i].h/2), Float.toString(values[i]), 0f, 0f, 0f);
-         //horizBarKeys[i] = new PieLabel((bars[i].posx + (BUFFER)), (bars[i].posy + bars[i].h/2), keys[i], 0f, 0f, 0f);
-         
 
         }
         switchAxisDist+=.007;
         for(int i = 0; i<circles.length; i++){
-          origWidths[i] = circles[i].centerX;     //assumption: line graph is now displayed horizontally
+          origWidths[i] = circles[i].centerX;     //line graph is now displayed horizontally
         }
         displayHorizBarLabels(); 
         return true;
@@ -271,7 +261,7 @@ class LineGraph{
           
         float newMessage = values[curr_slice] - pieValues[curr_slice];
         horizBarValues[curr_slice].posx = (circles[curr_slice].centerX + circles[curr_slice].radius * 2 + BUFFER);  //move value's position in
-        horizBarKeys[curr_slice].posx = BUFFER;    //try
+        horizBarKeys[curr_slice].posx = BUFFER;    
         if (horizBarValues[curr_slice].posx < (BUFFER*4)){    //minimum value for value's position to come towards left edge
         horizBarValues[curr_slice].posx = BUFFER*4;
         }

@@ -41,7 +41,6 @@ void setup(){
   drawGraphs();
   buttonInterface = new animInterface();
   curr_state = -1;
-  //check_state(buttonInterface);
 }
 
 void draw(){
@@ -49,7 +48,6 @@ void draw(){
   size(width, height);
   buttonInterface.update();
   redrawChart();
-  //check_state(buttonInterface);
   chart.Update(buttonInterface.animQueue);   
 }
 void mouseClicked(){

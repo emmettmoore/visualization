@@ -4,7 +4,7 @@ class PieLabel{
   float posx;
   float posy;
   PFont textFont;
-  float rotationDegree;      //TEMP
+  float rotationDegree;  
   float textColor;
   PieLabel(float pos_x, float pos_y, String message1, float degree, float rotation_degree, float fillColor) {
     posx= pos_x;
