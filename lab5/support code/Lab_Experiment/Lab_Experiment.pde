@@ -1,9 +1,12 @@
+
 import controlP5.*;
+import java.util.Random;
 
 final int DECIDE_YOURSELF = -1; // This is a placeholder for variables you will replace.
 
 /**
- * This is a global variable for the dataset in your visualization. You'll be overwriting it each trial.
+ * This is a global variable for the dataset in your visualization. 
+ You'll be overwriting it each trial.
  */
 Data d = null;
 
@@ -69,10 +72,18 @@ void draw() {
                   */
                  rect(chartLeftX, chartLeftY, chartSize, chartSize);
                  break;
-            case 0:
-                /**
-                 ** finish this: 1st visualization
-                 **/
+            case 0:          //Dots are contiguous
+              
+                d = new Data();
+                int min = 1;
+                int max = 9;
+                int random1 = randomInt(min, max);
+                int random2 = (random1 + 1) % 9;
+                markFlags(random1, random2);
+                
+                
+
+
                 break;
             case 1:
                 /**
@@ -185,3 +196,14 @@ public void reset(){
     pagelast = false;
     index = -1;
 }
+
+public int randomInt(int min, int max) {
+    Random rand = new Random();
+    int randomNum = rand.nextInt((max - min) + 1) + min;
+    return randomNum;
+}
+
+public void markFlags(int index1, int index2) {
+    d.setMark(index1, true);
+    d.setMark(index2, true);
+}  

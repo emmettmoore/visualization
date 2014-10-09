@@ -10,6 +10,7 @@ float margin = 50, margin_small = 20, margin_top = 40, chartSize = 300, answerHe
 float totalWidth = -1, totalHeight = -1;
 float chartLeftX = -1, chartLeftY = -1;
 int NUM = 10;
+int TOTAL = 0;
 
 int fontSize = 14, fontSizeBig = 20;
 int textFieldWidth = 200, textFieldHeight = 30;
