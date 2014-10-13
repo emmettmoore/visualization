@@ -20,6 +20,9 @@ class Data {
             return this.value;
         }
         
+        void setValue(float val) {
+          this.value  = val;
+        }
     }
 
     private DataPoint[] data = null;
@@ -33,7 +36,9 @@ class Data {
         for (int i = 0; i < NUM; i++) {
           Random rand = new Random();
           int randomNum = rand.nextInt((max - min) + 1) + min;
-          data[i].value = randomNum;
+          data[i] = new DataPoint(randomNum, false);        //new
+//          data[i].value = randomNum;
+//          data[i].setValue(randomNum);    //new
         }
         /**
          ** finish this: how to generate a dataset and mark two of the datapoints
@@ -47,6 +52,9 @@ class Data {
     }
     boolean isMarked(int index) {
       return data[index].isMarked();
+    }
+    float getValue(int index) {
+      return data[index].getValue();
     }
         /**
          ** finish this: the rest methods and variables you may want to use

@@ -101,17 +101,16 @@ void drawPie(){
       outlineWedge(posx,posy, lastAngle, lastAngle+radians(angles[i]));
 
       if (radians(angles[i]) > 0) {
-        messageToStore = keys[i];
+ //       messageToStore = keys[i];        //COMMENTED OUT FOR LAB 5
       }
       storeLabel(posx, posy, lastAngle + (radians(angles[i]))/2, messageToStore, i);
+      
 
       lastAngle += radians(angles[i]);
 
     }
     printLabels();
 } 
-
-
 
 
 
@@ -132,8 +131,9 @@ void storeLabel(float originx, float originy, float angle, String message, int p
       rotationDeg = (int)(-80 * (abs((float)(sin(angle)))));
     }
   }
-  pie_key_labels[position] = new PieLabel(textX, textY, message, angle, rotationDeg, 0);
-  
+//  pie_key_labels[position] = new PieLabel(textX, textY, message, angle, rotationDeg, 0);  //TEMP REPLACED FOR LAB 5
+    pie_key_labels[position] = new PieLabel(textX, textY, "", angle, rotationDeg, 0);
+
   
   rotationDeg = 0;
   String numerical = Float.toString(values[position]);
@@ -162,7 +162,11 @@ void printLabels() {
     float arcBeginY = originy + radius *sin(angleStart);
     float arcEndX = originx + radius * cos(angleEnd);
     float arcEndY = originy + radius * sin(angleEnd);
+ //   pushMatrix();                  //ADDED FOR LAB 5
+ //         fill(0, 0, 0);          //ADDED FOR LAB 5
+
     line(originx, originy, arcBeginX, arcBeginY);
+ //   popMatrix();                //ADDED FOR LAB 5
  }
  
   void checkValueSizes(){
@@ -192,6 +196,15 @@ void printLabels() {
       Update();
     }
   }
+  //FOR LAB 5 ADDED
+  float valueLabelPosX(int index) {    //returns the position X of the value Label at index
+  return pie_value_labels[index].posx;
+  }
+  //FOR LAB 5 ADDED
+    float valueLabelPosY(int index) {    //returns the position X of the value Label at index
+  return pie_value_labels[index].posy;
+  }
+    
   
 }
 

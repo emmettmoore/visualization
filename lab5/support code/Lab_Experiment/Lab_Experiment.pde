@@ -1,3 +1,8 @@
+//CURRENT PROGRESS: got the contiguous dot display to work.
+//                  Now need to have CHART_type chosen randomly,
+//                  also need to have the rest of the pies created, fill out the appropriate switches.
+
+//TO DO :          get the wedge outlines to display, get rid of gradual coloring of pies
 
 import controlP5.*;
 import java.util.Random;
@@ -10,6 +15,10 @@ final int DECIDE_YOURSELF = -1; // This is a placeholder for variables you will 
  */
 Data d = null;
 
+float[] pieValues;
+PieGraph pie;
+int PIEBUFFER = 5;    //number of pixels of blank space displayed between edges of pie graph and rectangle containing graph
+boolean isDisplaying = false;  //If the pie for the current switch has already been created and displayed once
 void setup() {
     totalWidth = displayWidth;
     totalHeight = displayHeight;
@@ -53,14 +62,15 @@ void draw() {
             clearIntro();
             drawTextField();
             drawInstruction();
+
             page2 = false;
         }
 
         /**
          **  Finish this: decide the chart type. You can do this randomly.
          **/
-        int chartType = DECIDE_YOURSELF;
-
+ //       int chartType = DECIDE_YOURSELF;
+        int chartType = 0;          //TEMPORARY
         switch (chartType) {
             case -1: // This is a placeholder, you can remove it and use the other cases for the final version
                  stroke(0);
@@ -73,17 +83,30 @@ void draw() {
                  rect(chartLeftX, chartLeftY, chartSize, chartSize);
                  break;
             case 0:          //Dots are contiguous
-              
-                d = new Data();
+              if (isDisplaying) {
+                pie.Update();
+                drawMarks();       
+                break;
+              }
+                d = new Data();        
                 int min = 1;
                 int max = 9;
                 int random1 = randomInt(min, max);
                 int random2 = (random1 + 1) % 9;
                 markFlags(random1, random2);
-                
-                
 
-
+                //(Copied and pasted from support code "case -1")>>
+                 stroke(0);
+                 strokeWeight(1);
+                 fill(255);
+                 rectMode(CORNER);
+                 rect(chartLeftX, chartLeftY, chartSize, chartSize);
+                 //^^<<(Copied and pasted from support code "case -1")
+                 
+                populateValuesArray();
+                pie = new PieGraph(chartLeftX + chartSize/2, chartLeftY + chartSize/2, chartSize - PIEBUFFER, chartSize - PIEBUFFER, null, pieValues);
+                pie.Update();
+                isDisplaying = true;
                 break;
             case 1:
                 /**
@@ -149,6 +172,7 @@ public void next() {
             error = DECIDE_YOURSELF;
 
             saveJudgement();
+            isDisplaying = false;      //TAYLOR
         }
 
         /**
@@ -207,3 +231,23 @@ public void markFlags(int index1, int index2) {
     d.setMark(index1, true);
     d.setMark(index2, true);
 }  
+
+public void populateValuesArray() {
+  pieValues = new float[NUM];
+  for (int i = 0; i < NUM; i++) {
+    pieValues[i] = d.getValue(i);
+  }
+}
+
+public void drawMarks() {
+  float dotPosX;
+  float dotPosY;
+  for (int i  = 0; i < NUM; i++) {
+    if (d.isMarked(i)) {
+      dotPosX = pie.valueLabelPosX(i);
+      dotPosY = pie.valueLabelPosY(i);
+      
+      ellipse(dotPosX, dotPosY, 15, 15);
+    }
+  }
+}
