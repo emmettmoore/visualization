@@ -1,8 +1,13 @@
-//CURRENT PROGRESS: got the contiguous dot display to work.
-//                  Now need to have CHART_type chosen randomly,
-//                  also need to have the rest of the pies created, fill out the appropriate switches.
+//CURRENT PROGRESS:     - in bottom function right after where true mark values are found, 
+//                        read the comments to find the next thing that we were instructed to
+//                        complete in the source code
 
-//TO DO :          get the wedge outlines to display, get rid of gradual coloring of pies
+//TO DO :          - get the wedge outlines to display, get rid of gradual coloring of pies
+//                - choose how to have participant IDs found
+//                - have chartType chosen randomly
+//  questions:
+//                - should switch cases 3 4 and 5 be repeats of the above ones? they are now.
+
 
 import controlP5.*;
 import java.util.Random;
@@ -19,6 +24,7 @@ float[] pieValues;
 PieGraph pie;
 int PIEBUFFER = 5;    //number of pixels of blank space displayed between edges of pie graph and rectangle containing graph
 boolean isDisplaying = false;  //If the pie for the current switch has already been created and displayed once
+int chartType = -1;          //First display will be for switch 0; "draw()" begins by iterating chartType up
 void setup() {
     totalWidth = displayWidth;
     totalHeight = displayHeight;
@@ -51,6 +57,10 @@ void setup() {
 
 void draw() {
     textSize(fontSize);
+    int min;
+    int max;
+    int random1;
+    int random2;
     /**
      ** add more: you may need to draw more stuff on your screen
      **/
@@ -70,7 +80,13 @@ void draw() {
          **  Finish this: decide the chart type. You can do this randomly.
          **/
  //       int chartType = DECIDE_YOURSELF;
-        int chartType = 0;          //TEMPORARY
+ 
+ 
+//For going through switch cases in order: 0, 1, 2, 3, 4
+ if ((!isDisplaying) && (!pagelast)) {
+   chartType ++;
+ }
+   
         switch (chartType) {
             case -1: // This is a placeholder, you can remove it and use the other cases for the final version
                  stroke(0);
@@ -89,10 +105,10 @@ void draw() {
                 break;
               }
                 d = new Data();        
-                int min = 1;
-                int max = 9;
-                int random1 = randomInt(min, max);
-                int random2 = (random1 + 1) % 9;
+                min = 1;
+                max = 9;
+                random1 = randomInt(min, max);
+                random2 = (random1 + 1) % 9;
                 markFlags(random1, random2);
 
                 //(Copied and pasted from support code "case -1")>>
@@ -108,26 +124,141 @@ void draw() {
                 pie.Update();
                 isDisplaying = true;
                 break;
-            case 1:
-                /**
-                 ** finish this: 2nd visualization
-                 **/
+            case 1://Dots are NOT contiguous
+                if (isDisplaying) {
+                   pie.Update();
+                   drawMarks();       
+                   break;
+                 }
+            
+                d = new Data();        
+                min = 1;
+                max = 9;
+                random1 = randomInt(min, max);
+                random2 = randomInt(min, max);
+                while ((random1 - 1 == random2) || (random1 + 1 == random2) || (random1 == random2)) {
+                  random2 = randomInt(min, max);          //ensure that dots are not same, and are not contiguous
+                }
+                markFlags(random1, random2);
+
+                //(Copied and pasted from support code "case -1")>>
+                 stroke(0);
+                 strokeWeight(1);
+                 fill(255);
+                 rectMode(CORNER);
+                 rect(chartLeftX, chartLeftY, chartSize, chartSize);
+                 //^^<<(Copied and pasted from support code "case -1")
+
+                populateValuesArray();
+                pie = new PieGraph(chartLeftX + chartSize/2, chartLeftY + chartSize/2, chartSize - PIEBUFFER, chartSize - PIEBUFFER, null, pieValues);
+                pie.Update();
+                isDisplaying = true;
                 break;
-            case 2:
-                /**
-                 ** finish this: 3rd visualization
-                 **/
+
+            case 2:      //wedges are in increasing size. dots are allowed to be contig
+               if (isDisplaying) {
+                   pie.Update();
+                   drawMarks();       
+                   break;
+                 }
+            
+                d = new Data();        
+                min = 1;
+                max = 9;
+                random1 = randomInt(min, max);
+                random2 = randomInt(min, max);
+                while  (random1 == random2) {
+                  random2 = randomInt(min, max);          //ensure that dots are not same
+                }
+                markFlags(random1, random2);
+
+                //(Copied and pasted from support code "case -1")>>
+                 stroke(0);
+                 strokeWeight(1);
+                 fill(255);
+                 rectMode(CORNER);
+                 rect(chartLeftX, chartLeftY, chartSize, chartSize);
+                 //^^<<(Copied and pasted from support code "case -1")
+                d.sortData();
+                populateValuesArray();
+                pie = new PieGraph(chartLeftX + chartSize/2, chartLeftY + chartSize/2, chartSize - PIEBUFFER, chartSize - PIEBUFFER, null, pieValues);
+                pie.Update();
+                isDisplaying = true;
+
                 break;
-            case 3:
+            case 3:  //THIS IS CURRENTLY A DUPLICATE OF CASE 1
                 /**
                  ** finish this: 4th visualization
                  **/
+
+              if (isDisplaying) {
+                pie.Update();
+                drawMarks();       
                 break;
-            case 4:
+              }
+                d = new Data();        
+                min = 1;
+                max = 9;
+                random1 = randomInt(min, max);
+                random2 = (random1 + 1) % 9;
+                markFlags(random1, random2);
+
+                //(Copied and pasted from support code "case -1")>>
+                 stroke(0);
+                 strokeWeight(1);
+                 fill(255);
+                 rectMode(CORNER);
+                 rect(chartLeftX, chartLeftY, chartSize, chartSize);
+                 //^^<<(Copied and pasted from support code "case -1")
+                 
+                populateValuesArray();
+                pie = new PieGraph(chartLeftX + chartSize/2, chartLeftY + chartSize/2, chartSize - PIEBUFFER, chartSize - PIEBUFFER, null, pieValues);
+                pie.Update();
+                isDisplaying = true;
+                break;
+
+
+
+
+            case 4:    //THIS IS CURRENTLY A DUPLICATE OF CASE 2
                 /**
                  ** finish this: 5th visualization
                  **/
+
+
+               if (isDisplaying) {
+                   pie.Update();
+                   drawMarks();       
+                   break;
+                 }
+            
+                d = new Data();        
+                min = 1;
+                max = 9;
+                random1 = randomInt(min, max);
+                random2 = randomInt(min, max);
+                while  (random1 == random2) {
+                  random2 = randomInt(min, max);          //ensure that dots are not same
+                }
+                markFlags(random1, random2);
+
+                //(Copied and pasted from support code "case -1")>>
+                 stroke(0);
+                 strokeWeight(1);
+                 fill(255);
+                 rectMode(CORNER);
+                 rect(chartLeftX, chartLeftY, chartSize, chartSize);
+                 //^^<<(Copied and pasted from support code "case -1")
+                d.sortData();
+                populateValuesArray();
+                pie = new PieGraph(chartLeftX + chartSize/2, chartLeftY + chartSize/2, chartSize - PIEBUFFER, chartSize - PIEBUFFER, null, pieValues);
+                pie.Update();
+                isDisplaying = true;
+
                 break;
+
+
+
         }
 
         drawWarning();
@@ -160,9 +291,25 @@ public void next() {
             float ans = parseFloat(cp5.get(Textfield.class, "answer").getText());
 
             /**
-             ** Finish this: decide how to compute the right answer
+             ** Finish this: decide how to compute the right answer (DONE)
              **/
-            truePerc = DECIDE_YOURSELF; // hint: from your list of DataPoints, extract the two marked ones to calculate the "true" percentage
+             float value1 = -1;
+             float value2 = -1;
+             for (int i  = 0; i < NUM; i++) {
+                if (d.isMarked(i)) {
+                  if (value1 == -1) {
+                     value1 = d.getValue(i);
+                     print("Value 1 is at index: " + i + ", and is the value of: " + value1 + "\n");
+                  } else {
+                    value2 = d.getValue(i);
+                    print("Value 2 is at index: " + i + ", and is the value of: " + value2 + "\n");
+                  }
+                }
+             }
+             truePerc = (abs(value1 - value2)) / 100.0;
+             print(truePerc + "\n");
+                 
+            //truePerc = DECIDE_YOURSELF; // hint: from your list of DataPoints, extract the two marked ones to calculate the "true" percentage (DONE)
 
             reportPerc = ans / 100.0; // this is the participant's response
             

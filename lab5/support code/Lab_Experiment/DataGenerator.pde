@@ -56,6 +56,18 @@ class Data {
     float getValue(int index) {
       return data[index].getValue();
     }
+    
+    void sortData() {      //will sort the values in ascending order
+      for (int i  = 1; i < NUM; i++) {
+        float index = data[i].getValue();
+        int j = i;
+        while ((j > 0) && (data[j-1].getValue() > index)) {
+          data[j].setValue(data[j-1].getValue());
+          j--;
+        }
+        data[j].setValue(index);
+      }
+    }
         /**
          ** finish this: the rest methods and variables you may want to use
          ** 
