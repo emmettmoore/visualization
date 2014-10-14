@@ -318,6 +318,7 @@ public void next() {
              **/
             error = DECIDE_YOURSELF;
 //            error = Math.log2(abs(reportPerc - truePerc) + (1/8));
+ //             error = (log2(abs(reportPerc - truePerc) + 1/8));
 print("error");
             saveJudgement();
             isDisplaying = false;      //TAYLOR
@@ -399,3 +400,7 @@ public void drawMarks() {
     }
   }
 }
+  double log2(double x) {
+    return Math.log(x) / Math.log(2.0d);
+  }
+
