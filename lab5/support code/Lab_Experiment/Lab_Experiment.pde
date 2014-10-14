@@ -317,7 +317,8 @@ public void next() {
              ** Finish this: decide how to compute the log error from Cleveland and McGill (see the handout for details)
              **/
             error = DECIDE_YOURSELF;
-
+//            error = Math.log2(abs(reportPerc - truePerc) + (1/8));
+print("error");
             saveJudgement();
             isDisplaying = false;      //TAYLOR
         }
