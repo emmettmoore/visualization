@@ -1,12 +1,7 @@
-//CURRENT PROGRESS:     - in bottom function right after where true mark values are found, 
-//                        read the comments to find the next thing that we were instructed to
-//                        complete in the source code
-
-//TO DO :          - get the wedge outlines to display, get rid of gradual coloring of pies
+//TO DO : 
 //                - choose how to have participant IDs found
-//                - have chartType chosen randomly
-//  questions:
-//                - should switch cases 3 4 and 5 be repeats of the above ones? they are now.
+
+
 
 
 import controlP5.*;
@@ -19,13 +14,15 @@ final int DECIDE_YOURSELF = -1; // This is a placeholder for variables you will 
  You'll be overwriting it each trial.
  */
 Data d = null;
-
 float[] pieValues;
+int[] ORDER;       //To hold the three elements: 0, 1, 2 in a random order.
+int POSITION;      //To hold the current index position within the ORDER array
+int chartType;  //To hold the current chart type, which will be ORDER[POSITION]
 PieGraph pie;
 int PIEBUFFER = 5;    //number of pixels of blank space displayed between edges of pie graph and rectangle containing graph
 boolean isDisplaying = false;  //If the pie for the current switch has already been created and displayed once
-int chartType = -1;          //First display will be for switch 0; "draw()" begins by iterating chartType up
 void setup() {
+
     totalWidth = displayWidth;
     totalHeight = displayHeight;
     chartLeftX = totalWidth / 2.0 - chartSize / 2.0;
@@ -46,13 +43,18 @@ void setup() {
     /**
      ** Finish this: decide how to generate the dataset you are using (see DataGenerator)
      **/
-    d = null;
-
+    d = null;   
+    
+    ORDER = new int[3];       
+    populateOrderArray();     
+    chartType = ORDER[0];     
+    POSITION = -1;             
     /**
      ** Finish this: how to generate participant IDs
      ** You can write a short alphanumeric ID generator (cool) or modify this for each participant (less cool).
      **/
-    partipantID = DECIDE_YOURSELF;
+//    partipantID = DECIDE_YOURSELF;
+    partipantID = PARTID;
 }
 
 void draw() {
@@ -79,14 +81,13 @@ void draw() {
         /**
          **  Finish this: decide the chart type. You can do this randomly.
          **/
- //       int chartType = DECIDE_YOURSELF;
  
- 
-//For going through switch cases in order: 0, 1, 2, 3, 4
- if ((!isDisplaying) && (!pagelast)) {
-   chartType ++;
- }
-   
+        if (!isDisplaying) {
+          if (POSITION < ORDER.length-1) {
+            POSITION = POSITION + 1;
+            chartType = ORDER[POSITION];
+          }
+        }
         switch (chartType) {
             case -1: // This is a placeholder, you can remove it and use the other cases for the final version
                  stroke(0);
@@ -100,8 +101,9 @@ void draw() {
                  break;
             case 0:          //Dots are contiguous
               if (isDisplaying) {
-                pie.Update();
-                drawMarks();       
+//                pie.Update();
+//                pie = new PieGraph(chartLeftX + chartSize/2, chartLeftY + chartSize/2, chartSize - PIEBUFFER, chartSize - PIEBUFFER, null, pieValues);
+//                drawMarks();       
                 break;
               }
                 d = new Data();        
@@ -112,25 +114,23 @@ void draw() {
                 markFlags(random1, random2);
 
                 //(Copied and pasted from support code "case -1")>>
-                 stroke(0);
+/*                 stroke(0);
                  strokeWeight(1);
                  fill(255);
                  rectMode(CORNER);
                  rect(chartLeftX, chartLeftY, chartSize, chartSize);
-                 //^^<<(Copied and pasted from support code "case -1")
-                 
+*/                 //^^<<(Copied and pasted from support code "case -1")
+                stroke(0);
                 populateValuesArray();
                 pie = new PieGraph(chartLeftX + chartSize/2, chartLeftY + chartSize/2, chartSize - PIEBUFFER, chartSize - PIEBUFFER, null, pieValues);
                 pie.Update();
+                drawMarks();   
                 isDisplaying = true;
                 break;
             case 1://Dots are NOT contiguous
-                if (isDisplaying) {
-                   pie.Update();
-                   drawMarks();       
+                if (isDisplaying) {   
                    break;
                  }
-            
                 d = new Data();        
                 min = 1;
                 max = 9;
@@ -141,24 +141,18 @@ void draw() {
                 }
                 markFlags(random1, random2);
 
-                //(Copied and pasted from support code "case -1")>>
-                 stroke(0);
-                 strokeWeight(1);
-                 fill(255);
-                 rectMode(CORNER);
-                 rect(chartLeftX, chartLeftY, chartSize, chartSize);
-                 //^^<<(Copied and pasted from support code "case -1")
+ 
 
+                stroke(0);
                 populateValuesArray();
                 pie = new PieGraph(chartLeftX + chartSize/2, chartLeftY + chartSize/2, chartSize - PIEBUFFER, chartSize - PIEBUFFER, null, pieValues);
                 pie.Update();
+                drawMarks();
                 isDisplaying = true;
                 break;
 
             case 2:      //wedges are in increasing size. dots are allowed to be contig
                if (isDisplaying) {
-                   pie.Update();
-                   drawMarks();       
                    break;
                  }
             
@@ -171,29 +165,21 @@ void draw() {
                   random2 = randomInt(min, max);          //ensure that dots are not same
                 }
                 markFlags(random1, random2);
-
-                //(Copied and pasted from support code "case -1")>>
-                 stroke(0);
-                 strokeWeight(1);
-                 fill(255);
-                 rectMode(CORNER);
-                 rect(chartLeftX, chartLeftY, chartSize, chartSize);
-                 //^^<<(Copied and pasted from support code "case -1")
+                stroke(0);
                 d.sortData();
                 populateValuesArray();
                 pie = new PieGraph(chartLeftX + chartSize/2, chartLeftY + chartSize/2, chartSize - PIEBUFFER, chartSize - PIEBUFFER, null, pieValues);
                 pie.Update();
+                drawMarks();
                 isDisplaying = true;
 
                 break;
-            case 3:  //THIS IS CURRENTLY A DUPLICATE OF CASE 1
+            case 3:  //THIS IS CURRENTLY A DUPLICATE OF CASE 1. never gets called
                 /**
                  ** finish this: 4th visualization
                  **/
 
               if (isDisplaying) {
-                pie.Update();
-                drawMarks();       
                 break;
               }
                 d = new Data();        
@@ -202,33 +188,24 @@ void draw() {
                 random1 = randomInt(min, max);
                 random2 = (random1 + 1) % 9;
                 markFlags(random1, random2);
-
-                //(Copied and pasted from support code "case -1")>>
                  stroke(0);
-                 strokeWeight(1);
-                 fill(255);
-                 rectMode(CORNER);
-                 rect(chartLeftX, chartLeftY, chartSize, chartSize);
-                 //^^<<(Copied and pasted from support code "case -1")
-                 
                 populateValuesArray();
                 pie = new PieGraph(chartLeftX + chartSize/2, chartLeftY + chartSize/2, chartSize - PIEBUFFER, chartSize - PIEBUFFER, null, pieValues);
                 pie.Update();
+                drawMarks();
                 isDisplaying = true;
                 break;
 
 
 
 
-            case 4:    //THIS IS CURRENTLY A DUPLICATE OF CASE 2
+            case 4:    //THIS IS CURRENTLY A DUPLICATE OF CASE 2. never gets called
                 /**
                  ** finish this: 5th visualization
                  **/
 
 
-               if (isDisplaying) {
-                   pie.Update();
-                   drawMarks();       
+               if (isDisplaying) {  
                    break;
                  }
             
@@ -241,24 +218,14 @@ void draw() {
                   random2 = randomInt(min, max);          //ensure that dots are not same
                 }
                 markFlags(random1, random2);
-
-                //(Copied and pasted from support code "case -1")>>
-                 stroke(0);
-                 strokeWeight(1);
-                 fill(255);
-                 rectMode(CORNER);
-                 rect(chartLeftX, chartLeftY, chartSize, chartSize);
-                 //^^<<(Copied and pasted from support code "case -1")
+                stroke(0);
                 d.sortData();
                 populateValuesArray();
                 pie = new PieGraph(chartLeftX + chartSize/2, chartLeftY + chartSize/2, chartSize - PIEBUFFER, chartSize - PIEBUFFER, null, pieValues);
                 pie.Update();
+                drawMarks();
                 isDisplaying = true;
-
                 break;
-
-
-
         }
 
         drawWarning();
@@ -299,16 +266,12 @@ public void next() {
                 if (d.isMarked(i)) {
                   if (value1 == -1) {
                      value1 = d.getValue(i);
-                     print("Value 1 is at index: " + i + ", and is the value of: " + value1 + "\n");
                   } else {
                     value2 = d.getValue(i);
-                    print("Value 2 is at index: " + i + ", and is the value of: " + value2 + "\n");
                   }
                 }
              }
-             truePerc = (abs(value1 - value2)) / 100.0;
-             print(truePerc + "\n");
-                 
+             truePerc = (abs(value1 - value2)) / 100.0;                 
             //truePerc = DECIDE_YOURSELF; // hint: from your list of DataPoints, extract the two marked ones to calculate the "true" percentage (DONE)
 
             reportPerc = ans / 100.0; // this is the participant's response
@@ -318,8 +281,7 @@ public void next() {
              **/
             error = DECIDE_YOURSELF;
 //            error = Math.log2(abs(reportPerc - truePerc) + (1/8));
- //             error = (log2(abs(reportPerc - truePerc) + 1/8));
-print("error");
+            error = (float)(log2(abs(reportPerc*100 - truePerc*100) + 1f/8f));
             saveJudgement();
             isDisplaying = false;      //TAYLOR
         }
@@ -327,7 +289,7 @@ print("error");
         /**
          ** Finish this: decide the dataset (similar to how you did in setup())
          **/
-        d = null;
+        d = null;      //taylor says this should be fine as is
 
         cp5.get(Textfield.class, "answer").clear();
         index++;
@@ -356,7 +318,8 @@ public void reset(){
     /**
      ** Finish/Use/Change this method if you need 
      **/
-    partipantID = DECIDE_YOURSELF;
+//    partipantID = DECIDE_YOURSELF;
+    partipantID = PARTID;
     d = null;
 
     /**
@@ -401,6 +364,17 @@ public void drawMarks() {
   }
 }
   double log2(double x) {
-    return Math.log(x) / Math.log(2.0d);
+    return ((Math.log(x)) / (Math.log(2f)));
   }
 
+void populateOrderArray() {      //Populates the ORDER array
+    ORDER[0] = randomInt(0, 2);
+    ORDER[1] = randomInt(0, 2);
+    while (ORDER[1] == ORDER[0]) {
+      ORDER[1] = randomInt(0, 2);
+    }
+    ORDER[2] = randomInt(0, 2);
+    while (ORDER[2] == ORDER[1] || ORDER[2] == ORDER[0]) {
+      ORDER[2] = randomInt(0,2);
+    }
+}

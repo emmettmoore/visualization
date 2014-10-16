@@ -73,7 +73,8 @@ class PieGraph{
  }
 
 void drawPie(){ 
-    //calculate the sum of the values:
+/*
+  //calculate the sum of the values:
     total = 0;
     for (int i = 0; i < values.length; i++) {
       total = total + values[i];
@@ -83,6 +84,7 @@ void drawPie(){
     for (int i = 0; i < values.length; i++) {
       angles[i] = ((values[i]/ total) * 360);
     }
+*/
     pie_key_labels = new PieLabel[angles.length];
     pie_value_labels = new PieLabel[angles.length];
 
@@ -90,18 +92,23 @@ void drawPie(){
     float lastAngle = 0;
     for (int i = angles.length -1; i >=0; --i) {
       messageToStore = null;
-      float shade = map (i+1, 0, angles.length, 60, 255);  //converting it to a shade of green
-      fill(0, shade, 0);
-      if ((i==values.length -1) && (firstValueWhite == true)) {    //to fill the first value wedge as white
-        fill(255, 255, 255);
-      }
+//      float shade = map (i+1, 0, angles.length, 60, 255);  //converting it to a shade of green
+//      fill(0, shade, 0);
+ //     if ((i==values.length -1) && (firstValueWhite == true)) {    //to fill the first value wedge as white
+ //       fill(255, 255, 255);
+ //     }
+fill(0, 0, 0);      //temp trying lab 5
+      outlineWedge(posx,posy, lastAngle, lastAngle+radians(angles[i]));          //TEMP TRYING LAB 5
 
+fill(255, 255, 255);    //temp trying lab 5
       arc(posx , posy, diameter, diameter, lastAngle, lastAngle+radians(angles[i]));
+
+fill(0, 0, 0);      //temp trying lab 5
 
       outlineWedge(posx,posy, lastAngle, lastAngle+radians(angles[i]));
 
       if (radians(angles[i]) > 0) {
- //       messageToStore = keys[i];        //COMMENTED OUT FOR LAB 5
+//        messageToStore = keys[i];        //COMMENTED OUT FOR LAB 5
       }
       storeLabel(posx, posy, lastAngle + (radians(angles[i]))/2, messageToStore, i);
       
@@ -164,7 +171,6 @@ void printLabels() {
     float arcEndY = originy + radius * sin(angleEnd);
  //   pushMatrix();                  //ADDED FOR LAB 5
  //         fill(0, 0, 0);          //ADDED FOR LAB 5
-
     line(originx, originy, arcBeginX, arcBeginY);
  //   popMatrix();                //ADDED FOR LAB 5
  }

@@ -1,7 +1,9 @@
 /**
  * These five variables are the data you need to collect from participants.
  */
-int partipantID = -1;
+//int partipantID = -1;
+int PARTID = 0004;
+int partipantID = PARTID;
 int index = -1;
 float error = -1;
 float truePerc = -1;
@@ -18,7 +20,8 @@ Table expData = null;
  */
 
 String[] vis = {
-    "BarChart", "PieChart", "StackedBarChart", "TreeMap", "LineChart"
+//    "BarChart", "PieChart", "StackedBarChart", "TreeMap", "LineChart"
+"PieChartContig", "PieChartUncontig", "PieChartIncrSize"
 };
 
 /**
@@ -30,7 +33,7 @@ void saveJudgement() {
         expData.addColumn("PartipantID");
         expData.addColumn("Index");
         expData.addColumn("Vis");
-        expData.addColumn("VisID");
+//        expData.addColumn("VisID");
         expData.addColumn("Error");
         expData.addColumn("TruePerc");
         expData.addColumn("ReportPerc");
@@ -43,12 +46,13 @@ void saveJudgement() {
     /**
      ** finish this: decide the current visualization
      **/
-    newRow.setString("Vis", "" + DECIDE_YOURSELF);
+ //   newRow.setString("Vis", "" + DECIDE_YOURSELF);
+    newRow.setString("Vis", "" + vis[ORDER[POSITION]]);
 
     /**
      ** finish this: decide current vis id
      **/
-    newRow.setInt("VisID", DECIDE_YOURSELF);
+//    newRow.setInt("VisID", DECIDE_YOURSELF);
     newRow.setFloat("Error", error);
     newRow.setFloat("TruePerc", truePerc);
     newRow.setFloat("ReportPerc", reportPerc);
