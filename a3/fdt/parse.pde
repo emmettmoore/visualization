@@ -49,7 +49,7 @@ void parse_data() {
 void testing(){
    for(int i = 0; i<fdt_nodes.size();i++){
       fdtNode temp = fdt_nodes.get(i);
-      print("--------------------------- " + i + "\n"); 
+      print("--------------------------- " + temp.id + "\n"); 
 
       temp.printNeighbors();
    } 
