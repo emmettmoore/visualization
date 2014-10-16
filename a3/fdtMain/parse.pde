@@ -6,11 +6,11 @@ ArrayList<fdtNode> fdt_nodes;
 
 
 void setup() {
-  lines = loadStrings(fn);
-  num_nodes = Integer.parseInt(lines[0]);
-  num_edges = Integer.parseInt(lines[num_nodes + 1]);
-  fdt_nodes = new ArrayList<fdtNode>();
+  size(600,600);
+  background(250,250,250);
+  frame.setResizable(true);
   parse_data();
+  connectNodes();
   testing();
 }
 
@@ -18,7 +18,15 @@ void draw() {
   
 }
 
+
+
+
 void parse_data() {
+  lines = loadStrings(fn);
+  num_nodes = Integer.parseInt(lines[0]);
+  num_edges = Integer.parseInt(lines[num_nodes + 1]);
+  fdt_nodes = new ArrayList<fdtNode>();
+  
   int index = 1;
   for (int i=0; i<num_nodes; i++) {
     String[] temp = splitTokens(lines[index], ",");
@@ -36,7 +44,7 @@ void parse_data() {
     for (int j=0; j<fdt_nodes.size(); j++) {
       fdtNode this_node = (fdtNode) fdt_nodes.get(j);
       if (from == this_node.id) {
-        this_node.neighbors.add(new neighborData(to, len));
+        this_node.neighbors.add(new neighborData(to, len, this_node.posx, this_node.posy));
         fdt_nodes.set(j, this_node);
         break;
       }
@@ -45,6 +53,13 @@ void parse_data() {
   }
 }
 
+void connectNodes(){
+   for(int i = 0; i<fdt_nodes.size();i++){
+      fdtNode temp = fdt_nodes.get(i);
+          for(int j = 0; j<temp.neighbors.size();j++){
+          }
+      }
+}
 
 void testing(){
    for(int i = 0; i<fdt_nodes.size();i++){

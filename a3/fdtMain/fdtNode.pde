@@ -1,4 +1,9 @@
+int BUFFER = 10;
+
 class fdtNode {
+  float posx;
+  float posy;
+  float radius;
   int id;
   int mass;
   Circle point;
@@ -10,7 +15,8 @@ class fdtNode {
     neighbors = new ArrayList<neighborData>(); 
     id = id1;
     mass = m;
-    point = new Circle( 1, 2, 3, color(100)); //uhhhh TODO!!!! //tay tay
+    initializeCircle();
+
   }
   void printNeighbors(){
      for (int i = 0; i<neighbors.size();i++){
@@ -20,14 +26,22 @@ class fdtNode {
         print("\n"); 
    }
   } 
+  void initializeCircle(){
+      float radius = sqrt(mass/PI) * 10;
+      posx = (float)Math.random() * width + BUFFER;
+      posy = (float)Math.random() * height + BUFFER;
+      point = new Circle(posx,posy, radius, color(250,100,0));
+  }
 }
-
-
 class neighborData {
   int id;
-  int d;
-  neighborData(int id1, int d1) {
+  float d;
+  float posx;
+  float posy;
+  neighborData(int id1, float d1, float posx1, float posy1) {
     id = id1;
     d = d1;
+    posx = posx1;
+    posy = posy1;
   }
 }
