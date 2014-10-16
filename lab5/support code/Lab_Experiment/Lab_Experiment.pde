@@ -271,7 +271,14 @@ public void next() {
                   }
                 }
              }
-             truePerc = (abs(value1 - value2)) / 100.0;                 
+             if (value1 > value2) {
+               truePerc = ((value2) / value1);
+             } else{
+               truePerc = ((value1) / value2);
+             }
+             print("value1: " + value1 + ", value2: " + value2 + ", true percent: " + truePerc + "\n");
+   //          truePerc = (abs(value1 - value2)) / 100.0;       
+     //   100*20/30 = 30x / 100        
             //truePerc = DECIDE_YOURSELF; // hint: from your list of DataPoints, extract the two marked ones to calculate the "true" percentage (DONE)
 
             reportPerc = ans / 100.0; // this is the participant's response

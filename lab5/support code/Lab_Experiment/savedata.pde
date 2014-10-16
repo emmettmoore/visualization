@@ -2,8 +2,8 @@
  * These five variables are the data you need to collect from participants.
  */
 //int partipantID = -1;
-int PARTID = 0004;
-int partipantID = PARTID;
+int PARTID = 25;
+int partipantID = 25;
 int index = -1;
 float error = -1;
 float truePerc = -1;
