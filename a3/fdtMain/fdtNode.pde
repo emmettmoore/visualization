@@ -32,16 +32,16 @@ class fdtNode {
       posy = (float)Math.random() * height + BUFFER;
       point = new Circle(posx,posy, radius, color(250,100,0));
   }
+
 }
 class neighborData {
   int id;
   float d;
   float posx;
   float posy;
-  neighborData(int id1, float d1, float posx1, float posy1) {
+  neighborData(int id1, float d1){
     id = id1;
     d = d1;
-    posx = posx1;
-    posy = posy1;
   }
+  
 }
