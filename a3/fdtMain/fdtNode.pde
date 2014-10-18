@@ -6,6 +6,8 @@ class fdtNode {
   float radius;
   int id;
   int mass;
+  float vX,vY;
+  
   Circle point;
   ArrayList<neighborData> neighbors;
   //boolean locked; // tells whether the circle is being dragged
@@ -32,6 +34,9 @@ class fdtNode {
       posy = (float)Math.random() * height + BUFFER;
       point = new Circle(posx,posy, radius, color(250,100,0));
   }
+  void kineticEnergy(){
+     return (0.5 * mass * (pow(vX, 2) + pow(vY, 2))); 
+  }
 
 }
 class neighborData {
@@ -43,5 +48,13 @@ class neighborData {
     id = id1;
     d = d1;
   }
+}
+class Forces{
+ float coulombX, coulombY;
+ float hookeX,hookeY;
+ Forces(){
+  coulombX = coulombY = 0;
+  hookeX = hookeY = 0;
+ } 
   
 }
