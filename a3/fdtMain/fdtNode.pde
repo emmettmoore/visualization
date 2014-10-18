@@ -1,13 +1,12 @@
 int BUFFER = 10;
 
 class fdtNode {
-  float posx;
-  float posy;
+  float posx, posy;
+  float vX,vY;
   float radius;
   int id;
-  int mass;
-  float vX,vY;
-  
+  float mass;
+  Forces forceData;
   Circle point;
   ArrayList<neighborData> neighbors;
   //boolean locked; // tells whether the circle is being dragged
@@ -18,6 +17,7 @@ class fdtNode {
     id = id1;
     mass = m;
     initializeCircle();
+    forceData = new Forces();
 
   }
   void printNeighbors(){
@@ -34,18 +34,43 @@ class fdtNode {
       posy = (float)Math.random() * height + BUFFER;
       point = new Circle(posx,posy, radius, color(250,100,0));
   }
-  void kineticEnergy(){
+  float kineticEnergy(){
      return (0.5 * mass * (pow(vX, 2) + pow(vY, 2))); 
   }
   
-  void sum_forces() {
-    curr_node.calc_coulomb();
-    curr_node.calc_hooke();
+  void update_forces() {
+    calc_coulomb();
+    //calc_hooke();
   }
   void calc_coulomb(){
-  
+    forceData.coulombX = forceData.coulombY = 0;
+    Set set = fdt_nodes.entrySet();
+    Iterator i = set.iterator();
+    // Display elements
+    while(i.hasNext()) {
+      Map.Entry temp = (Map.Entry)i.next();
+      fdtNode currNode = (fdtNode)temp.getValue();
+      if(currNode.id != id){
+         forceData.coulombX += (coulombK*mass*currNode.mass)/(pow(posx - currNode.posx,2));  
+         forceData.coulombY += (coulombK*mass*currNode.mass)/(pow(posy - currNode.posy,2));
+      }
+    }
   }
-  void calc_hooke() {}
+  //not done yet
+  void calc_hooke() {
+      for(int i = 0; i<neighbors.size();i++){
+        neighborData neighbor_info = (neighborData)neighbors.get(i);
+        fdtNode curr_node = (fdtNode) fdt_nodes.get(neighbor_info.id);
+    }
+  }
+  
+  //add the hook and coulomb forces together
+  void sum_forcesX(){
+      forceData.totalX = forceData.coulombX;
+  }
+  void sum_forcesY(){
+      forceData.totalY = forceData.coulombY;
+  }
 }
 //--------------------------------end fdtNode class ----------------------------------------------
 
@@ -62,6 +87,7 @@ class neighborData {
 class Forces{
  float coulombX, coulombY;
  float hookeX,hookeY;
+ float totalX, totalY;
  Forces(){
   coulombX = coulombY = 0;
   hookeX = hookeY = 0;

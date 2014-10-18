@@ -2,29 +2,25 @@ String fn = "ex1.csv";
 String[] lines;
 Integer num_nodes;
 Integer num_edges;
-HashMap<Integer,fdtNode> fdt_nodes;
-float KE_threshold;
-boolean first_run;
 import java.util.*;
+fdtSystem system;
 
 void setup() {
   size(600,600);
   background(250,250,250);
   frame.setResizable(true);
-  first_run = true;
+  system = new fdtSystem();
   parse_data();
-  connectNodes();
 }
 
 void draw() {
-   checkSystem();
+   system.watch();
 }
 
 void parse_data() {
   lines = loadStrings(fn);
   num_nodes = Integer.parseInt(lines[0]);
   num_edges = Integer.parseInt(lines[num_nodes + 1]);
-  fdt_nodes = new HashMap<Integer,fdtNode>();
   
   int index = 1;
   for (int i=0; i<num_nodes; i++) {
@@ -47,47 +43,6 @@ void parse_data() {
     }
     if (i % 2 == 1) { index++; } //increment every other line
   }
-}
-
-void connectNodes(){
-    Set set = fdt_nodes.entrySet();
-    Iterator i = set.iterator();
-    // Display elements
-    while(i.hasNext()) {
-      Map.Entry temp = (Map.Entry)i.next();
-      print("--------------------------- " + temp.getKey() + "\n"); 
-      fdtNode currNode = (fdtNode)temp.getValue();
-      connectToNeighbors(currNode);
-    }
-}
-
-  void connectToNeighbors(fdtNode currNode){
-     for(int i = 0; i<currNode.neighbors.size();i++){
-        neighborData neighbor = currNode.neighbors.get(i);
-        fdtNode neighborNode = (fdtNode)fdt_nodes.get(neighbor.id);
-        line(currNode.posx, currNode.posy, neighborNode.posx,neighborNode.posy);
-     }
-  }
-  void checkSystem(){
-    if (first_run || KE_gt_threshold()) {
-      first_run = false;
-      calc_all_forces();
-    } 
-  } 
-  boolean KE_gt_threshold() {
-     return true; // FIX THIS SHEET XXX XXX XXX 
-  }
-  void calc_all_forces() {
-     Set set = fdt_nodes.entrySet();
-     Iterator i = set.iterator();
-     while(i.hasNext()) {
-       Map.Entry temp = (Map.Entry)i.next();
-       fdtNode curr_node = (fdtNode)temp.getValue();
-       curr_node.sum_forces();
-    }
-    
-  }
-
 }
 
 
