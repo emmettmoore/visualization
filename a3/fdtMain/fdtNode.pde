@@ -63,20 +63,8 @@ class fdtNode {
       Map.Entry temp = (Map.Entry)i.next();
       fdtNode currNode = (fdtNode)temp.getValue();
       if(currNode.id != id){
-        float y_dist = abs(currNode.posy - posy);
-        float x_dist = abs(currNode.posx - posx);
-         if (posx > currNode.posx) {
-           forceData.coulombX += (x_dist / y_dist) * (coulombK*mass*currNode.mass)/(pow(dist(posx, posy, currNode.posx, currNode.posy),2));
-         }
-         else {
-           forceData.coulombX -= (x_dist / y_dist) * (coulombK*mass*currNode.mass)/(pow(dist(posx, posy, currNode.posx, currNode.posy),2));
-         }  
-         if (posy > currNode.posy) {
-           forceData.coulombY += (y_dist / x_dist) * (coulombK*mass*currNode.mass)/(pow(dist(posx, posy, currNode.posx, currNode.posy),2));
-         }
-         else {
-           forceData.coulombY -= (y_dist / x_dist) * (coulombK*mass*currNode.mass)/(pow(dist(posx, posy, currNode.posx, currNode.posy),2));
-         }
+        forceData.coulombX += coulombK/  (posx-currNode.posx);
+        forceData.coulombY += coulombK/  (posy-currNode.posy);
        }
      }
    }
