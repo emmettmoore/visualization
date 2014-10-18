@@ -3,6 +3,7 @@ int BUFFER = 10;
 class fdtNode {
   float posx, posy;
   float vX,vY;
+  float kinetic_energy;
   float radius;
   int id;
   float mass;
@@ -16,6 +17,8 @@ class fdtNode {
     neighbors = new ArrayList<neighborData>(); 
     id = id1;
     mass = m;
+    reset_velocities();
+    kinetic_energy = 0;
     initializeCircle();
     forceData = new Forces();
 
@@ -34,14 +37,23 @@ class fdtNode {
       posy = (float)Math.random() * height + BUFFER;
       point = new Circle(posx,posy, radius, color(250,100,0));
   }
-  float kineticEnergy(){
-     return (0.5 * mass * (pow(vX, 2) + pow(vY, 2))); 
-  }
   
   void update_forces() {
     calc_coulomb();
     //calc_hooke();
+    sum_forces();
   }
+  
+  void update_velocity() {
+    vX = vX + forceData.totalX / mass * time_step;
+    vY = vY + forceData.totalY / mass * time_step;
+  }
+  
+  void update_kinetic_energy() {
+    kinetic_energy = (0.5 * mass * (pow(vX, 2) + pow(vY, 2)));
+    
+  }
+  
   void calc_coulomb(){
     forceData.coulombX = forceData.coulombY = 0;
     Set set = fdt_nodes.entrySet();
@@ -51,11 +63,23 @@ class fdtNode {
       Map.Entry temp = (Map.Entry)i.next();
       fdtNode currNode = (fdtNode)temp.getValue();
       if(currNode.id != id){
-         forceData.coulombX += (coulombK*mass*currNode.mass)/(pow(posx - currNode.posx,2));  
-         forceData.coulombY += (coulombK*mass*currNode.mass)/(pow(posy - currNode.posy,2));
-      }
-    }
-  }
+        float y_dist = abs(currNode.posy - posy);
+        float x_dist = abs(currNode.posx - posx);
+         if (posx > currNode.posx) {
+           forceData.coulombX += (x_dist / y_dist) * (coulombK*mass*currNode.mass)/(pow(dist(posx, posy, currNode.posx, currNode.posy),2));
+         }
+         else {
+           forceData.coulombX -= (x_dist / y_dist) * (coulombK*mass*currNode.mass)/(pow(dist(posx, posy, currNode.posx, currNode.posy),2));
+         }  
+         if (posy > currNode.posy) {
+           forceData.coulombY += (y_dist / x_dist) * (coulombK*mass*currNode.mass)/(pow(dist(posx, posy, currNode.posx, currNode.posy),2));
+         }
+         else {
+           forceData.coulombY -= (y_dist / x_dist) * (coulombK*mass*currNode.mass)/(pow(dist(posx, posy, currNode.posx, currNode.posy),2));
+         }
+       }
+     }
+   }
   //not done yet
   void calc_hooke() {
       for(int i = 0; i<neighbors.size();i++){
@@ -63,14 +87,37 @@ class fdtNode {
         fdtNode curr_node = (fdtNode) fdt_nodes.get(neighbor_info.id);
     }
   }
-  
+  void sum_forces() {
+    sum_forcesX();
+    sum_forcesY();
+  }
   //add the hook and coulomb forces together
   void sum_forcesX(){
-      forceData.totalX = forceData.coulombX;
+      forceData.totalX = 0;
+      forceData.totalX += forceData.coulombX;
+      //forceData.totalX += forceData.hookeX;
   }
   void sum_forcesY(){
+      forceData.totalY = 0;
       forceData.totalY = forceData.coulombY;
+      //forceData.totalY += forceData.hookeY;
   }
+  void reset_velocities() {
+    vX = 0;
+    vY = 0;
+  }
+  void update_positions() {
+    print("got to update_positions\n");
+    print("posx pre-change: " + posx + " \n");
+    //print("posy pre-change: " + posy + " \n");
+    posx = posx + (vX * time_step);
+    posy = posy + (vY * time_step);
+    print("posx post-change: " + posx + " \n");
+    point.posx = posx;
+    point.posy = posy;
+    point.Display();
+  }
+    
 }
 //--------------------------------end fdtNode class ----------------------------------------------
 

@@ -2,6 +2,7 @@ String fn = "ex1.csv";
 String[] lines;
 Integer num_nodes;
 Integer num_edges;
+float time_step;
 import java.util.*;
 fdtSystem system;
 
@@ -11,10 +12,12 @@ void setup() {
   frame.setResizable(true);
   system = new fdtSystem();
   parse_data();
+  time_step = 1.0/60.0; // MAYBE NOT?
 }
 
 void draw() {
    system.watch();
+   
 }
 
 void parse_data() {
