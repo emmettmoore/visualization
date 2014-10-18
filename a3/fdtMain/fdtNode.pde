@@ -37,8 +37,18 @@ class fdtNode {
   void kineticEnergy(){
      return (0.5 * mass * (pow(vX, 2) + pow(vY, 2))); 
   }
-
+  
+  void sum_forces() {
+    curr_node.calc_coulomb();
+    curr_node.calc_hooke();
+  }
+  void calc_coulomb(){
+  
+  }
+  void calc_hooke() {}
 }
+//--------------------------------end fdtNode class ----------------------------------------------
+
 class neighborData {
   int id;
   float d;

@@ -4,23 +4,21 @@ Integer num_nodes;
 Integer num_edges;
 HashMap<Integer,fdtNode> fdt_nodes;
 float KE_threshold;
+boolean first_run;
 import java.util.*;
 
 void setup() {
   size(600,600);
   background(250,250,250);
   frame.setResizable(true);
+  first_run = true;
   parse_data();
   connectNodes();
-  testing();
 }
 
 void draw() {
-  
+   checkSystem();
 }
-
-
-
 
 void parse_data() {
   lines = loadStrings(fn);
@@ -70,17 +68,28 @@ void connectNodes(){
         line(currNode.posx, currNode.posy, neighborNode.posx,neighborNode.posy);
      }
   }
+  void checkSystem(){
+    if (first_run || KE_gt_threshold()) {
+      first_run = false;
+      calc_all_forces();
+    } 
+  } 
+  boolean KE_gt_threshold() {
+     return true; // FIX THIS SHEET XXX XXX XXX 
+  }
+  void calc_all_forces() {
+     Set set = fdt_nodes.entrySet();
+     Iterator i = set.iterator();
+     while(i.hasNext()) {
+       Map.Entry temp = (Map.Entry)i.next();
+       fdtNode curr_node = (fdtNode)temp.getValue();
+       curr_node.sum_forces();
+    }
+    
+  }
 
-void testing(){
-  
-    Set set = fdt_nodes.entrySet();
-    Iterator i = set.iterator();
-    // Display elements
-    while(i.hasNext()) {
-      Map.Entry temp = (Map.Entry)i.next();
-      print("--------------------------- " + temp.getKey() + "\n"); 
-      fdtNode bla = (fdtNode)temp.getValue();
-      bla.printNeighbors();  
- }   
 }
+
+
+
 
