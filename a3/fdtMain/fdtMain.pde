@@ -35,6 +35,7 @@ void mousePressed(){
 void mouseReleased() {
   pressed = false;
   already_pressed = false;
+  system.frames_since_equilibrium = 0;
 }
 void mouseDragged(){
     if (already_pressed){

@@ -31,7 +31,7 @@ class fdtSystem{
     } 
     else {
       reset_system();
-      } 
+      }
     }
     
   void calc_center() {
