@@ -4,16 +4,21 @@ float coulombK,hookeK;
 class fdtSystem{
   float ke_threshold;
   boolean first_run;
-  float total_kinetic_energy;
+  float total_kinetic_energy;   
+  float center_x = 0;
+  float center_y = 0;
+  float drift_x, drift_y;
   fdtSystem(){
     fdt_nodes = new HashMap<Integer,fdtNode>();
     first_run = true;
     total_kinetic_energy = 0;
     ke_threshold = 0; // fiddle with this to find appropriate value 
-    coulombK = 9000; // 10000
+    coulombK = 200;//9000; // 10000
     hookeK = 0.1;
   }
   void watch(){
+    calc_center();
+    calc_drift_direction();
     calc_vector_changes();
     total_kinetic_energy = calc_kinetic_energy();
     if (first_run || KE_gt_threshold()) {
@@ -24,6 +29,48 @@ class fdtSystem{
       reset_system();
       } 
     }
+    
+  void calc_center() {
+    float total_x = 0;
+    float total_y = 0;
+    Set set = fdt_nodes.entrySet();
+    Iterator i = set.iterator();
+    while(i.hasNext()) {
+      Map.Entry temp = (Map.Entry)i.next();
+      fdtNode currNode = (fdtNode)temp.getValue();
+      total_x += currNode.posx;
+      total_y += currNode.posy;
+    }
+    center_x = total_x / fdt_nodes.size();
+    center_y = total_y / fdt_nodes.size();
+  }
+  
+  void calc_drift_direction() {
+    calc_drift_x();
+    calc_drift_y();
+  }
+  void calc_drift_x() {
+    if (center_x < width / 2) {
+      drift_x = 0.5;
+    }
+    else if (center_x == width / 2) {
+      drift_x = 0;
+    }
+    else if (center_x > width / 2) {
+      drift_x = -0.5;
+    }
+  }
+void calc_drift_y() {
+  if (center_y < height / 2) {
+    drift_y = 0.5;
+  }
+  else if (center_y == height / 2) {
+    drift_y = 0;
+  }
+  else if (center_y > height / 2) {
+    drift_y = -0.5;
+  }
+}
   //vectors to calc:
     //hooke force vectors
     //coulomb force vectors
@@ -64,7 +111,7 @@ class fdtSystem{
     while(i.hasNext()) {
       Map.Entry temp = (Map.Entry)i.next();
       fdtNode currNode = (fdtNode)temp.getValue();
-      currNode.update_positions();
+      currNode.update_positions(drift_x, drift_y);
       
     }    
     
