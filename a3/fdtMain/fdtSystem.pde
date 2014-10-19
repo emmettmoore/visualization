@@ -17,6 +17,7 @@ class fdtSystem{
     hookeK = 0.1;
   }
   void watch(){
+    print(total_kinetic_energy + "\n");
     calc_center();
     calc_drift_direction();
     calc_vector_changes();
@@ -157,13 +158,12 @@ void calc_drift_y() {
       Map.Entry temp = (Map.Entry)i.next();
       fdtNode currNode = (fdtNode)temp.getValue();
       if(currNode.point.within()){
-          fill(0,0,0);
           textAlign(CENTER);
           String str = "ID: " + Integer.toString(currNode.id)  + "\n"
                + "Mass: " + Float.toString(currNode.mass); 
-          text(str, currNode.posx, currNode.posy - 30);
+          fill(0,0,0);
+          text(str, mouseX, mouseY - 30);
           currNode.point.C1 = color(0,100,250);
-          currNode.point.Display();
       }
       else{
          currNode.point.C1 = color(250,100,0); 

@@ -10,6 +10,7 @@ void setup() {
   size(1200,800);
   background(250,250,250);
   frame.setResizable(true);
+  textFont(createFont("Arial",12));
   system = new fdtSystem();
   parse_data();
   time_step = 1.0/60.0; // MAYBE NOT?
@@ -20,7 +21,7 @@ void draw() {
    system.watch();
    system.draw_all_edges();
    system.checkHover();
-   
+
 }
 
 void parse_data() {

@@ -131,7 +131,6 @@ class fdtNode {
       posy -= forceData.coulombY * 0.25 + drift_y;
       point.posx = posx;
       point.posy = posy;
-      
     }
   }
 
