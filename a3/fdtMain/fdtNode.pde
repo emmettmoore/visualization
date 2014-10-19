@@ -2,7 +2,7 @@ int BUFFER = 10;
 
 class fdtNode {
   float posx, posy;
-  float vX,vY;
+  float vX,vY, new_vX, new_vY;
   float kinetic_energy;
   float radius;
   int id;
@@ -23,14 +23,7 @@ class fdtNode {
     forceData = new Forces();
 
   }
-  void printNeighbors(){
-     for (int i = 0; i<neighbors.size();i++){
-        neighborData temp = (neighborData) neighbors.get(i); 
-        print(temp.id + " ");
-        print(temp.d); 
-        print("\n"); 
-   }
-  } 
+
   void initializeCircle(){
       float radius = sqrt(mass/PI) * 10;
       posx = (float)Math.random() * width + BUFFER;
@@ -45,8 +38,8 @@ class fdtNode {
   }
   
   void update_velocity() {
-    vX = vX + forceData.totalX / mass * time_step;
-    vY = vY + forceData.totalY / mass * time_step;
+    new_vX = vX + forceData.totalX / mass * time_step;
+    new_vY = vY + forceData.totalY / mass * time_step;
   }
   
   void update_kinetic_energy() {
@@ -68,7 +61,6 @@ class fdtNode {
         float dist = dist(posx, posy, currNode.posx,currNode.posy);
         forceData.coulombX += (coulombK/dist)* cos(theta);
         forceData.coulombY += (coulombK/dist)* sin(theta);
-        print(forceData.coulombX + " :X\n" + forceData.coulombX + " :Y\n");
        }
      }
    }
@@ -109,14 +101,30 @@ class fdtNode {
     vY = 0;
   }
   void update_positions() {
-    print("got to update_positions\n");
-    print("posx pre-change: " + posx + " \n");
-    //print("posy pre-change: " + posy + " \n");
-    posx = posx + (vX * time_step);
-    posy = posy + (vY * time_step);
-    print("posx post-change: " + posx + " \n");
-    point.posx = posx;
-    point.posy = posy;
+    float new_posx = posx;
+    float new_posy = posy;
+    new_posx = new_posx + (new_vX * time_step);
+    new_posy = new_posy + (new_vY * time_step);
+    if (new_posx > 0 && new_posx < width && new_posy > 0 && new_posy < height) { 
+      vX = new_vX;
+      vY = new_vY;
+      posx = new_posx;
+      posy = new_posy;
+      point.posx = new_posx;
+      point.posy = new_posy;
+    }
+    else {
+      if (id == 1){
+      print (vX + "\n");
+      }
+      vX = vX * 0.75;
+      vY = vY * 0.75;
+      posx -= forceData.coulombX * 0.25;
+      posy -= forceData.coulombY * 0.25;
+      point.posx = posx;
+      point.posy = posy;
+      
+    }
   }
 
 }

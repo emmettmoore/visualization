@@ -18,7 +18,6 @@ class fdtSystem{
     if (first_run || KE_gt_threshold()) {
       first_run = false;
       apply_positional_changes();
-      print("got here\n");
     } 
     else { 
       reset_system();
