@@ -1,4 +1,4 @@
-String fn = "ex1.csv";
+String fn = "ex2.csv";
 String[] lines;
 Integer num_nodes;
 Integer num_edges;

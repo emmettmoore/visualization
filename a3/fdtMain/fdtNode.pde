@@ -63,17 +63,24 @@ class fdtNode {
       Map.Entry temp = (Map.Entry)i.next();
       fdtNode currNode = (fdtNode)temp.getValue();
       if(currNode.id != id){
+        
         float theta = coulombTheta(currNode);
         float dist = dist(posx, posy, currNode.posx,currNode.posy);
         forceData.coulombX += (coulombK/dist)* cos(theta);
         forceData.coulombY += (coulombK/dist)* sin(theta);
+        print(forceData.coulombX + " :X\n" + forceData.coulombX + " :Y\n");
        }
      }
    }
    float coulombTheta(fdtNode currNode){
+     
      float distHeight = currNode.posy - posy ;
      float distWidth = currNode.posx - posx;
-     return  atan(distHeight/distWidth);
+     if(posx <= currNode.posx){
+         return atan(distHeight/distWidth) + PI;    
+     }
+     return atan(distHeight/distWidth);
+     
    }
   //not done yet
   void calc_hooke() {
@@ -111,7 +118,7 @@ class fdtNode {
     point.posx = posx;
     point.posy = posy;
   }
-    
+
 }
 //--------------------------------end fdtNode class ----------------------------------------------
 
