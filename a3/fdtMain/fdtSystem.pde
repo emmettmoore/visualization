@@ -10,7 +10,7 @@ class fdtSystem{
     first_run = true;
     total_kinetic_energy = 0;
     ke_threshold = 0; // fiddle with this to find appropriate value 
-    coulombK = hookeK = 10000; //temporary
+    coulombK = hookeK = 1000; //temporary
   }
   void watch(){
     calc_vector_changes();
@@ -84,6 +84,8 @@ class fdtSystem{
         neighborData neighbor = currNode.neighbors.get(i);
         fdtNode neighborNode = (fdtNode)fdt_nodes.get(neighbor.id);
         line(currNode.posx, currNode.posy, neighborNode.posx,neighborNode.posy);
+        currNode.point.Display();
+        neighborNode.point.Display();
      }
   }
   void reset_system() {
@@ -100,4 +102,25 @@ class fdtSystem{
   boolean KE_gt_threshold() {
     return (total_kinetic_energy > ke_threshold);   
   } 
+  void checkHover(){
+    Set set = fdt_nodes.entrySet();
+    Iterator i = set.iterator();
+    // Display elements
+    while(i.hasNext()) {
+      Map.Entry temp = (Map.Entry)i.next();
+      fdtNode currNode = (fdtNode)temp.getValue();
+      if(currNode.point.within()){
+          fill(0,0,0);
+          textAlign(CENTER);
+          String str = "ID: " + Integer.toString(currNode.id)  + "\n"
+               + "Mass: " + Float.toString(currNode.mass); 
+          text(str, currNode.posx, currNode.posy - 30);
+          currNode.point.C1 = color(0,100,250);
+          currNode.point.Display();
+      }
+      else{
+         currNode.point.C1 = color(250,100,0); 
+      }
+    }
+  }
 }

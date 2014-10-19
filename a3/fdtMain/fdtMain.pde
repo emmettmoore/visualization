@@ -16,7 +16,10 @@ void setup() {
 }
 
 void draw() {
+   background(250,250,250);
    system.watch();
+   system.draw_all_edges();
+   system.checkHover();
    
 }
 
