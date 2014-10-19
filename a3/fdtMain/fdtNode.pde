@@ -130,23 +130,3 @@ class fdtNode {
 }
 //--------------------------------end fdtNode class ----------------------------------------------
 
-class neighborData {
-  int id;
-  float d;
-  float posx;
-  float posy;
-  neighborData(int id1, float d1){
-    id = id1;
-    d = d1;
-  }
-}
-class Forces{
- float coulombX, coulombY;
- float hookeX,hookeY;
- float totalX, totalY;
- Forces(){
-  coulombX = coulombY = 0;
-  hookeX = hookeY = 0;
- } 
-  
-}
