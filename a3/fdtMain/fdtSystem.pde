@@ -6,7 +6,7 @@ float xOffset,yOffset; //used to calculate dragging
 
 class fdtSystem{
   float ke_threshold;
-  boolean first_run;
+  int frames_since_equilibrium;
   float total_kinetic_energy;   
   float center_x = 0;
   float center_y = 0;
@@ -14,9 +14,9 @@ class fdtSystem{
   fdtSystem(){
     draggedNode = null;
     fdt_nodes = new HashMap<Integer,fdtNode>();
-    first_run = true;
+    frames_since_equilibrium = 0;
     total_kinetic_energy = 0;
-    ke_threshold = 0; // fiddle with this to find appropriate value 
+    ke_threshold = 100; // fiddle with this to find appropriate value 
     coulombK = 200;//9000; // 10000
     hookeK = 0.1;
   }
@@ -26,11 +26,10 @@ class fdtSystem{
     calc_drift_direction();
     calc_vector_changes();
     total_kinetic_energy = calc_kinetic_energy();
-    if (first_run || KE_gt_threshold()) {
-      first_run = false;
+    if (KE_gt_threshold()) {
       apply_positional_changes();
     } 
-    else { 
+    else {
       reset_system();
       } 
     }
@@ -152,7 +151,14 @@ void calc_drift_y() {
       }
   }
   boolean KE_gt_threshold() {
-    return (total_kinetic_energy > ke_threshold);   
+    frames_since_equilibrium++;
+    if (frames_since_equilibrium > 60) {
+      return (total_kinetic_energy > ke_threshold);
+         
+    }
+    else {
+      return true;
+    }
   } 
   void checkHover(){
     Set set = fdt_nodes.entrySet();
