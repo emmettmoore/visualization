@@ -80,6 +80,10 @@ class fdtNode {
     }
   }
   
+  void calc_drift() {
+    
+  }
+  
   float get_theta(fdtNode currNode){
      float distHeight = currNode.posy - posy ;
      float distWidth = currNode.posx - posx;
@@ -97,11 +101,13 @@ class fdtNode {
       forceData.totalX = 0;
       forceData.totalX += forceData.coulombX;
       forceData.totalX += forceData.hookeX;
+      forceData.totalX = forceData.totalX; // damping
   }
   void sum_forcesY(){
       forceData.totalY = 0;
       forceData.totalY = forceData.coulombY;
       forceData.totalY += forceData.hookeY;
+      forceData.totalY = forceData.totalY; // damping
   }
   void reset_velocities() {
     vX = 0;
@@ -113,8 +119,8 @@ class fdtNode {
     new_posx = new_posx + (new_vX * time_step);
     new_posy = new_posy + (new_vY * time_step);
     if (new_posx > 0 && new_posx < width && new_posy > 0 && new_posy < height) { 
-      vX = new_vX;
-      vY = new_vY;
+      vX = new_vX * 0.997;
+      vY = new_vY * 0.997;
       posx = new_posx;
       posy = new_posy;
       point.posx = new_posx;
