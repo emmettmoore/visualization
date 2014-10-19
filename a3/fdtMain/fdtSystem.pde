@@ -1,5 +1,8 @@
 HashMap<Integer,fdtNode> fdt_nodes;
 float coulombK,hookeK;
+fdtNode draggedNode;
+float xOffset,yOffset; //used to calculate dragging
+
 
 class fdtSystem{
   float ke_threshold;
@@ -9,6 +12,7 @@ class fdtSystem{
   float center_y = 0;
   float drift_x, drift_y;
   fdtSystem(){
+    draggedNode = null;
     fdt_nodes = new HashMap<Integer,fdtNode>();
     first_run = true;
     total_kinetic_energy = 0;
@@ -158,16 +162,29 @@ void calc_drift_y() {
       Map.Entry temp = (Map.Entry)i.next();
       fdtNode currNode = (fdtNode)temp.getValue();
       if(currNode.point.within()){
-          textAlign(CENTER);
-          String str = "ID: " + Integer.toString(currNode.id)  + "\n"
-               + "Mass: " + Float.toString(currNode.mass); 
-          fill(0,0,0);
-          text(str, mouseX, mouseY - 30);
-          currNode.point.C1 = color(0,100,250);
+        displayNodeInfo(currNode);
       }
       else{
          currNode.point.C1 = color(250,100,0); 
       }
     }
+  }
+  void checkMouseState(fdtNode currNode){
+    if (pressed && !already_pressed){
+       xOffset = mouseX - currNode.posx;
+       yOffset = mouseY - currNode.posy;
+       draggedNode = currNode;
+       already_pressed = true; 
+    }
+  }
+  
+  void displayNodeInfo(fdtNode currNode){
+      textAlign(CENTER);
+      String str = "ID: " + Integer.toString(currNode.id)  + "\n"
+           + "Mass: " + Float.toString(currNode.mass); 
+      fill(0,0,0);
+      text(str, mouseX, mouseY - 30);
+      currNode.point.C1 = color(0,100,250);
+      checkMouseState(currNode);
   }
 }

@@ -10,7 +10,7 @@ class fdtNode {
   Forces forceData;
   Circle point;
   ArrayList<neighborData> neighbors;
-  //boolean locked; // tells whether the circle is being dragged
+  boolean locked; // tells whether the circle is being dragged
                     // i.e. immune from forces being acted on it
 
   fdtNode(int id1, int m) {
@@ -21,7 +21,7 @@ class fdtNode {
     kinetic_energy = 0;
     initializeCircle();
     forceData = new Forces();
-
+    locked = false;
   }
 
   void initializeCircle(){

@@ -1,4 +1,6 @@
 String fn = "data.csv";
+boolean pressed;
+boolean already_pressed;
 String[] lines;
 Integer num_nodes;
 Integer num_edges;
@@ -11,6 +13,10 @@ void setup() {
   background(250,250,250);
   frame.setResizable(true);
   textFont(createFont("Arial",12));
+  
+  already_pressed = false;
+  pressed = false;
+  
   system = new fdtSystem();
   parse_data();
   time_step = 1.0/60.0; // MAYBE NOT?
@@ -22,6 +28,20 @@ void draw() {
    system.draw_all_edges();
    system.checkHover();
 
+}
+void mousePressed(){
+   pressed = true; 
+}
+void mouseReleased() {
+  pressed = false;
+  already_pressed = false;
+}
+void mouseDragged(){
+    if (already_pressed){
+       draggedNode.posx = mouseX - xOffset;
+       draggedNode.posy = mouseY - yOffset; 
+       draggedNode.point.C1 = color(0, 100,250);
+    } 
 }
 
 void parse_data() {
