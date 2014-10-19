@@ -1,10 +1,10 @@
 class neighborData {
   int id;
-  float d;
+  float equil_dist;
   float posx;
   float posy;
-  neighborData(int id1, float d1){
+  neighborData(int id1, float equil_dist1){
     id = id1;
-    d = d1;
+    equil_dist = equil_dist1;
   }
 }

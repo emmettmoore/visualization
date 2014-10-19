@@ -7,7 +7,7 @@ import java.util.*;
 fdtSystem system;
 
 void setup() {
-  size(600,600);
+  size(1200,800);
   background(250,250,250);
   frame.setResizable(true);
   system = new fdtSystem();

@@ -10,7 +10,8 @@ class fdtSystem{
     first_run = true;
     total_kinetic_energy = 0;
     ke_threshold = 0; // fiddle with this to find appropriate value 
-    coulombK = hookeK = 10000; //temporary
+    coulombK = 9000; // 10000
+    hookeK = 0.1;
   }
   void watch(){
     calc_vector_changes();
