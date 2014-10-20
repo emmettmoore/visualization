@@ -16,7 +16,7 @@ class fdtSystem{
     fdt_nodes = new HashMap<Integer,fdtNode>();
     frames_since_equilibrium = 0;
     total_kinetic_energy = 0;
-    ke_threshold = 100; // fiddle with this to find appropriate value 
+    ke_threshold = 300; // fiddle with this to find appropriate value 
     coulombK = 200;//9000; // 10000
     hookeK = 0.1;
   }
@@ -176,11 +176,14 @@ void calc_drift_y() {
     }
   }
   void checkMouseState(fdtNode currNode){
+    if (pressed || already_pressed) {
+      frames_since_equilibrium = 0;
+    }
     if (pressed && !already_pressed){
        xOffset = mouseX - currNode.posx;
        yOffset = mouseY - currNode.posy;
        draggedNode = currNode;
-       already_pressed = true; 
+       already_pressed = true;
     }
   }
   
