@@ -5,6 +5,23 @@ void draw() {
     clearCanvas();
 
 //ALL THINGS TEMPORARY --------------  
+//organize keys before putting in
+  String[] keysTEMPORARY = new String[3];
+  keysTEMPORARY[0] = "4.15";
+  keysTEMPORARY[1] = "4.17";
+  keysTEMPORARY[2] = "4.9";
+    float[] valuesTEMPORARY = new float[3];
+  valuesTEMPORARY[0] = 6.2;
+  valuesTEMPORARY[1] = 8.1;
+  valuesTEMPORARY[2] = 7.3;
+  if (keysX != null) {
+  scatterPlot = new LineGraph(canvasWidth * 1/10, height* 1/20, canvasWidth - (canvasWidth*1/10), height - (height*1/10), keysX, valuesY, color(250,250,250), color(255,255,105));
+scatterPlot.Update();
+  }
+  //FIND where the fill is messing up so chart is black
+//scatterPlot = new LineGraph(canvasWidth * 1/10, height* 1/20, canvasWidth - (canvasWidth*1/10), height - (height*1/10), keysTEMPORARY, valuesTEMPORARY, color(250,250,250), color(255,255,105));
+//scatterPlot.Update();
+/*
   String[] keysTEMPORARY = new String[3];
   keysTEMPORARY[0] = "cow";
   keysTEMPORARY[1] = "horse";
@@ -20,6 +37,7 @@ void draw() {
 rect(0, 0, canvasWidth, canvasWidth);
 scatterPlot = new LineGraph(0, 0, canvasWidth, canvasWidth, keysTEMPORARY, valuesTEMPORARY, labelsTEMPORARY, 0, 100);
 scatterPlot.Update();
+*/
 //------- ALL THINGS TEMPORARY
   /**
    ** Finish this:

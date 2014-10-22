@@ -10,10 +10,13 @@ class LineGraph{
     float maxOfValues;
     float minOfValues;
     float range;
+    float rangeX;      //LAB 6
     color barColor;
     color backgroundColor, hoverColor;
     int preAnimFrames;
-    String[] keys,labels;
+//    String[] keys,labels;
+//String[] keys;
+float[] keys;
     float[] values;
     Circle[] circles;
     float circleDist;
@@ -31,8 +34,11 @@ class LineGraph{
     float pieRemain;
     float fillPieIncrement;
     float[] origWidths;
-    
-    LineGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color backgroundColor1, color hoverColor1){
+      LineGraph(float posx1, float posy1,float w1, float h1, float[] keys1, float[] values1, color backgroundColor1, color hoverColor1){
+
+//      LineGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, color backgroundColor1, color hoverColor1){
+  
+//    LineGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color backgroundColor1, color hoverColor1){
       currAnimating = false;
       posx = posx1;
       posy = posy1;
@@ -44,7 +50,7 @@ class LineGraph{
       h = h1;
       keys = keys1;
       values = values1;
-      labels = labels1;
+//      labels = labels1;
       backgroundColor = backgroundColor1;
       hoverColor = hoverColor1;
       circles = new Circle[keys.length];
@@ -60,15 +66,15 @@ class LineGraph{
           total += values[i];
       }
       //for pie transition
-      pieKeys = new String[values.length + 1];
-      pieValues = new float[values.length + 1];
-      for(int i = 1; i<pieValues.length; i++){
-           pieValues[i] = 0;
-           pieKeys[i] = "";           
-      }
-      pieKeys[pieKeys.length - 1] = "";
-      pieRemain = total;
-      pieValues[pieValues.length - 1] = pieRemain;
+//      pieKeys = new String[values.length + 1];
+//      pieValues = new float[values.length + 1];
+//      for(int i = 1; i<pieValues.length; i++){
+//           pieValues[i] = 0;
+//           pieKeys[i] = "";           
+//      }
+//      pieKeys[pieKeys.length - 1] = "";
+//      pieRemain = total;
+//      pieValues[pieValues.length - 1] = pieRemain;
     }
     
     
@@ -145,13 +151,18 @@ class LineGraph{
       text(currText, posx - BUFFER, posy + h - h/10*i);
     }
   }
-  void labelXAxis(){
+  void labelXAxis(){/*
      int interval = (int)w/keys.length;
      for(int i = 0; i < keys.length; i++){
         textAlign(CENTER);
         textSize(10);
         text(keys[i],i*interval + posx, posy+h+BUFFER,interval, posy+h+BUFFER + 1/10*height);
      } 
+*/
+//int startingPoint = 0;
+//rangeX = (float)(maxOfValues)
+
+
   }
   
   void findMaxMin(){
