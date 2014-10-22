@@ -2,6 +2,7 @@ import java.sql.ResultSet;
 import java.util.Arrays;      //TAYLOR
 //TO DO : incorporate sliders into sql query
 //can i sort by the y values in the result? how.
+//it should start by outputting a full scatter before user selects out certain days and months
 
 
 String table_name = "forestfire";

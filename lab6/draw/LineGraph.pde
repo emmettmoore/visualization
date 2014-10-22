@@ -9,6 +9,8 @@ class LineGraph{
     boolean currAnimating;
     float maxOfValues;
     float minOfValues;
+        float maxOfValuesX;
+    float minOfValuesX;
     float range;
     float rangeX;      //LAB 6
     color barColor;
@@ -25,6 +27,7 @@ float[] keys;
     float horizFrac;      
 
     int indexOfMax;         
+    int indexOfMaxX;         
 
     
     float switchAxisDist;
@@ -79,12 +82,14 @@ float[] keys;
     
     
     void Update(){
-      labelAxes();
+      stroke(0, 0, 0);
+      rect(posx, posy, w, h);
+      labelAxes();      //temp comment out lab6
       drawCircles(); 
-      rect(posx, posy, w, h);          //ADDED LAB 6
+ //     rect(posx, posy, w, h);          //ADDED LAB 6
       if(!currAnimating){
 //          GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
-          drawConnectingLines(); 
+//          drawConnectingLines(); 
           checkCircleHover(); 
       }
     }
@@ -150,8 +155,10 @@ float[] keys;
       textAlign(CENTER,CENTER);
       text(currText, posx - BUFFER, posy + h - h/10*i);
     }
+    
   }
-  void labelXAxis(){/*
+  void labelXAxis(){
+    /*
      int interval = (int)w/keys.length;
      for(int i = 0; i < keys.length; i++){
         textAlign(CENTER);
@@ -159,9 +166,21 @@ float[] keys;
         text(keys[i],i*interval + posx, posy+h+BUFFER,interval, posy+h+BUFFER + 1/10*height);
      } 
 */
-//int startingPoint = 0;
-//rangeX = (float)(maxOfValues)
 
+int startingPoint = 0;
+rangeX = (float)(maxOfValuesX);
+
+   float interval = (float)rangeX/10.0;
+    float currInterval = 0;
+    for(int i = 0; i <= NUM_INTERVALS; i++){
+      currInterval = startingPoint + i*interval;
+      String currText = Float.toString(currInterval);
+      textSize(12);
+      fill(0,0,0);
+      textAlign(CENTER);
+      text(currText, posx + w - w/10*i, posy + h + BUFFER - 10*(i%2));
+//      text(currText, i*interval + posx, posy + h +BUFFER, interval, posy+h+BUFFER+ 1/10 * height);
+    }
 
   }
   
@@ -179,6 +198,23 @@ float[] keys;
          minOfValues = values[i];
        }
     }
+    maxOfValuesX = keys[0];
+    minOfValuesX = keys[0];
+    indexOfMaxX = 0;                        
+    for(int i = 1; i<keys.length;i++){
+       if(maxOfValuesX < keys[i]){
+         maxOfValuesX = keys[i]; 
+         indexOfMaxX = i; 
+
+       }
+       if(minOfValuesX > keys[i]){
+         minOfValuesX = keys[i];
+       }
+    }
+    
+    
+    
+    
   }
   //returns true if still animating, false when done
   /*
