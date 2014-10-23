@@ -25,7 +25,7 @@ class fdtNode {
   }
 
   void initializeCircle(){
-      float radius = sqrt(mass/PI) * 10;
+      float radius = sqrt(mass/PI) * 15;
       posx = (float)Math.random() * width + BUFFER;
       posy = (float)Math.random() * height + BUFFER;
       point = new Circle(posx,posy, radius, color(250,100,0));
