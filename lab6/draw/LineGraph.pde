@@ -98,6 +98,7 @@ float[] keys;
        float xInterval = w/keys.length;
        for (int i = 0; i< keys.length; i++){
           float centerX = posx + xInterval * i + xInterval/2;
+
           float centerY = posy + h - (values[i]/range * h); 
           circles[i] = new Circle(centerX, centerY, (float)sqrt(pow(height/200, 2) + pow(width/2000, 2)), barColor);  
        } 
@@ -153,7 +154,7 @@ float[] keys;
       textSize(12);
       fill(0,0,0);
       textAlign(CENTER,CENTER);
-      text(currText, posx - BUFFER, posy + h - h/10*i);
+      text(currText, posx - BUFFER - 22, posy + h - h/10*i);
     }
     
   }
@@ -172,13 +173,15 @@ rangeX = (float)(maxOfValuesX);
 
    float interval = (float)rangeX/10.0;
     float currInterval = 0;
-    for(int i = 0; i <= NUM_INTERVALS; i++){
+    for(int i = 1; i <= NUM_INTERVALS; i++){
       currInterval = startingPoint + i*interval;
       String currText = Float.toString(currInterval);
-      textSize(12);
+      textSize(10);
       fill(0,0,0);
       textAlign(CENTER);
-      text(currText, posx + w - w/10*i, posy + h + BUFFER - 10*(i%2));
+      text(currText, posx - 22 + w/10*i, posy + h + BUFFER - 10*(i%2) + 10); 
+
+//      text(currText, posx + w - w/10*i, posy + h + BUFFER - 10*(i%2));      //works backwards
 //      text(currText, i*interval + posx, posy + h +BUFFER, interval, posy+h+BUFFER+ 1/10 * height);
     }
 

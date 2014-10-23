@@ -1,9 +1,7 @@
 import java.sql.ResultSet;
 import java.util.Arrays;      //TAYLOR
-//TO DO : incorporate sliders into sql query
-//can i sort by the y values in the result? how.
-//it should start by outputting a full scatter before user selects out certain days and months
-
+//why are some highlightable and some not?
+//have axis be constant
 
 String table_name = "forestfire";
 //String keysX[] = null;
@@ -56,8 +54,8 @@ int numMonths = checkboxMon.getItems().size();
 int numDays = checkboxDay.getItems().size();
 int maxMonthIndex = 0;
 int maxDayIndex = 0;
-String currMonth; 
-String currDay;
+String currMonth = ""; 
+String currDay = "";
 String allMonthsString = "";    //Giant string of months with commas and single quotes between each month
 String allDaysString = "";      //Giant string of days with commans and single quotes between them
 for (int i = 0; i < numMonths; i++) {
@@ -100,7 +98,9 @@ float currHumMax = rangeHumidity.getHighValue();
 float currWindMin = rangeWind.getLowValue();
 float currWindMax = rangeWind.getHighValue();
 
-String sql = "SELECT id, X, Y, month, day, temp, humidity, wind FROM forestfire WHERE (month IN (" + allMonthsString + ")) AND ( day IN (" + allDaysString + ")) ";
+//String sql = "SELECT id, X, Y, month, day, temp, humidity, wind FROM forestfire WHERE (month IN (" + allMonthsString + ")) AND ( day IN (" + allDaysString + ")) ";
+//String sql = "SELECT id, X, Y, month, day, temp, humidity, wind FROM forestfire WHERE (month IN (" + allMonthsString + ")) AND ( day IN (" + allDaysString + ")) AND (temp >= '" + currTempMin + "') AND (temp <= '" + currTempMax + "') AND (humidity >= '" + currHumMin + "') AND (humidity <= '" + currHumMax + "')";
+String sql = "SELECT id, X, Y, month, day, temp, humidity, wind FROM forestfire WHERE (month IN (" + allMonthsString + ")) AND ( day IN (" + allDaysString + ")) AND (temp >= '" + currTempMin + "') AND (temp <= '" + currTempMax + "') AND (humidity >= '" + currHumMin + "') AND (humidity <= '" + currHumMax + "') AND (wind <= '" + currWindMax + "') AND (wind >= '" + currWindMin + "')";
 
 //mine^^
     /** abstract information from the interface and generate a SQL
@@ -110,7 +110,7 @@ String sql = "SELECT id, X, Y, month, day, temp, humidity, wind FROM forestfire 
      **
      ** checkboxDay (Mon-Sun) is similar with checkboxMon
      **/
-    println("the " + checkboxMon.getItem(0).getName() + " is " + checkboxMon.getState(0));
+//    println("the " + checkboxMon.getItem(0).getName() + " is " + checkboxMon.getState(0));
 
 
     /** use getHighValue() to get the upper value of the current selected interval
@@ -142,6 +142,7 @@ String sql = "SELECT id, X, Y, month, day, temp, humidity, wind FROM forestfire 
 
          tempY.add(rs.getFloat("Y"));
       }
+      if (tempX.size() > 0 && tempY.size() > 0) {
       print("Size tempx: " + tempX.size() + ", Size tempy: " + tempY.size());
 //      keysX = new String[tempX.size()];    //use the temp arrays to make size of label arrays
       keysX = new float[tempX.size()];    //use the temp arrays to make size of label arrays
@@ -157,11 +158,13 @@ String sql = "SELECT id, X, Y, month, day, temp, humidity, wind FROM forestfire 
        keysX[i] = (tempX.get(i));
        print(tempX.get(i) + " ");
        print(keysX[i] + "\n");
-     }
+    }
+      }
 
     } catch (Exception e) {
         // should be a java.lang.NullPointerException here when rs is empty
         e.printStackTrace();
+
     } finally {
         closeThisResultSet(rs);
     }
