@@ -24,7 +24,7 @@ class Circle{
       double squareX = Math.pow(mouseX - centerX,2);
       double squareY = Math.pow(mouseY - centerY,2);
        if(squareX + squareY <= Math.pow(radius,2)){
-          return true;   
+//          return true;   //TEMPORARY-- FOR LAB 6. to remove hovering
        } 
        return false;
     }   
