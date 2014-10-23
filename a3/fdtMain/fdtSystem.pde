@@ -2,10 +2,10 @@ HashMap<Integer,fdtNode> fdt_nodes;
 float coulombK,hookeK;
 fdtNode draggedNode;
 float xOffset,yOffset; //used to calculate dragging
-
+float DAMPING = 0.987;
+float ke_threshold;
 
 class fdtSystem{
-  float ke_threshold;
   int frames_since_equilibrium;
   float total_kinetic_energy;   
   float center_x = 0;
@@ -16,12 +16,11 @@ class fdtSystem{
     fdt_nodes = new HashMap<Integer,fdtNode>();
     frames_since_equilibrium = 0;
     total_kinetic_energy = 0;
-    ke_threshold = 300; // fiddle with this to find appropriate value 
-    coulombK = 200;//9000; // 10000
-    hookeK = 0.1;
+    hookeK = 0.1*15;
   }
   void watch(){
-    print(total_kinetic_energy + "\n");
+    print("KE threshold is " + ke_threshold + "\n");
+    print("total KE is " + total_kinetic_energy + "\n");
     calc_center();
     calc_drift_direction();
     calc_vector_changes();

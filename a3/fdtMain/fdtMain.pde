@@ -1,4 +1,5 @@
-String fn = "data.csv";
+String fn = "data.csv"; //"ex2.csv"; 
+int NUM_NODES;
 boolean pressed;
 boolean already_pressed;
 String[] lines;
@@ -19,7 +20,7 @@ void setup() {
   
   system = new fdtSystem();
   parse_data();
-  time_step = 1.0/60.0; // MAYBE NOT?
+  time_step = 1.0/60.0 * 1.3; // MAYBE NOT?
 }
 
 void draw() {
@@ -47,11 +48,12 @@ void mouseDragged(){
 
 void parse_data() {
   lines = loadStrings(fn);
-  num_nodes = Integer.parseInt(lines[0]);
-  num_edges = Integer.parseInt(lines[num_nodes + 1]);
-  
+  NUM_NODES = Integer.parseInt(lines[0]);
+  num_edges = Integer.parseInt(lines[NUM_NODES + 1]);
+  ke_threshold = 200.0*(float(NUM_NODES)/10.0); // fiddle with this to find appropriate value 
+  coulombK = 1000.0;
   int index = 1;
-  for (int i=0; i<num_nodes; i++) {
+  for (int i=0; i<NUM_NODES; i++) {
     String[] temp = splitTokens(lines[index], ",");
     Integer curr_id = Integer.parseInt(temp[0]); 
     Integer curr_mass = Integer.parseInt(temp[1]);

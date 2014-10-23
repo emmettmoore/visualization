@@ -114,8 +114,8 @@ class fdtNode {
     new_posx = new_posx + (new_vX * time_step);
     new_posy = new_posy + (new_vY * time_step);
     if (new_posx > 0 && new_posx < width && new_posy > 0 && new_posy < height) { 
-      vX = new_vX * 0.997;
-      vY = new_vY * 0.997;
+      vX = new_vX * DAMPING;
+      vY = new_vY * DAMPING;
       posx = new_posx + drift_x;
       posy = new_posy + drift_y;
       point.posx = new_posx;
