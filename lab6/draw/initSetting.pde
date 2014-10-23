@@ -23,6 +23,7 @@ void initSetting() {
     try {
         // submit the sql query and get a ResultSet from the database
         rs = (ResultSet) DBHandler.exeQuery(sql);
+
         rs.next();
         rangeTempValue[0] = rs.getFloat(1);
         rangeTempValue[1] = rs.getFloat(2);
@@ -33,11 +34,14 @@ void initSetting() {
         rangeHumidityValue[0] = rs.getFloat(5);
         rangeHumidityValue[1] = rs.getFloat(6);
         print(rangeTempValue[0]);
+        print("\n");
         print(rangeTempValue[1]);
+        print("\n");
         print(rangeWindValue[0]);
         print(rangeWindValue[1]);
         print(rangeHumidityValue[0]);
         print(rangeHumidityValue[1]);
+
     } catch (Exception e) {
         // should be a java.lang.NullPointerException here when rs is empty
         e.printStackTrace();

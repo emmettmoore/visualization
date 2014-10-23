@@ -75,6 +75,7 @@ void setup() {
             closeAll();
         }
     });
+    submitQuery();        //TAYLOR
 }
 
 void clearCanvas() {

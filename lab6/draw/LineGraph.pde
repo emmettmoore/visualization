@@ -9,11 +9,16 @@ class LineGraph{
     boolean currAnimating;
     float maxOfValues;
     float minOfValues;
+        float maxOfValuesX;
+    float minOfValuesX;
     float range;
+    float rangeX;      //LAB 6
     color barColor;
     color backgroundColor, hoverColor;
     int preAnimFrames;
-    String[] keys,labels;
+//    String[] keys,labels;
+//String[] keys;
+float[] keys;
     float[] values;
     Circle[] circles;
     float circleDist;
@@ -22,6 +27,7 @@ class LineGraph{
     float horizFrac;      
 
     int indexOfMax;         
+    int indexOfMaxX;         
 
     
     float switchAxisDist;
@@ -31,8 +37,11 @@ class LineGraph{
     float pieRemain;
     float fillPieIncrement;
     float[] origWidths;
-    
-    LineGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color backgroundColor1, color hoverColor1){
+      LineGraph(float posx1, float posy1,float w1, float h1, float[] keys1, float[] values1, color backgroundColor1, color hoverColor1){
+
+//      LineGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, color backgroundColor1, color hoverColor1){
+  
+//    LineGraph(float posx1, float posy1,float w1, float h1, String[] keys1, float[] values1, String[]labels1, color backgroundColor1, color hoverColor1){
       currAnimating = false;
       posx = posx1;
       posy = posy1;
@@ -44,7 +53,7 @@ class LineGraph{
       h = h1;
       keys = keys1;
       values = values1;
-      labels = labels1;
+//      labels = labels1;
       backgroundColor = backgroundColor1;
       hoverColor = hoverColor1;
       circles = new Circle[keys.length];
@@ -60,25 +69,27 @@ class LineGraph{
           total += values[i];
       }
       //for pie transition
-      pieKeys = new String[values.length + 1];
-      pieValues = new float[values.length + 1];
-      for(int i = 1; i<pieValues.length; i++){
-           pieValues[i] = 0;
-           pieKeys[i] = "";           
-      }
-      pieKeys[pieKeys.length - 1] = "";
-      pieRemain = total;
-      pieValues[pieValues.length - 1] = pieRemain;
+//      pieKeys = new String[values.length + 1];
+//      pieValues = new float[values.length + 1];
+//      for(int i = 1; i<pieValues.length; i++){
+//           pieValues[i] = 0;
+//           pieKeys[i] = "";           
+//      }
+//      pieKeys[pieKeys.length - 1] = "";
+//      pieRemain = total;
+//      pieValues[pieValues.length - 1] = pieRemain;
     }
     
     
     void Update(){
-      labelAxes();
+      stroke(0, 0, 0);
+      rect(posx, posy, w, h);
+      labelAxes();      //temp comment out lab6
       drawCircles(); 
-      rect(posx, posy, w, h);          //ADDED LAB 6
+ //     rect(posx, posy, w, h);          //ADDED LAB 6
       if(!currAnimating){
 //          GraphOutline = new Rectangle(posx,posy,w, h,  "", backgroundColor);
-          drawConnectingLines(); 
+//          drawConnectingLines(); 
           checkCircleHover(); 
       }
     }
@@ -87,6 +98,7 @@ class LineGraph{
        float xInterval = w/keys.length;
        for (int i = 0; i< keys.length; i++){
           float centerX = posx + xInterval * i + xInterval/2;
+
           float centerY = posy + h - (values[i]/range * h); 
           circles[i] = new Circle(centerX, centerY, (float)sqrt(pow(height/200, 2) + pow(width/2000, 2)), barColor);  
        } 
@@ -142,16 +154,37 @@ class LineGraph{
       textSize(12);
       fill(0,0,0);
       textAlign(CENTER,CENTER);
-      text(currText, posx - BUFFER, posy + h - h/10*i);
+      text(currText, posx - BUFFER - 22, posy + h - h/10*i);
     }
+    
   }
   void labelXAxis(){
+    /*
      int interval = (int)w/keys.length;
      for(int i = 0; i < keys.length; i++){
         textAlign(CENTER);
         textSize(10);
         text(keys[i],i*interval + posx, posy+h+BUFFER,interval, posy+h+BUFFER + 1/10*height);
      } 
+*/
+
+int startingPoint = 0;
+rangeX = (float)(maxOfValuesX);
+
+   float interval = (float)rangeX/10.0;
+    float currInterval = 0;
+    for(int i = 1; i <= NUM_INTERVALS; i++){
+      currInterval = startingPoint + i*interval;
+      String currText = Float.toString(currInterval);
+      textSize(10);
+      fill(0,0,0);
+      textAlign(CENTER);
+      text(currText, posx - 22 + w/10*i, posy + h + BUFFER - 10*(i%2) + 10); 
+
+//      text(currText, posx + w - w/10*i, posy + h + BUFFER - 10*(i%2));      //works backwards
+//      text(currText, i*interval + posx, posy + h +BUFFER, interval, posy+h+BUFFER+ 1/10 * height);
+    }
+
   }
   
   void findMaxMin(){
@@ -168,6 +201,23 @@ class LineGraph{
          minOfValues = values[i];
        }
     }
+    maxOfValuesX = keys[0];
+    minOfValuesX = keys[0];
+    indexOfMaxX = 0;                        
+    for(int i = 1; i<keys.length;i++){
+       if(maxOfValuesX < keys[i]){
+         maxOfValuesX = keys[i]; 
+         indexOfMaxX = i; 
+
+       }
+       if(minOfValuesX > keys[i]){
+         minOfValuesX = keys[i];
+       }
+    }
+    
+    
+    
+    
   }
   //returns true if still animating, false when done
   /*

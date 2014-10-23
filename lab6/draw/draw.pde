@@ -3,8 +3,16 @@ int canvasWidth = MIN_INT; // this would be initialized in setup
 LineGraph scatterPlot;
 void draw() {
     clearCanvas();
-
-//ALL THINGS TEMPORARY --------------  
+if ((keysX != null) && (valuesY != null)) {
+if ((keysX.length > 0) && (valuesY.length > 0)) {
+//  if (keysX != null) {
+  scatterPlot = new LineGraph(canvasWidth * 1/10, height* 1/20, canvasWidth - (canvasWidth*1/10) - 10, height - (height*1/10), keysX, valuesY, color(250,250,250), color(255,255,105));
+scatterPlot.Update();
+  } }
+  //FIND where the fill is messing up so chart is black
+//scatterPlot = new LineGraph(canvasWidth * 1/10, height* 1/20, canvasWidth - (canvasWidth*1/10), height - (height*1/10), keysTEMPORARY, valuesTEMPORARY, color(250,250,250), color(255,255,105));
+//scatterPlot.Update();
+/*
   String[] keysTEMPORARY = new String[3];
   keysTEMPORARY[0] = "cow";
   keysTEMPORARY[1] = "horse";
@@ -20,6 +28,7 @@ void draw() {
 rect(0, 0, canvasWidth, canvasWidth);
 scatterPlot = new LineGraph(0, 0, canvasWidth, canvasWidth, keysTEMPORARY, valuesTEMPORARY, labelsTEMPORARY, 0, 100);
 scatterPlot.Update();
+*/
 //------- ALL THINGS TEMPORARY
   /**
    ** Finish this:
