@@ -1,0 +1,45 @@
+Assignment:	Lab7
+Due:		Oct.30.2014
+Names:		Emmett Moore, Ian Cross, Taylor Maykranz
+Description:	Written answers to lab7 questions
+
+a. As you draw a selection rectangle that starts across the......
+
+      - Within the same row:
+      	The marks in the other rectangles will highlight depending upon their
+	placement-- the top ones highlight first then the middle then the
+	bottom ones, as more area is highlighted.
+
+      - Within the same column:
+      	The marks in the other rectangles will highlight depending upon their
+	placement with respect to which marks appear closer to the resepective
+	side in the rectangle.
+	If the first marks to be selected by the rectangle are more on the
+	left side, then in the same column, the ones on the left side
+	will highlight first. If the first marks to be selected by the 
+	rectangle are more on the right side, then in the same column the 
+	ones n the right side will highlight first. Or if they are in the
+	middle then they will be more in the middle when looking at the
+	rectangles from left to right/right to left.
+
+b. How about drawing......
+
+      - Within the same row:
+        If the marks on the bottom of the rectangle are the first to be
+	highlighted, then the same will go for marks in the other rectangles
+	of the same row-- the bottom ones will hightlight first. If the
+	marks on the top of the rectangle are the first to be highlighted,
+	then the same will go for marks in the top of the other rectangles of
+	the same row.
+
+      - Within the same column:
+        The marks in the other rectangles will highlight depending upon their
+        placement with respect to which marks appear closer to the resepective
+        side in the rectangle.
+        If the first marks to be selected by the rectangle are more on the
+        left side, then in the same column, the ones on the left side
+        will highlight first. If the first marks to be selected by the
+        rectangle are more on the right side, then in the same column the
+        ones n the right side will highlight first. Or if they are in the
+        middle then they will be more in the middle when looking at the
+        rectangles from left to right/right to left.

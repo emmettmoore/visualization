@@ -90,6 +90,21 @@ class SPLOMController extends Controller {
                     .setName(i + "-" + j)
                     .setPosition(curX + i * xSeg, curY + j * ySeg)
                     .setSize(xSeg, ySeg)
+                    
+                    //Team
+     //               ;
+     //               if (i == 3 && j == 0) {
+     //               boolean[] marks2;
+     //               marks2 = new boolean[marks.length];
+     //               for (int z = 0; z < marks.length; z++) {
+     //                 marks2[z] = true;
+     //               }
+     //               spView.setMarks(marks2);
+     //               } else {
+     //               spView.setMarks(marks);
+     //               }
+                    //Team^^
+                    
                     .setMarks(marks)
                     ;
 
