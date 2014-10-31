@@ -1,0 +1,17 @@
+
+main file:
+     does--- parsing, holds instances of parallel coordinate class
+
+vertical line class:
+	 takes in-- string label, float array of values, posx, posy,
+	       	    float line height
+         holds----- instance of label class
+         does------ creates a line in the correct position and have a dot
+	 	    in each correct spot on the line
+	 functions-
+		- takes in another instance of the same class, and connects
+		  the lines between its own dots and the next one's dots
+
+label class:
+      takes in--  max, min, posx, posy, number of intervals
+      creates--   the labels off to the left of where the line would appear 
