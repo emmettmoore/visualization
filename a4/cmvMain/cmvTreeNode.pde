@@ -7,6 +7,7 @@ class cmvTreeNode{
    HashMap<String, cmvTreeEdge> neighbor_edges;   
    cmvTreeNode(String ip_address){
      neighbor_edges = new HashMap<String,cmvTreeEdge>();
+     ip = ip_address;
      
    }
 }
