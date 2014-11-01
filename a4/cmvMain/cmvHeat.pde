@@ -1,4 +1,3 @@
-int TIME_STAMP = 0;
 class cmvHeat {
   ArrayList[][] data;
   
@@ -6,6 +5,7 @@ class cmvHeat {
   
   cmvHeat(String[][] raw_data) {
     Integer num_time_ranges = get_time_ranges(raw_data);
+    print("number of time ranges should be 31 and is ", num_time_ranges);
   }
   
   int get_time_ranges(String[][] raw_data) {

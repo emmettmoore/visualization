@@ -5,7 +5,7 @@ class cmvTreeNode{
    color hoverColor;
    color origColor; 
    HashMap<String, cmvTreeEdge> neighbor_edges;   
-   cmvTreeNode(String ip_address,){
+   cmvTreeNode(String ip_address){
      neighbor_edges = new HashMap<String,cmvTreeEdge>();
      ip = ip_address;
      
