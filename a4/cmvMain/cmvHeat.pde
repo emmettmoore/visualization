@@ -15,6 +15,9 @@ class cmvHeat {
     }
     return uniqTimes.size();
   }
+  cmvFilter check_hover() {
+    return null;
+  }
 
 }
 /*

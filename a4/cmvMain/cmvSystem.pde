@@ -13,6 +13,20 @@ class cmvSystem {
     ip_network = new cmvTree(parsed_data);
     
   }
+  cmvFilter check_hover() {
+    cmvFilter new_filter = ip_network.check_hover();
+    if (new_filter != null) {
+      return new_filter;
+    }
+    new_filter = heatmap.check_hover();
+    if (new_filter != null) {
+      return new_filter;
+    }
+    return categories.check_hover();
+  }
+  void update() {
+    filter = check_hover();
+  } 
   /*
   void test_data(){
     for (int i=0; i< headers.length; i++) { print(headers[i] + ' ');}

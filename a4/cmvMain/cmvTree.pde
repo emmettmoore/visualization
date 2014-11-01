@@ -20,5 +20,6 @@ class cmvTree {
           } 
        }          
     }
+    cmvFilter check_hover() {return null;}
 }
 

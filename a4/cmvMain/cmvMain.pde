@@ -7,6 +7,10 @@ int SYSLOG = 5;
 int OP = 6;
 int PROTOCOL = 7;
 
+int CAT = 0;
+int NETWORK = 1;
+int HEAT = 2;
+
 String fn = "data_aggregate.csv"; //"ex2.csv";
 import java.util.*;
 String[] headers;
@@ -29,7 +33,7 @@ void setup() {
 
 void draw() {
   
-  
+  system.update();
 }
 
 String[][] read_data(){
