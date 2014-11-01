@@ -1,7 +1,7 @@
 class cmvSystem {
   cmvHeat heatmap;
   cmvBars categories;
- // cmvTree ip_network;
+  cmvTree ip_network;
   cmvFilter filter;
   String[] headers;
   String[][] data;
@@ -10,7 +10,7 @@ class cmvSystem {
     headers = parsed_headers;
     heatmap = new cmvHeat(parsed_data);
     categories = new cmvBars(parsed_data);
- //   ip_network = new cmvTree(parsed_data);
+    ip_network = new cmvTree(parsed_data);
     
   }
   /*
