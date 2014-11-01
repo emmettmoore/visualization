@@ -15,7 +15,7 @@ class cmvTree {
              //modify curr_node
           }
           else{
-             curr_node = new cmvTreeNode();
+             curr_node = new cmvTreeNode(row[IP]);
           } 
        }          
     }
