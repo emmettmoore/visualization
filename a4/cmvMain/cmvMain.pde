@@ -11,7 +11,7 @@ void setup() {
   headers = null;
   String[][] data = read_data();
   system = new cmvSystem(read_data(), headers);
-  system.test_data();
+  //system.test_data();
   frame.setResizable(true);
   textFont(createFont("Arial",12));
   
