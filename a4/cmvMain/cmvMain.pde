@@ -3,34 +3,33 @@
 
 
 String fn = "data_aggregate.csv"; //"ex2.csv";
-
-String[] headers;
-Table data;
-//an array of arrays of floats: contains the points of each column
-String [][] data;
 import java.util.*;
+String[] headers;
+
 cmvSystem system;
 
 void setup() {
   size(1200,800);
   background(250,250,250);
-  input = null;
   headers = null;
-  read_data();
-  test_data();
-
+  String[][] data = read_data();
+  system = new cmvSystem(read_data(), headers);
+  system.test_data();
   frame.setResizable(true);
   textFont(createFont("Arial",12));
+  
   
   
 }
 
 void draw() {
   
-
+  
 }
 
-void read_data(){
+String[][] read_data(){
+    Table input;input = null;
+    String [][] data;
     input = loadTable(fn,"header");
     
     int num_rows = input.getRowCount();
@@ -45,16 +44,15 @@ void read_data(){
       }
       index++;
     }
+    return data;
 }
-
+/*
 void test_data(){
    for(int i = 0; i<data.length; i++){
       for (int j = 0; j<data[0].length; j++){
-        print (data[i][j] + ' ');   
+        print (data[i][j] + ' ');
       }
       print('\n');
    }
 } 
-
-
-
+*/
