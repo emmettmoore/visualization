@@ -1,6 +1,11 @@
-
-
-
+int TIME_STAMP = 0;
+int SRC_IP = 1;
+int SRC_PORT = 2;
+int DEST_IP = 3;
+int DEST_PORT = 4;
+int SYSLOG = 5;
+int OP = 6;
+int PROTOCOL = 7;
 
 String fn = "data_aggregate.csv"; //"ex2.csv";
 import java.util.*;
