@@ -1,6 +1,6 @@
 class cmvFilter{ 
-   int magic_chart; //CAT, NETWORK, HEAT
-   //CAT
+   int magic_chart; //CATEGORY, NETWORK, HEAT
+   //CATEGORY
    String category;
    //NETWORK
    String source_ip;

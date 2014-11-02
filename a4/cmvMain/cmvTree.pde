@@ -2,9 +2,10 @@ class cmvTree {
     float posx,posy,w,h;
     HashMap<String,cmvTreeNode> Nodes;
     
-    cmvTree(String[][] data){
+    cmvTree(String[][] raw_data){
        Nodes = new HashMap<String,cmvTreeNode>();
-       init_nodes(data);
+       int num_nodes = get_num_sources(raw_data, PROTOCOL);   // XXX IF you want/need this funciton; its modulah (num_nodes = 19 for this dataset)
+       init_nodes(raw_data);
     }
     void init_nodes(String[][] data){
        for(int i = 0; i<data.length;i++){
@@ -20,6 +21,19 @@ class cmvTree {
           } 
        }          
     }
-    cmvFilter check_hover() {return null;}
+    int get_num_sources(String[][] raw_data, int field) {
+      Set<String> uniqTimes = new TreeSet<String>();
+      for (int i=0; i < raw_data.length; i++) {
+        uniqTimes.add(raw_data[i][field]);
+      }
+      return uniqTimes.size();
+    }
+    cmvFilter check_hover() {
+      //check if hover is over something in heatmap. if it is, return valuable info, otherwise return null.
+      return null;
+    }
+    void update(cmvFilter curr_filter) {
+    
+  }
 }
 

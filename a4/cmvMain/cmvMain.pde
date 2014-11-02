@@ -7,7 +7,7 @@ int SYSLOG = 5;
 int OP = 6;
 int PROTOCOL = 7;
 
-int CAT = 0;
+int CATEGORY = 0;
 int NETWORK = 1;
 int HEAT = 2;
 
