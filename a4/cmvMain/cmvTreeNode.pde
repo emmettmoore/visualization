@@ -1,5 +1,8 @@
 class cmvTreeNode{
    boolean udp, tcp, info, teardown, built, deny;
+   HashSet<String> time_stamps;
+   HashSet<String> ports;
+
    float posx;  //center
    float posy;  //center
    String ip;
@@ -8,6 +11,8 @@ class cmvTreeNode{
    Circle circle;
    HashMap<String, cmvTreeEdge> neighbor_edges;   
    cmvTreeNode(String ip_address, float x, float y, float radius, color c){
+     time_stamps = new HashSet<String>();
+     ports = new HashSet<String>();
      posx = x;
      posy = y;
      neighbor_edges = new HashMap<String,cmvTreeEdge>();

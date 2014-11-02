@@ -8,7 +8,7 @@ class Circle{
         posy = y;
         radius = r;
         C1 = c;
-        Display();
+        //Display();
     }
     void Display(){
         fill(C1);

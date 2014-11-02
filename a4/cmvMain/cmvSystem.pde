@@ -16,7 +16,7 @@ class cmvSystem {
     uniq_ports = populate_uniq_list(data, SRC_PORT);
     heatmap = new cmvHeat(parsed_data, uniq_src_ips, uniq_times, uniq_ports);
     categories = new cmvCategories(parsed_data);
-    ip_network = new cmvTree(parsed_data);
+    ip_network = new cmvTree(parsed_data,0,0,0.75*width,0.75*height);
     
   }
   List<String> populate_uniq_list(String[][] raw_data, int field) {

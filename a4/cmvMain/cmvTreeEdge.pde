@@ -20,9 +20,6 @@ class cmvTreeEdge{
    void increase_width(){
      edge_width += .01;
      strokeWeight(edge_width);  
-     //print ("first point " +  x1 + ',' + y1+ '\n'); 
-     //print ("second point " +  x2 + ',' + y2 + '\n'); 
-
      line(x1,y1,x2,y2);
    }
 }

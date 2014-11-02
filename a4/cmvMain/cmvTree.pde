@@ -58,6 +58,14 @@ class cmvTree {
       
       //priority
       if (curr_element[OP] == "Info") { curr_node.info = true; }
+      //port range
+      
+      
+      //time stamp
+      curr_node.time_stamps.add(curr_element[TIME_STAMP]);
+      curr_node.ports.add(curr_element[DEST_PORT]);
+      curr_node.ports.add(curr_element[SRC_PORT]);
+      
       return curr_node;
     }
     
