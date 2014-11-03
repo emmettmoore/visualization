@@ -113,7 +113,7 @@ class cmvCategories{ //x y width height
     return total;
   }
   
-  cmvFilter check_hover() {
+  cmvFilter check_hover() {    
     cmvFilter new_filter = null;
   //check if hover is over something in Categories. if it is, return valuable info, otherwise return null.
       for (int i = 0; i < Bars.length; i++) {
@@ -125,27 +125,15 @@ class cmvCategories{ //x y width height
           } else {
             Bars[i][j].col = Bars[i][j].origCol;
             Bars[i][j].populateRect();
+            Bars[i][j].Display();        //taylor temp trying
          }
         }
       }
       return new_filter;
   }
 
-  /*
-    cmvFilter check_hover() {
-    cmvFilter new_filter = null;
-    for (int i=1; i<uniq_times.size() + 1; i++) {
-      for (int j=0; j<uniq_ports.size(); j++) {
-        if (grid[i][j].rct.within()) {
-          new_filter = new cmvFilter(HEAT, "", "", uniq_times.get(i - 1), uniq_ports.get(j));
-        }
-      }
-    }
-    return new_filter;
-  }
-  */
-  
-  
+
+   
   void update(cmvFilter curr_filter) {
     int highlight_total = 0;
     for (int a = 0; a < Bars.length; a++) {
@@ -153,13 +141,16 @@ class cmvCategories{ //x y width height
         if (curr_filter == null) {
             highlighting = false;
             Bars[a][b].highlight_total = 0;
+            Bars[a][b].col = Bars[a][b].origCol;      //get rid of full bar highlighting leftover from .within
+            Bars[a][b].populateRect();                //(get rid of...)
             Bars[a][b].Display();
-            return;
         } else {
           if (curr_filter.magic_chart == HEAT) { 
+            Bars[a][b].col = Bars[a][b].origCol;   //get rid of full bar highlighting leftover from .within
+            Bars[a][b].populateRect();            //(get rid of....)
             highlight_total = 0;
-            Bars[a][b].highlight_total = 0;    //taylor
-            Bars[a][b].Display();    //taylor
+            Bars[a][b].highlight_total = 0;    
+            Bars[a][b].Display();    
               if (Bars[a][b].time_port.containsKey(curr_filter.time_range)) {
                  ArrayList <String> copy = Bars[a][b].time_port.get(curr_filter.time_range);
                  for (int x = 0; x < copy.size(); x++ ){
@@ -172,9 +163,11 @@ class cmvCategories{ //x y width height
                  Bars[a][b].Display();
               }
           } else if (curr_filter.magic_chart == NETWORK) {
+             Bars[a][b].col = Bars[a][b].origCol;      //get rid of full bar highlighting leftover from .within
+            Bars[a][b].populateRect();                //(get rid of.....)
             highlight_total = 0;
-            Bars[a][b].highlight_total = 0;    //taylor
-            Bars[a][b].Display();    //taylor
+            Bars[a][b].highlight_total = 0;    
+            Bars[a][b].Display();    
             if (Bars[a][b].ips.containsKey(curr_filter.source_ip)) {
               Bars[a][b].highlight_total = Bars[a][b].ips.get(curr_filter.source_ip);
               highlighting = true;
@@ -183,11 +176,10 @@ class cmvCategories{ //x y width height
              //deal with it if its in network
           } else if (curr_filter.magic_chart == CATEGORY) {
             highlight_total = 0;
-                        Bars[a][b].highlight_total = 0;    //taylor
-            Bars[a][b].Display();    //taylor
+            Bars[a][b].highlight_total = 0;    
+            Bars[a][b].Display();   
           }
-          // create a yellow rectangle of the correct size
-        } // what if it is my own?
+        } 
       }
     }
   }
