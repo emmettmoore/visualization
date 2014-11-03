@@ -39,9 +39,9 @@ class Bucket{
  }
  
  void highlightRect() {
-   float newHeight = ((float)highlight_total / (float)count) * h;
-   color hlight = color(255, 255, 0);
-   Rectangle rect2 = new Rectangle(posx, posy, w, newHeight, "", hlight);
+   float newHeight = (((float)highlight_total) / ((float)count)) * h;
+ //  color hlight = color(255, 255, 0);
+   Rectangle rect2 = new Rectangle(posx, posy, w, newHeight, "", highlight_color);
    rect2.Display();
  }
  

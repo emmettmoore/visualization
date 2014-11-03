@@ -1,6 +1,7 @@
 // --> when highlighting is being performed, have protocol display the columns 
 // TO DO: create a data structure that will map times ports so that I can handle messages from cmvHeat. (istance of cmvHeat if desperate)
 //255, 255, 0
+//highlighting could possibly be inaccurate?
 class cmvCategories{ //x y width height
   Integer total_num_data;
   Integer num_protocol; //2
@@ -156,6 +157,7 @@ class cmvCategories{ //x y width height
             return;
         } else {
           if (curr_filter.magic_chart == HEAT) { 
+            highlight_total = 0;
               if (Bars[a][b].time_port.containsKey(curr_filter.time_range)) {
                  ArrayList <String> copy = Bars[a][b].time_port.get(curr_filter.time_range);
                  for (int x = 0; x < copy.size(); x++ ){
@@ -170,6 +172,12 @@ class cmvCategories{ //x y width height
                  Bars[a][b].Display();
               }
           } else if (curr_filter.magic_chart == NETWORK) {
+            highlight_total = 0;
+            if (Bars[a][b].ips.containsKey(curr_filter.source_ip)) {
+              Bars[a][b].highlight_total = Bars[a][b].ips.get(curr_filter.source_ip);
+              highlighting = true;
+              Bars[a][b].Display();
+            }
              //deal with it if its in network
           }
           // create a yellow rectangle of the correct size
