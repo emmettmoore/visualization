@@ -110,9 +110,35 @@ class cmvCategories{ //x y width height
   }
   
   cmvFilter check_hover() {
+    cmvFilter new_filter = null;
   //check if hover is over something in Categories. if it is, return valuable info, otherwise return null.
-  return null;
+      for (int i = 0; i < Bars.length; i++) {
+        for (int j = 0; j < Bars[i].length; j++) {
+          if (Bars[i][j].rect.within()) {
+            Bars[i][j].col = color(255, 255, 0);
+            Bars[i][j].populateRect();
+            new_filter = new cmvFilter(CATEGORY, Bars[i][j].category, "", "", "");
+          }
+      }
+      }
+      return new_filter;
   }
+
+  /*
+    cmvFilter check_hover() {
+    cmvFilter new_filter = null;
+    for (int i=1; i<uniq_times.size() + 1; i++) {
+      for (int j=0; j<uniq_ports.size(); j++) {
+        if (grid[i][j].rct.within()) {
+          new_filter = new cmvFilter(HEAT, "", "", uniq_times.get(i - 1), uniq_ports.get(j));
+        }
+      }
+    }
+    return new_filter;
+  }
+  */
+  
+  
   void update(cmvFilter curr_filter) {
     for (int i = 0; i < Bars.length; i++) {
       for (int j = 0; j < Bars[i].length; j++) {
@@ -121,10 +147,6 @@ class cmvCategories{ //x y width height
           Bars[i][j].Display();
       }
     }
-    pushStyle();
-    strokeWeight(4);
-    line(0, height * .75, width, height * .75);
-    popStyle();
     
   }
   

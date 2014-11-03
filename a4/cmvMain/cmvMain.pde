@@ -30,7 +30,7 @@ void setup() {
 }
 
 void draw() {
-  //system.update();
+  system.update();
 }
 
 String[][] read_data(){
