@@ -1,3 +1,4 @@
+int info_count = 0;
 class Cell {
   Rectangle rct;
   color heat_color;
@@ -6,12 +7,13 @@ class Cell {
   boolean[] source_ips;
   float posx, posy, h, w;
   
+  
   Cell(float posx1, float posy1, float wt, float ht, String txt, int num_source_ips) {
     posx = posx1; posy = posy1;
     w = wt; h = ht;
     heat_color = color(255);
     count = 0;
-    udp = tcp = info = teardown = built = deny = false;
+    udp = false; tcp = false; info = false; teardown = false; built = false; deny = false;
     source_ips = new boolean[num_source_ips];
     for (int i=0; i < num_source_ips; i++) {
       source_ips[i] = false;
@@ -24,6 +26,7 @@ class Cell {
   }
   void display_highlight() {
     rct.C1 = highlight_color;
+    rct.Display();
   }
   void display_heat() {
     rct.C1 = heat_color;
@@ -96,17 +99,15 @@ class cmvHeat {
   }
   
   void check_all_fields(Cell curr_cell, String[] curr_element, int src_ip_range) {
-    
     curr_cell.source_ips[src_ip_range] = true;
+    if (curr_element[PROTOCOL].equals("TCP")) { curr_cell.tcp = true; }
+    else if (curr_element[PROTOCOL].equals("UPD")) { curr_cell.udp = true; }
     
-    if (curr_element[PROTOCOL] == "TCP") { curr_cell.tcp = true; }
-    else if (curr_element[PROTOCOL] == "UPD") { curr_cell.udp = true; }
+    if (curr_element[OP].equals("Teardown")) { curr_cell.teardown = true; }
+    else if (curr_element[OP].equals("Deny")) { curr_cell.deny = true; }
+    else if (curr_element[OP].equals("Built")) { curr_cell.built = true; }
     
-    if (curr_element[OP] == "Teardown") { curr_cell.teardown = true; }
-    else if (curr_element[OP] == "Deny") { curr_cell.deny = true; }
-    else if (curr_element[OP] == "Built") { curr_cell.built = true; }
-    
-    if (curr_element[OP] == "Info") { curr_cell.info = true; }
+    if (curr_element[SYSLOG].equals("Info")) { info_count++; curr_cell.info = true; }
   }
   
   void assign_cell_colors() {
@@ -144,30 +145,30 @@ class cmvHeat {
     fill(255, 255, 255);
     rect(posx, posy, w, h);
     //re-assign x, y, width, height and color in rect
-    for (int i=0; i<uniq_times.size() + 1; i++) {
-      for (int j=0; j<uniq_ports.size() + 1; j++) {
-        // check filter, and update highlighting
+    for (int i=1; i<uniq_times.size() + 1; i++) {
+      for (int j=0; j<uniq_ports.size(); j++) {
         if (curr_filter == null) {
           grid[i][j].display_heat();
         }
         else { 
+          
           if (curr_filter.magic_chart == CATEGORY) {
-            if (curr_filter.category == "udp" && grid[i][j].udp == true) {
+            if (curr_filter.category.equals("udp") && grid[i][j].udp == true) {
               grid[i][j].display_highlight();
             }
-            else if (curr_filter.category == "tcp" && grid[i][j].tcp == true) {
+            else if (curr_filter.category.equals("tcp") && grid[i][j].tcp == true) {
               grid[i][j].display_highlight();
             }
-            else if (curr_filter.category == "built" && grid[i][j].built == true) {
+            else if (curr_filter.category.equals("built") && grid[i][j].built == true) {
               grid[i][j].display_highlight();
             }
-            else if (curr_filter.category == "teardown" && grid[i][j].teardown == true) {
+            else if (curr_filter.category.equals("teardown") && grid[i][j].teardown == true) {
               grid[i][j].display_highlight();
             }
-            else if (curr_filter.category == "deny" && grid[i][j].deny == true) {
+            else if (curr_filter.category.equals("deny") && grid[i][j].deny == true) {
               grid[i][j].display_highlight();
             }
-            else if (curr_filter.category == "info" && grid[i][j].info == true) {
+            else if (curr_filter.category.equals("info") && grid[i][j].info == true) {
               grid[i][j].display_highlight();
             }
           }
