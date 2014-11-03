@@ -1,8 +1,11 @@
 class cmvTree {
     float posx,posy,w,h;
     HashMap<String,cmvTreeNode> Nodes;
-    
-    cmvTree(String[][] raw_data){
+    cmvTree(String[][] raw_data, float posx_,float posy_, float w_, float h_){
+       posx = posx_;
+       posy = posy_;
+       w = w_;
+       h = h_;
        Nodes = new HashMap<String,cmvTreeNode>();
        int num_nodes = get_num_sources(raw_data, SRC_IP);   // XXX IF you want/need this funciton; its modulah (num_nodes = 19 for this dataset)
        init_nodes(raw_data);
@@ -24,9 +27,9 @@ class cmvTree {
              Nodes.put(curr_ip,curr_node);
           }
           else{
-             posx = (float)Math.random() * width;
-             posy = (float)Math.random() * height;
-             curr_node = new cmvTreeNode(curr_ip,posx,posy,10,color(0,250,100));
+             float x = posx + (float)Math.random() * w;
+             float y = posy + (float)Math.random() * h;
+             curr_node = new cmvTreeNode(curr_ip,x,y,10,color(0,250,100));
              curr_node = check_all_fields(row,curr_node);
              Nodes.put(curr_ip,curr_node);
           } 
@@ -82,7 +85,7 @@ class cmvTree {
       return null;
     }
     void update(cmvFilter curr_filter) {
-    
+        
     }
 }
 
