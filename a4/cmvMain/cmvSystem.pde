@@ -42,6 +42,6 @@ class cmvSystem {
     filter = check_hover();
     heatmap.update(filter);
     categories.update(filter);
-    ip_network.update(filter);
+    //ip_network.update(filter);
   }
 }

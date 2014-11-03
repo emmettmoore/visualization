@@ -123,7 +123,7 @@ class cmvHeat {
         grid[i+1][j].set_heat_color(color(240, adjusted_color, 100)); 
       }
     }
-    colorMode(RGB);
+    colorMode(RGB, 255, 255, 255);
   }
 
   /****                                                                      ****
@@ -145,8 +145,8 @@ class cmvHeat {
     fill(255, 255, 255);
     rect(posx, posy, w, h);
     //re-assign x, y, width, height and color in rect
-    for (int i=1; i<uniq_times.size() + 1; i++) {
-      for (int j=0; j<uniq_ports.size(); j++) {
+    for (int i=0; i<uniq_times.size() + 1; i++) {
+      for (int j=0; j<uniq_ports.size() + 1; j++) {
         if (curr_filter == null) {
           grid[i][j].display_heat();
         }

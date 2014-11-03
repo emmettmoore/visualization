@@ -29,7 +29,7 @@ class cmvTree {
           else{
              float x = posx + (float)Math.random() * w;
              float y = posy + (float)Math.random() * h;
-             curr_node = new cmvTreeNode(curr_ip,x,y,10,color(0,250,100),color(250,0,100));
+             curr_node = new cmvTreeNode(curr_ip,x,y,10,color(0,250,100),highlight_color);
              curr_node = check_all_fields(row,curr_node);
              Nodes.put(curr_ip,curr_node);
           } 
@@ -98,7 +98,7 @@ class cmvTree {
          if(highlight){
            curr_node.Update(highlight);
            curr_node.draw_neighbor_edges(highlight);
-           return new cmvFilter(1,"",curr_node.ip,"",""); 
+           return new cmvFilter(NETWORK,"",curr_node.ip,"",""); 
          }
        }
       return null;
