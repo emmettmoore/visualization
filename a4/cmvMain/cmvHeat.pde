@@ -19,7 +19,12 @@ class Cell {
       heat_color = hc;
       rct.C1 = hc;
   }
-  void Display() {
+  void display_highlight() {
+    rct.C1 = highlight_color;
+    rct.Display();
+  }
+  void display_heat() {
+    rct.C1 = heat_color;
     rct.Display();
   }
   void update(float posx1, float posy1, float w1, float h1, String txt, color color1) {
@@ -100,11 +105,16 @@ class cmvHeat {
   }
   
   void assign_cell_colors() {
+    
     colorMode(HSB, 360, 100, 100);
     for (int i=0; i<uniq_times.size(); i++) {
       for (int j=0; j<uniq_ports.size(); j++) {    
         float ratio = grid[i][j].count / highest_count;
-        grid[i+1][j].set_heat_color(color(360, ratio*100, 100)); 
+        float adjusted_color = ratio;
+        if (ratio > 0) {
+          adjusted_color = max(5, ratio*100);
+        }
+        grid[i+1][j].set_heat_color(color(360, adjusted_color, 100)); 
       }
     }
     colorMode(RGB);
@@ -130,8 +140,39 @@ class cmvHeat {
     for (int i=0; i<uniq_times.size() + 1; i++) {
       for (int j=0; j<uniq_ports.size() + 1; j++) {
         // check filter, and update highlighting
-        // 
-        grid[i][j].Display();
+        if (curr_filter == null) {
+          grid[i][j].display_heat();
+        }
+        else { 
+          if (curr_filter.magic_chart == CATEGORY) {
+            if (curr_filter.category == "udp" && grid[i][j].udp == true) {
+              grid[i][j].display_highlight();
+            }
+            else if (curr_filter.category == "tcp" && grid[i][j].tcp == true) {
+              grid[i][j].display_highlight();
+            }
+            else if (curr_filter.category == "built" && grid[i][j].built == true) {
+              grid[i][j].display_highlight();
+            }
+            else if (curr_filter.category == "teardown" && grid[i][j].teardown == true) {
+              grid[i][j].display_highlight();
+            }
+            else if (curr_filter.category == "deny" && grid[i][j].deny == true) {
+              grid[i][j].display_highlight();
+            }
+            else if (curr_filter.category == "info" && grid[i][j].info == true) {
+              grid[i][j].display_highlight();
+            }
+          }
+          else if (curr_filter.magic_chart == NETWORK) {
+            if (grid[i][j].source_ips[uniq_src_ips.indexOf(curr_filter.source_ip)]) {
+              grid[i][j].display_highlight();
+            }
+          }
+          else {
+            grid[i][j].display_heat();
+          }
+        }
       }
     }
   }
