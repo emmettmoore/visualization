@@ -77,6 +77,10 @@ class cmvTree {
       return uniqTimes.size();
     }
     void update(cmvFilter curr_filter) {
+      fill(250); 
+      stroke(250);
+      rect(0,0,0.75*width,0.68*height);
+      stroke(0);
        draw_all_edges();
        Iterator it = Nodes.entrySet().iterator();
        while (it.hasNext()) {
