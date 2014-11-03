@@ -29,7 +29,7 @@ class cmvTree {
           else{
              float x = posx + (float)Math.random() * w;
              float y = posy + (float)Math.random() * h;
-             curr_node = new cmvTreeNode(curr_ip,x,y,10,color(0,250,100));
+             curr_node = new cmvTreeNode(curr_ip,x,y,10,color(0,250,100),color(250,0,100));
              curr_node = check_all_fields(row,curr_node);
              Nodes.put(curr_ip,curr_node);
           } 
@@ -97,6 +97,7 @@ class cmvTree {
          highlight = curr_node.check_hover();
          if(highlight){
            curr_node.Update(highlight);
+           curr_node.draw_neighbor_edges(highlight);
            return new cmvFilter(1,"",curr_node.ip,"",""); 
          }
        }
@@ -128,17 +129,7 @@ class cmvTree {
     while(i.hasNext()) {
       Map.Entry temp = (Map.Entry)i.next();
       cmvTreeNode curr_node = (cmvTreeNode)temp.getValue();
-      draw_neighbor_edges(curr_node);
-    }
-  }
-  void draw_neighbor_edges(cmvTreeNode curr_node){
-    Set set = curr_node.neighbor_edges.entrySet();
-    Iterator i = set.iterator();
-    // Display elements
-    while(i.hasNext()) {
-      Map.Entry temp = (Map.Entry)i.next();
-      cmvTreeEdge curr_edge = (cmvTreeEdge)temp.getValue();
-      curr_edge.Update();
+      curr_node.draw_neighbor_edges(false); //0 means don't highlight
     }
   }
 }

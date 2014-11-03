@@ -1,4 +1,3 @@
-int BUFFER = 15;
 class Rectangle {
   float posx;
   float posy;
