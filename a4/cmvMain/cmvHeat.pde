@@ -31,12 +31,6 @@ class Cell {
   void display_heat() {
     rct.C1 = heat_color;
     rct.Display();
-    //rct.update(posx, posy, w, h, "", heat_color);
-  }
-  void update(float posx1, float posy1, float wt, float ht, String txt, color color1) {
-    posx = posx1; posy = posy1;
-    w = wt; h = ht;
-    rct.update(posx1, posy1, wt, ht, txt, color1);
   }
 }
 
@@ -93,9 +87,10 @@ class cmvHeat {
       grid[time_range][port_range].count += 1;
       if (grid[time_range][port_range].count > highest_count) {
         highest_count = grid[time_range][port_range].count + 1;
-        check_all_fields(grid[time_range][port_range], raw_data[i], src_ip_range);
       }
+      check_all_fields(grid[time_range][port_range], raw_data[i], src_ip_range);
     }
+    print(info_count);
   }
   
   void check_all_fields(Cell curr_cell, String[] curr_element, int src_ip_range) {
@@ -142,11 +137,12 @@ class cmvHeat {
     return new_filter;
   }
   void update(cmvFilter curr_filter) {
-    fill(255, 255, 255);
-    rect(posx, posy, w, h);
+    
     //re-assign x, y, width, height and color in rect
     for (int i=0; i<uniq_times.size() + 1; i++) {
       for (int j=0; j<uniq_ports.size() + 1; j++) {
+        if (i == 0) { continue; }
+        if (j == uniq_ports.size()) { continue; } 
         if (curr_filter == null) {
           grid[i][j].display_heat();
         }
@@ -184,5 +180,4 @@ class cmvHeat {
       }
     }
   }
-    
 }

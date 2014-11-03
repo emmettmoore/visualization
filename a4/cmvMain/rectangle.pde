@@ -38,8 +38,6 @@ class Rectangle {
     text(T1, posx + w /2 , posy + h/2);
   }
   void Display(){
-      fill(color(255,255,255));
-      rect(posx, posy, w, h);
       fill(C1);
       rect(posx,posy,w,h);
       fill(color(0,0,0));
