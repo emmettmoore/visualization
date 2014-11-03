@@ -6,6 +6,8 @@ class Bucket{
  float w;
  float h;
  color col;
+ color origCol;
+ int highlight_total;
  Rectangle rect;
   //hashmap:
  //for each distinct IP: # of instances of IP
@@ -20,6 +22,7 @@ class Bucket{
    ips = ips1;
    time_port = time_port1;
    count = count1;
+   highlight_total = 0;
 //   col = color(175, 100, 220);
 
  }

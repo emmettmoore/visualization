@@ -134,7 +134,7 @@ class cmvHeat {
     for (int i=1; i<uniq_times.size() + 1; i++) {
       for (int j=0; j<uniq_ports.size(); j++) {
         if (grid[i][j].rct.within()) {
-          new_filter = new cmvFilter(HEAT, "", "", uniq_times.get(i - 1), uniq_ports.get(j));
+          new_filter = new cmvFilter(HEAT, "", "", uniq_ports.get(j), uniq_times.get(i - 1));
         }
       }
     }
