@@ -1,4 +1,5 @@
 int info_count = 0;
+int info_count2 = 0;
 class Cell {
   Rectangle rct;
   color heat_color;
@@ -86,7 +87,7 @@ class cmvHeat {
       int src_ip_range = uniq_src_ips.indexOf(raw_data[i][SRC_IP]);
       grid[time_range][port_range].count += 1;
       if (grid[time_range][port_range].count > highest_count) {
-        highest_count = grid[time_range][port_range].count + 1;
+        highest_count = grid[time_range][port_range].count;
       }
       check_all_fields(grid[time_range][port_range], raw_data[i], src_ip_range);
     }
@@ -96,12 +97,13 @@ class cmvHeat {
   void check_all_fields(Cell curr_cell, String[] curr_element, int src_ip_range) {
     curr_cell.source_ips[src_ip_range] = true;
     if (curr_element[PROTOCOL].equals("TCP")) { curr_cell.tcp = true; }
-    else if (curr_element[PROTOCOL].equals("UPD")) { curr_cell.udp = true; }
+    else if (curr_element[PROTOCOL].equals("UDP")) { curr_cell.udp = true; }
+
     if (curr_element[OP].equals("Teardown")) { curr_cell.teardown = true; }
     else if (curr_element[OP].equals("Deny")) { curr_cell.deny = true; }
     else if (curr_element[OP].equals("Built")) { curr_cell.built = true; }
     
-    if (curr_element[SYSLOG].equals("Info")) { info_count++; curr_cell.info = true; }
+    if (curr_element[SYSLOG].equals("Info")) { curr_cell.info = true; }
   }
   
   void assign_cell_colors() {
@@ -142,11 +144,11 @@ class cmvHeat {
       for (int j=0; j<uniq_ports.size() + 1; j++) {
         if (i == 0) { continue; }
         if (j == uniq_ports.size()) { continue; } 
-        if (curr_filter == null) {
-          grid[i][j].display_heat();
+        if (grid[i][j].info == true) {
+          info_count2++;
         }
-        else { 
-          
+        grid[i][j].display_heat();
+        if (curr_filter != null) {
           if (curr_filter.magic_chart == CATEGORY) {
             if (curr_filter.category.equals("udp") && grid[i][j].udp == true) {
               grid[i][j].display_highlight();
@@ -178,5 +180,6 @@ class cmvHeat {
         }
       }
     }
+    print (info_count);
   }
 }
