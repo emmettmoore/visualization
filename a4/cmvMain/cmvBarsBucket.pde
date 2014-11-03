@@ -32,6 +32,17 @@ class Bucket{
  }
  void Display() {
    rect.Display();
+   if (highlight_total != 0) {
+     highlightRect();
+     print ("its highlighting");
+   }
+ }
+ 
+ void highlightRect() {
+   float newHeight = ((float)highlight_total / (float)count) * h;
+   color hlight = color(255, 255, 0);
+   Rectangle rect2 = new Rectangle(posx, posy, w, newHeight, "", hlight);
+   rect2.Display();
  }
  
 }
