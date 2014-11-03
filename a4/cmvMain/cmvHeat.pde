@@ -83,7 +83,6 @@ class cmvHeat {
       grid[i][j] = new Cell(cell_x, cell_y, cell_width, cell_height, uniq_ports.get(j), uniq_src_ips.size());
     }
   }
-    
   void transform_and_load_data(String[][] raw_data) {
     for (int i=0; i< raw_data.length; i++) {
       int time_range = uniq_times.indexOf(raw_data[i][TIME_STAMP]) + 1;
@@ -101,7 +100,7 @@ class cmvHeat {
     curr_cell.source_ips[src_ip_range] = true;
     if (curr_element[PROTOCOL].equals("TCP")) { curr_cell.tcp = true; }
     else if (curr_element[PROTOCOL].equals("UDP")) { curr_cell.udp = true; }
-
+    
     if (curr_element[OP].equals("Teardown")) { curr_cell.teardown = true; }
     else if (curr_element[OP].equals("Deny")) { curr_cell.deny = true; }
     else if (curr_element[OP].equals("Built")) { curr_cell.built = true; }
@@ -133,7 +132,7 @@ class cmvHeat {
     for (int i=1; i<uniq_times.size() + 1; i++) {
       for (int j=0; j<uniq_ports.size(); j++) {
         if (grid[i][j].rct.within()) {
-          new_filter = new cmvFilter(HEAT, "", "", uniq_ports.get(j), uniq_times.get(i));
+          new_filter = new cmvFilter(HEAT, "", "", uniq_ports.get(j), uniq_times.get(i-1));
         }
       }
     }
