@@ -18,16 +18,15 @@ String[] headers;
 cmvSystem system;
 
 void setup() {
+  //frame.setResizable(true);
   size(1200,800);
   background(100,250,250);
   //frame.setResizable(true);
   headers = null;
-  String[][] data = read_data();
+  String[][] data = read_data();  
+  textFont(createFont("Arial",12));
   system = new cmvSystem(read_data(), headers);
   textFont(createFont("Arial",12));
-  
-  
-  
 }
 
 void draw() {

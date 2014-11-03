@@ -1,29 +1,44 @@
 class Cell {
-  color cell_color;
-  int count;
+  Rectangle rct;
+  color heat_color;
+  float count;
   boolean udp, tcp, info, teardown, built, deny;
   boolean[] source_ips;
   
-  Cell(int num_source_ips) {
-    cell_color = color(255);
+  Cell(float posx, float posy, float ht, float wt, String txt, int num_source_ips) {
+    heat_color = color(255);
     count = 0;
     udp = tcp = info = teardown = built = deny = false;
     source_ips = new boolean[num_source_ips];
     for (int i=0; i < num_source_ips; i++) {
       source_ips[i] = false;
     }
+    rct = new Rectangle(posx, posy, ht, wt, txt, heat_color);
+  }
+  void set_heat_color(color hc) {
+      heat_color = hc;
+      rct.C1 = hc;
+  }
+  void Display() {
+    rct.Display();
+  }
+  void update(float posx1, float posy1, float w1, float h1, String txt, color color1) {
+    rct.update(posx1, posy1, w1, h1, txt, color1);
   }
 }
 
 class cmvHeat {
-  Cell[][] data; 
+  Cell[][] grid;
   
   List<String> uniq_times;
   List<String> uniq_ports;
   List<String> uniq_src_ips;
+  float posx, posy, w, h;
   
-  int highest_count; // used to keep track of relative count of
-  cmvHeat(String[][] raw_data, List<String> uniq_src_ips1, List<String> uniq_times1, List<String> uniq_ports1) {
+  float highest_count; // used to determine density of colors.
+  cmvHeat(float x, float y, float wt, float ht, String[][] raw_data, List<String> uniq_src_ips1, List<String> uniq_times1, List<String> uniq_ports1) {
+    posx = x;  posy = y;
+    w    = wt; h = ht;
     uniq_times = new ArrayList<String>(uniq_times1);
     uniq_ports = new ArrayList<String>(uniq_ports1);
     uniq_src_ips = new ArrayList<String>(uniq_src_ips1);
@@ -33,19 +48,26 @@ class cmvHeat {
     assign_cell_colors();
   }
   
-  int get_num_buckets(Set<String> curr_set, String[][] raw_data, int field) {
-    curr_set = new TreeSet<String>();
-    for (int i=0; i < raw_data.length; i++) {
-      curr_set.add(raw_data[i][field]);
-    }
-    
-    return uniq_times.size();
-  }
   void init_data() {
-    data = new Cell[uniq_times.size()][uniq_ports.size()];
-    for (int i=0; i<uniq_times.size(); i++) {
-      for (int j=0; j<uniq_ports.size(); j++) {
-        data[i][j] = new Cell(uniq_src_ips.size());
+    float cell_width = w / float(uniq_times.size());
+    float cell_height = h / float(uniq_ports.size());
+    grid = new Cell[uniq_times.size() + 1][uniq_ports.size() + 1];
+    for (int i=0; i<uniq_times.size() + 1; i++) {
+      for (int j=0; j<uniq_ports.size() + 1; j++) {
+        float cell_x = w * (i / float(uniq_times.size() + 1));
+        float cell_y = h * (2.78 + (j / float(uniq_ports.size() + 1)));
+        //Draw X-Axis Labels
+        if (j == uniq_ports.size() && i > 0 && i < uniq_times.size() + 1) {
+          grid[i][j] = new Cell(cell_x, cell_y, cell_width, cell_height, uniq_times.get(i-1), uniq_src_ips.size());
+        }
+        //Draw Y-Axis Labels
+        else if (i == 0 && j < uniq_ports.size()) {
+          grid[i][j] = new Cell(cell_x, cell_y, cell_width, cell_height, uniq_ports.get(j), uniq_src_ips.size());
+        }
+        //Draw other cells
+        else {
+          grid[i][j] = new Cell(cell_x, cell_y, cell_width, cell_height, "", uniq_src_ips.size());
+        }
       }
     }
   }
@@ -55,10 +77,10 @@ class cmvHeat {
       int time_range = uniq_times.indexOf(raw_data[i][TIME_STAMP]);
       int port_range = uniq_ports.indexOf(raw_data[i][SRC_PORT]);
       int src_ip_range = uniq_src_ips.indexOf(raw_data[i][SRC_IP]);
-      data[time_range][port_range].count += 1;
-      if (data[time_range][port_range].count > highest_count) {
-        highest_count = data[time_range][port_range].count + 1;
-        check_all_fields(data[time_range][port_range], raw_data[i], src_ip_range);
+      grid[time_range][port_range].count += 1;
+      if (grid[time_range][port_range].count > highest_count) {
+        highest_count = grid[time_range][port_range].count + 1;
+        check_all_fields(grid[time_range][port_range], raw_data[i], src_ip_range);
       }
     }
   }
@@ -78,18 +100,40 @@ class cmvHeat {
   }
   
   void assign_cell_colors() {
-    //go through each cell and compare cell.count to highest_count to determine darkness
+    colorMode(HSB, 360, 100, 100);
+    for (int i=0; i<uniq_times.size(); i++) {
+      for (int j=0; j<uniq_ports.size(); j++) {    
+        float ratio = grid[i][j].count / highest_count;
+        grid[i+1][j].set_heat_color(color(360, ratio*100, 100)); 
+      }
+    }
+    colorMode(RGB);
   }
-  
+
   /****                                                                      ****
    **** PUBLIC METHODS FOR INTERACTION finding hover/displaying highlighting ****
    ****                                                                      ****/
    
   cmvFilter check_hover() {
-    //check if hover is over something in heatmap. if it is, return valuable info, otherwise return null.
-    return null;
+    cmvFilter new_filter = null;
+    for (int i=1; i<uniq_times.size() + 1; i++) {
+      for (int j=0; j<uniq_ports.size(); j++) {
+        if (grid[i][j].rct.within()) {
+          new_filter = new cmvFilter(HEAT, "", "", uniq_times.get(i - 1), uniq_ports.get(j));
+        }
+      }
+    }
+    return new_filter;
   }
   void update(cmvFilter curr_filter) {
-    
+    //re-assign x, y, width, height and color in rect
+    for (int i=0; i<uniq_times.size() + 1; i++) {
+      for (int j=0; j<uniq_ports.size() + 1; j++) {
+        // check filter, and update highlighting
+        // 
+        grid[i][j].Display();
+      }
+    }
   }
+    
 }
