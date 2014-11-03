@@ -1,0 +1,9 @@
+Names:			Emmett Moore, Ian Cross, Taylor Maykranz
+Assignment:		A4
+Date:			Nov.3.2014
+
+
+	Emmett focused on the HeatMap and creating the cmvSystem that would
+	be used to communicate the messages between the different Views.
+	Emmett also created the heatmap. Ian created the Network View, 
+	Taylor created the Categorical View.
