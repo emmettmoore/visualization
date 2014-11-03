@@ -123,7 +123,7 @@ class cmvHeat {
         grid[i+1][j].set_heat_color(color(240, adjusted_color, 100)); 
       }
     }
-    colorMode(RGB);
+    colorMode(RGB, 255, 255, 255);
   }
 
   /****                                                                      ****
