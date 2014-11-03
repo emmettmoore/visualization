@@ -20,7 +20,7 @@ class cmvTreeEdge{
      increase_width();
    }   
    void increase_width(){
-     edge_width += .015;
+     edge_width += .013;
      Update();
    }
    void Update(){
