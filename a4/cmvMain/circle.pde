@@ -8,11 +8,12 @@ class Circle{
         posy = y;
         radius = r;
         C1 = c;
-        //Display();
     }
     void Display(){
+        strokeWeight(0);
         fill(C1);
         ellipse(posx, posy, radius*2,radius*2);
+        strokeWeight(1);
     }
     boolean within(){
       double squareX = Math.pow(mouseX - posx,2);

@@ -1,3 +1,4 @@
+int BUFFER = 40;
 class cmvSystem {
   cmvHeat heatmap;
   cmvCategories categories;
@@ -14,10 +15,9 @@ class cmvSystem {
     uniq_src_ips = populate_uniq_list(data, SRC_IP);
     uniq_times = populate_uniq_list(data, TIME_STAMP);
     uniq_ports = populate_uniq_list(data, SRC_PORT);
-    heatmap = new cmvHeat(0, 0.75 * width, width, 0.25 * height, parsed_data, uniq_src_ips, uniq_times, uniq_ports);
+    heatmap = new cmvHeat(0, 0.75 * width, width, 0.25 * height, parsed_data, uniq_src_ips, uniq_times, uniq_ports);    
     categories = new cmvCategories(0.75 * width, 0, 0.25 * width, 0.68 * height, parsed_data);
-
-    ip_network = new cmvTree(parsed_data,0,0,0.75*width,0.75*height);    
+    ip_network = new cmvTree(parsed_data,BUFFER,BUFFER,0.75*width - BUFFER*2,0.68*height-BUFFER*2);
   }
   List<String> populate_uniq_list(String[][] raw_data, int field) {
     Set<String> curr_set = new TreeSet<String>();
