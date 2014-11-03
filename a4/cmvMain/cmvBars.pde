@@ -38,7 +38,7 @@ class cmvCategories{ //x y width height
   //go through the Bars array and 
   void populate_dimensions() {
     int numBars = Bars.length;
-    float barSpace = (w / 2) / numBars; 
+    float barSpace = (((float)(w / 2)) - ((float)(w/5))) / numBars; 
     float currBarPosX = posx + barSpace;
     float currBarPosY = posy + (h * .1);
     float barHeightDefault = h * .9;
