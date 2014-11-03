@@ -158,6 +158,8 @@ class cmvCategories{ //x y width height
         } else {
           if (curr_filter.magic_chart == HEAT) { 
             highlight_total = 0;
+            Bars[a][b].highlight_total = 0;    //taylor
+            Bars[a][b].Display();    //taylor
               if (Bars[a][b].time_port.containsKey(curr_filter.time_range)) {
                  ArrayList <String> copy = Bars[a][b].time_port.get(curr_filter.time_range);
                  for (int x = 0; x < copy.size(); x++ ){
@@ -173,15 +175,21 @@ class cmvCategories{ //x y width height
               }
           } else if (curr_filter.magic_chart == NETWORK) {
             highlight_total = 0;
+            Bars[a][b].highlight_total = 0;    //taylor
+            Bars[a][b].Display();    //taylor
             if (Bars[a][b].ips.containsKey(curr_filter.source_ip)) {
               Bars[a][b].highlight_total = Bars[a][b].ips.get(curr_filter.source_ip);
               highlighting = true;
               Bars[a][b].Display();
             }
              //deal with it if its in network
+          } else if (curr_filter.magic_chart == CATEGORY) {
+            highlight_total = 0;
+                        Bars[a][b].highlight_total = 0;    //taylor
+            Bars[a][b].Display();    //taylor
           }
           // create a yellow rectangle of the correct size
-        }
+        } // what if it is my own?
       }
     }
   }
