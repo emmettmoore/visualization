@@ -1,4 +1,5 @@
 int info_count = 0;
+int info_count2 = 0;
 class Cell {
   Rectangle rct;
   color heat_color;
@@ -143,6 +144,9 @@ class cmvHeat {
       for (int j=0; j<uniq_ports.size() + 1; j++) {
         if (i == 0) { continue; }
         if (j == uniq_ports.size()) { continue; } 
+        if (grid[i][j].info == true) {
+          info_count2++;
+        }
         if (curr_filter == null) {
           grid[i][j].display_heat();
         }
@@ -179,5 +183,6 @@ class cmvHeat {
         }
       }
     }
+    print (info_count);
   }
 }
