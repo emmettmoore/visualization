@@ -1,5 +1,3 @@
-int info_count = 0;
-int info_count2 = 0;
 class Cell {
   Rectangle rct;
   color heat_color;
@@ -57,32 +55,38 @@ class cmvHeat {
   }
   
   void init_data() {
+    int j, i;
+    float cell_x, cell_y;
     float cell_width = w / float(uniq_times.size());
     float cell_height = h / float(uniq_ports.size());
     grid = new Cell[uniq_times.size() + 1][uniq_ports.size() + 1];
-    for (int i=0; i<uniq_times.size() + 1; i++) {
-      for (int j=0; j<uniq_ports.size() + 1; j++) {
-        float cell_x = w * (i / float(uniq_times.size() + 1));
-        float cell_y = h * (2.78 + (j / float(uniq_ports.size() + 1))); // XXX PLACE THIS BETTER
-        //Draw X-Axis Labels
-        if (j == uniq_ports.size() && i > 0 && i < uniq_times.size() + 1) {
-          grid[i][j] = new Cell(cell_x, cell_y, cell_width, cell_height, uniq_times.get(i-1), uniq_src_ips.size());
-        }
-        //Draw Y-Axis Labels
-        else if (i == 0 && j < uniq_ports.size()) {
-          grid[i][j] = new Cell(cell_x, cell_y, cell_width, cell_height, uniq_ports.get(j), uniq_src_ips.size());
-        }
-        //Draw other cells
-        else {
-          grid[i][j] = new Cell(cell_x, cell_y, cell_width, cell_height, "", uniq_src_ips.size());
-        }
+    // Draw Grid w/ data
+    for (i=1; i<uniq_times.size() + 1; i++) {
+      for (j=0; j<uniq_ports.size(); j++) {
+        cell_x = w * (i / float(uniq_times.size()));
+        cell_y = h * (2.73 + (j / float(uniq_ports.size()))); // XXX PLACE THIS BETTER
+        grid[i][j] = new Cell(cell_x, cell_y, cell_width, cell_height, "", uniq_src_ips.size());
       }
+    }
+    //Draw X-Axis Labels
+    j = uniq_ports.size();
+    cell_y = h * (2.73 + (j / float(uniq_ports.size()))); // XXX PLACE THIS BETTER
+    for (i=1; i<uniq_times.size(); i++) {
+      cell_x = w * (i / float(uniq_times.size()));
+      grid[i][j] = new Cell(cell_x, cell_y, cell_width, cell_height, uniq_times.get(i-1), uniq_src_ips.size());
+    }
+    //Draw Y-Axis Labels
+    i=0;
+    cell_x = w * (i / float(uniq_times.size()));
+    for (j=0; j < uniq_ports.size(); j++) {
+      cell_y = h * (2.73 + (j / float(uniq_ports.size()))); // XXX PLACE THIS BETTER
+      grid[i][j] = new Cell(cell_x, cell_y, cell_width, cell_height, uniq_ports.get(j), uniq_src_ips.size());
     }
   }
     
   void transform_and_load_data(String[][] raw_data) {
     for (int i=0; i< raw_data.length; i++) {
-      int time_range = uniq_times.indexOf(raw_data[i][TIME_STAMP]);
+      int time_range = uniq_times.indexOf(raw_data[i][TIME_STAMP]) + 1;
       int port_range = uniq_ports.indexOf(raw_data[i][SRC_PORT]);
       int src_ip_range = uniq_src_ips.indexOf(raw_data[i][SRC_IP]);
       grid[time_range][port_range].count += 1;
@@ -91,7 +95,6 @@ class cmvHeat {
       }
       check_all_fields(grid[time_range][port_range], raw_data[i], src_ip_range);
     }
-    print(info_count);
   }
   
   void check_all_fields(Cell curr_cell, String[] curr_element, int src_ip_range) {
@@ -107,16 +110,15 @@ class cmvHeat {
   }
   
   void assign_cell_colors() {
-    
     colorMode(HSB, 360, 100, 100);
-    for (int i=0; i<uniq_times.size(); i++) {
+    for (int i=1; i<uniq_times.size() + 1; i++) {
       for (int j=0; j<uniq_ports.size(); j++) {    
         float ratio = grid[i][j].count / highest_count;
         float adjusted_color = sqrt(ratio);
         if (ratio > 0) {
           adjusted_color = max(10, sqrt(ratio)*100);
         }
-        grid[i+1][j].set_heat_color(color(240, adjusted_color, 100)); 
+        grid[i][j].set_heat_color(color(240, adjusted_color, 100)); 
       }
     }
     colorMode(RGB, 255, 255, 255);
@@ -131,7 +133,7 @@ class cmvHeat {
     for (int i=1; i<uniq_times.size() + 1; i++) {
       for (int j=0; j<uniq_ports.size(); j++) {
         if (grid[i][j].rct.within()) {
-          new_filter = new cmvFilter(HEAT, "", "", uniq_ports.get(j), uniq_times.get(i - 1));
+          new_filter = new cmvFilter(HEAT, "", "", uniq_ports.get(j), uniq_times.get(i));
         }
       }
     }
@@ -143,10 +145,7 @@ class cmvHeat {
     for (int i=0; i<uniq_times.size() + 1; i++) {
       for (int j=0; j<uniq_ports.size() + 1; j++) {
         if (i == 0) { continue; }
-        if (j == uniq_ports.size()) { continue; } 
-        if (grid[i][j].info == true) {
-          info_count2++;
-        }
+        if (j == uniq_ports.size()) { continue; }
         grid[i][j].display_heat();
         if (curr_filter != null) {
           if (curr_filter.magic_chart == CATEGORY) {
@@ -180,6 +179,5 @@ class cmvHeat {
         }
       }
     }
-    print (info_count);
   }
 }
