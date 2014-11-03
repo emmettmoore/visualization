@@ -117,7 +117,7 @@ class cmvCategories{ //x y width height
           if (Bars[i][j].rect.within()) {
             Bars[i][j].col = color(255, 255, 0);
             Bars[i][j].populateRect();
-            new_filter = new cmvFilter(CATEGORY, Bars[i][j].category, "", "", "");
+            new_filter = new cmvFilter(CATEGORY, Bars[i][j].category.toLowerCase(), "", "", "");
           }
       }
       }

@@ -21,7 +21,7 @@ cmvSystem system;
 void setup() {
   //frame.setResizable(true);
   size(1200,800);
-  background(100,250,250);
+  background(250,250,250);
   headers = null;
   String[][] data = read_data();  
   textFont(createFont("Arial",12));
