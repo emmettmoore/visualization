@@ -14,7 +14,8 @@ class cmvSystem {
     uniq_src_ips = populate_uniq_list(data, SRC_IP);
     uniq_times = populate_uniq_list(data, TIME_STAMP);
     uniq_ports = populate_uniq_list(data, SRC_PORT);
-    heatmap = new cmvHeat(parsed_data, uniq_src_ips, uniq_times, uniq_ports);
+    heatmap = new cmvHeat(0, 0.75 * width, width, 0.25 * height, parsed_data, uniq_src_ips, uniq_times, uniq_ports);
+    
     categories = new cmvCategories(parsed_data);
     ip_network = new cmvTree(parsed_data);
     

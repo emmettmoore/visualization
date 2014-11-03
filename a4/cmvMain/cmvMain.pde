@@ -18,17 +18,15 @@ String[] headers;
 cmvSystem system;
 
 void setup() {
+  //frame.setResizable(true);
   size(1200,800);
   background(250,250,250);
   headers = null;
-  String[][] data = read_data();
+  String[][] data = read_data();  
+  textFont(createFont("Arial",12));
   system = new cmvSystem(read_data(), headers);
   //system.test_data();
-  frame.setResizable(true);
-  textFont(createFont("Arial",12));
-  
-  
-  
+
 }
 
 void draw() {
@@ -55,13 +53,3 @@ String[][] read_data(){
     }
     return data;
 }
-/*
-void test_data(){
-   for(int i = 0; i<data.length; i++){
-      for (int j = 0; j<data[0].length; j++){
-        print (data[i][j] + ' ');
-      }
-      print('\n');
-   }
-} 
-*/
