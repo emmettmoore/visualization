@@ -34,7 +34,6 @@ class Bucket{
    rect.Display();
    if (highlight_total != 0) {
      highlightRect();
-     print ("its highlighting");
    }
  }
  

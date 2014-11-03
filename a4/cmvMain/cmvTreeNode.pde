@@ -47,7 +47,8 @@ class cmvTreeNode{
       }
    }
    boolean check_hover(){
-       return circle.within();
+       boolean within = circle.within();
+       return within;
    }
    void draw_neighbor_edges(boolean highlight){
     Set set = neighbor_edges.entrySet();
@@ -67,5 +68,19 @@ class cmvTreeNode{
         curr_edge.hover_color();
       }
     }   
+  }
+  void draw_tooltip(){
+            textAlign(CENTER);
+         textSize(20);
+         String str = "IP: " + ip; 
+         float x1,y1,wt,ht;
+         x1 = mouseX-80;
+         y1 = mouseY-40;
+         wt = 160;
+         ht = 30;
+         fill(250,250,250);
+         rect(x1,y1,wt,ht);
+         fill(0,0,0);
+         text(str, x1,y1,wt,ht); 
   }
 }
