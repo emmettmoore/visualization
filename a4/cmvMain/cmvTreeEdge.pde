@@ -14,13 +14,13 @@ class cmvTreeEdge{
      x2 = x2_;
      y1 = y1_;
      y2 = y2_;
-     edge_width = 0;
+     edge_width = 1.1;
      origColor = origColor_;
      hoverColor = hoverColor_;
      increase_width();
    }   
    void increase_width(){
-     edge_width += .01;
+     edge_width += .015;
      Update();
    }
    void Update(){
