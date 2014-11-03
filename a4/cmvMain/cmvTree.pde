@@ -51,16 +51,16 @@ class cmvTree {
     }
     cmvTreeNode check_all_fields(String [] curr_element, cmvTreeNode curr_node){
       //protocol      
-      if (curr_element[PROTOCOL] == "TCP") { curr_node.categories.add("tcp"); }
-      else if (curr_element[PROTOCOL] == "UPD") { curr_node.categories.add("udp"); }
+      if (curr_element[PROTOCOL].equals("TCP")) { curr_node.categories.add("tcp"); }
+      else if (curr_element[PROTOCOL].equals("UDP")) { curr_node.categories.add("udp"); }
       
       //operation
-      if (curr_element[OP] == "Teardown") { curr_node.categories.add("teardown");}
-      else if (curr_element[OP] == "Deny") { curr_node.categories.add("deny"); }
-      else if (curr_element[OP] == "Built") { curr_node.categories.add("built"); }
+      if (curr_element[OP].equals("Teardown")) { curr_node.categories.add("teardown");}
+      else if (curr_element[OP].equals("Deny")) { curr_node.categories.add("deny"); }
+      else if (curr_element[OP].equals("Built")) { curr_node.categories.add("built"); }
       
       //priority
-      if (curr_element[OP] == "Info") { curr_node.info = true; }
+      if (curr_element[SYSLOG].equals( "Info")) { curr_node.categories.add("info"); }
       //port range and time stamp
       curr_node.time_stamps.add(curr_element[TIME_STAMP]);
       curr_node.ports.add(curr_element[DEST_PORT]);
