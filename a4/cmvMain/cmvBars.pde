@@ -40,13 +40,17 @@ class cmvCategories{ //x y width height
     int numBars = Bars.length;
     float barSpace = (((float)(w / 2)) - ((float)(w/5))) / numBars; 
     float currBarPosX = posx + barSpace;
-    float currBarPosY = posy + (h * .1);
+    float currBarPosY = posy + (h*.05);
     float barHeightDefault = h * .9;
     float barWidth = (w/2) / numBars;
     color colorA = color(175, 100, 220);
     color colorB = color(255, 0, 0);
     color currColor = colorA;
+    String currWord = "";
     for (int i = 0; i < Bars.length; i ++ ) {
+      if (i == 0) { currWord = "Protocol: 2"; } else if (i == 1) { currWord = "Operation: 3"; } else if (i ==2) {currWord = "     Syslog Priority: 1";}
+      textSize(12);
+          text(currWord, currBarPosX + 22, posy + 20);    //temp
       for (int j = 0; j < Bars[i].length; j++) {
         Bars[i][j].w = barWidth;
         Bars[i][j].h = ((float)(Bars[i][j].count) / ((float)total_num_data)) * barHeightDefault;
@@ -59,7 +63,7 @@ class cmvCategories{ //x y width height
         if (currColor == colorA) { currColor = colorB; } else { currColor = colorA; }
       }
       currBarPosX = currBarPosX + barWidth + barSpace;
-      currBarPosY = posy + (h * .1);
+      currBarPosY = posy + (h * .05);
       currColor = colorA;
 
     }
