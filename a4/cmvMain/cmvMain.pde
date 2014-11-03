@@ -14,6 +14,7 @@ int HEAT = 2;
 String fn = "data_aggregate.csv"; //"ex2.csv";
 import java.util.*;
 String[] headers;
+color highlight_color = color(255, 255, 0);
 
 cmvSystem system;
 
@@ -21,7 +22,6 @@ void setup() {
   //frame.setResizable(true);
   size(1200,800);
   background(250,250,250);
-  //frame.setResizable(true);
   headers = null;
   String[][] data = read_data();  
   textFont(createFont("Arial",12));

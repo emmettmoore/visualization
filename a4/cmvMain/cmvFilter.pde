@@ -1,7 +1,7 @@
 class cmvFilter{
    int magic_chart; //CATEGORY, NETWORK, HEAT
    //CATEGORY
-   String category;
+   String category; // "udp" "tcp" "built" "teardown" "deny" "info"
    //NETWORK
    String source_ip;
    //HEAT
