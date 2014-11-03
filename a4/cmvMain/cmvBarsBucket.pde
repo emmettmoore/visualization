@@ -6,6 +6,8 @@ class Bucket{
  float w;
  float h;
  color col;
+ color origCol;
+ int highlight_total;
  Rectangle rect;
   //hashmap:
  //for each distinct IP: # of instances of IP
@@ -20,6 +22,7 @@ class Bucket{
    ips = ips1;
    time_port = time_port1;
    count = count1;
+   highlight_total = 0;
 //   col = color(175, 100, 220);
 
  }
@@ -29,6 +32,17 @@ class Bucket{
  }
  void Display() {
    rect.Display();
+   if (highlight_total != 0) {
+     highlightRect();
+     print ("its highlighting");
+   }
+ }
+ 
+ void highlightRect() {
+   float newHeight = ((float)highlight_total / (float)count) * h;
+   color hlight = color(255, 255, 0);
+   Rectangle rect2 = new Rectangle(posx, posy, w, newHeight, "", hlight);
+   rect2.Display();
  }
  
 }

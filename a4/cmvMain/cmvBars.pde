@@ -10,6 +10,7 @@ class cmvCategories{ //x y width height
   float posy;
   float w;
   float h;
+  Boolean highlighting;
   Bucket[][] Bars;
   cmvCategories(float posx1, float posy1, float w1, float h1, String[][] raw_data) {
     posx = posx1;
@@ -17,6 +18,7 @@ class cmvCategories{ //x y width height
     w = w1;
     h = h1;
     total_num_data = raw_data.length;
+    highlighting = false;
     init_data(raw_data);
     populate_dimensions();
   }
@@ -50,6 +52,7 @@ class cmvCategories{ //x y width height
         Bars[i][j].posx = currBarPosX;
         Bars[i][j].posy = currBarPosY;
         Bars[i][j].col = currColor;
+        Bars[i][j].origCol = currColor;
         Bars[i][j].populateRect(); 
         currBarPosY = currBarPosY + Bars[i][j].h;
         if (currColor == colorA) { currColor = colorB; } else { currColor = colorA; }
@@ -118,8 +121,11 @@ class cmvCategories{ //x y width height
             Bars[i][j].col = color(255, 255, 0);
             Bars[i][j].populateRect();
             new_filter = new cmvFilter(CATEGORY, Bars[i][j].category.toLowerCase(), "", "", "");
-          }
-      }
+          } else {
+            Bars[i][j].col = Bars[i][j].origCol;
+            Bars[i][j].populateRect();
+         }
+        }
       }
       return new_filter;
   }
@@ -140,15 +146,39 @@ class cmvCategories{ //x y width height
   
   
   void update(cmvFilter curr_filter) {
-    for (int i = 0; i < Bars.length; i++) {
-      for (int j = 0; j < Bars[i].length; j++) {
-        
-    //do stuff here based on what the filter is
-          Bars[i][j].Display();
+    int highlight_total = 0;
+    for (int a = 0; a < Bars.length; a++) {
+      for (int b = 0; b < Bars[a].length; b++) {
+        if (curr_filter == null) {
+            highlighting = false;
+            Bars[a][b].highlight_total = 0;
+            Bars[a][b].Display();
+            return;
+        } else {
+          if (curr_filter.magic_chart == HEAT) { 
+              if (Bars[a][b].time_port.containsKey(curr_filter.time_range)) {
+                 ArrayList <String> copy = Bars[a][b].time_port.get(curr_filter.time_range);
+                 for (int x = 0; x < copy.size(); x++ ){
+  //                 print(copy.get(x) + "    " + curr_filter.port_range + "\n");
+                   if ((copy.get(x)).equals(curr_filter.port_range)) {
+  //                   print("here");
+                     highlight_total++;
+                   }
+                 }
+                 Bars[a][b].highlight_total = highlight_total;
+                 highlighting = true;
+                 Bars[a][b].Display();
+              }
+          } else if (curr_filter.magic_chart == NETWORK) {
+             //deal with it if its in network
+          }
+          // create a yellow rectangle of the correct size
+        }
       }
     }
-    
   }
+
+
   
    //creates a hashmap for each distinct item in a particular col
  // takes in: raw_data. column to use. indices of raw_data where matching item must be, e.g.

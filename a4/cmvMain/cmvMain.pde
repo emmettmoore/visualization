@@ -30,6 +30,7 @@ void setup() {
 }
 
 void draw() {
+  background(250,250,250);
   system.update();
 }
 
