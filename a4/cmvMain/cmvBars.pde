@@ -166,9 +166,7 @@ class cmvCategories{ //x y width height
               if (Bars[a][b].time_port.containsKey(curr_filter.time_range)) {
                  ArrayList <String> copy = Bars[a][b].time_port.get(curr_filter.time_range);
                  for (int x = 0; x < copy.size(); x++ ){
-  //                 print(copy.get(x) + "    " + curr_filter.port_range + "\n");
                    if ((copy.get(x)).equals(curr_filter.port_range)) {
-  //                   print("here");
                      highlight_total++;
                    }
                  }

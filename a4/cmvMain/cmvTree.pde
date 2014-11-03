@@ -1,19 +1,22 @@
 class cmvTree {
     float posx,posy,w,h;
     HashMap<String,cmvTreeNode> Nodes;
+    int num_nodes;
     cmvTree(String[][] raw_data, float posx_,float posy_, float w_, float h_){
        posx = posx_;
        posy = posy_;
        w = w_;
        h = h_;
        Nodes = new HashMap<String,cmvTreeNode>();
-       int num_nodes = get_num_sources(raw_data, SRC_IP);   // XXX IF you want/need this funciton; its modulah (num_nodes = 19 for this dataset)
+       num_nodes = get_num_sources(raw_data, SRC_IP);   // XXX IF you want/need this funciton; its modulah (num_nodes = 19 for this dataset)
        init_nodes(raw_data);
     }
     //set up the data structure that holds nodes
     //so we have a map of source_ips to nodes
     //each node contains all of the edges
     void init_nodes(String[][] raw_data){
+      int count = 0;
+       Point [] points = get_circle_points();
        //first create all nodes
        for(int i = 0; i<raw_data.length;i++){
           String [] row = raw_data[i];
@@ -27,11 +30,14 @@ class cmvTree {
              Nodes.put(curr_ip,curr_node);
           }
           else{
-             float x = posx + (float)Math.random() * w;
-             float y = posy + (float)Math.random() * h;
+             //float x = posx + (float)Math.random() * w;
+             //float y = posy + (float)Math.random() * h;
+             float x = points[count].x;
+             float y = points[count].y;
              curr_node = new cmvTreeNode(curr_ip,x,y,10,color(0,250,100),highlight_color);
              curr_node = check_all_fields(row,curr_node);
              Nodes.put(curr_ip,curr_node);
+             count++;
           } 
        }
        create_all_edges(raw_data);
@@ -100,8 +106,9 @@ class cmvTree {
          cmvTreeNode curr_node = (cmvTreeNode)pairs.getValue();
          highlight = curr_node.check_hover();
          if(highlight){
-           curr_node.Update(highlight);
            curr_node.draw_neighbor_edges(highlight);
+           curr_node.Update(highlight);
+           curr_node.draw_tooltip();
            return new cmvFilter(NETWORK,"",curr_node.ip,"",""); 
          }
        }
@@ -136,4 +143,21 @@ class cmvTree {
       curr_node.draw_neighbor_edges(false); //0 means don't highlight
     }
   }
+  Point[] get_circle_points(){
+    Point [] points = new Point[num_nodes];
+     float radius=230;
+    float angle=2*PI/(float)num_nodes;
+    for(int i=0;i<num_nodes;i++)
+    {
+      points[i] = new Point(radius*sin(angle*i)+width*3/8,radius*cos(angle*i)+height*2.7/8.0);
+    }  
+    return points;
+  }
+}
+class Point{
+   float x, y;
+   Point(float x1, float y1){
+      x = x1;
+      y = y1;
+   } 
 }
