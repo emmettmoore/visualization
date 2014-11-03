@@ -150,6 +150,8 @@ class cmvCategories{ //x y width height
     for (int a = 0; a < Bars.length; a++) {
       for (int b = 0; b < Bars[a].length; b++) {
         if (curr_filter == null) {
+            highlighting = false;
+            Bars[a][b].highlight_total = 0;
             Bars[a][b].Display();
             return;
         } else {
@@ -163,7 +165,9 @@ class cmvCategories{ //x y width height
                      highlight_total++;
                    }
                  }
-                 print(highlight_total);
+                 Bars[a][b].highlight_total = highlight_total;
+                 highlighting = true;
+                 Bars[a][b].Display();
               }
           } else if (curr_filter.magic_chart == NETWORK) {
              //deal with it if its in network
