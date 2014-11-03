@@ -147,9 +147,6 @@ class cmvCategories{ //x y width height
   
   
   void update(cmvFilter curr_filter) {
-    pushStyle();
-    stroke(0);
-    popStyle();
     int highlight_total = 0;
     for (int a = 0; a < Bars.length; a++) {
       for (int b = 0; b < Bars[a].length; b++) {

@@ -97,7 +97,6 @@ class cmvHeat {
     curr_cell.source_ips[src_ip_range] = true;
     if (curr_element[PROTOCOL].equals("TCP")) { curr_cell.tcp = true; }
     else if (curr_element[PROTOCOL].equals("UPD")) { curr_cell.udp = true; }
-    
     if (curr_element[OP].equals("Teardown")) { curr_cell.teardown = true; }
     else if (curr_element[OP].equals("Deny")) { curr_cell.deny = true; }
     else if (curr_element[OP].equals("Built")) { curr_cell.built = true; }
