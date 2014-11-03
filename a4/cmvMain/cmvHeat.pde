@@ -4,8 +4,11 @@ class Cell {
   float count;
   boolean udp, tcp, info, teardown, built, deny;
   boolean[] source_ips;
+  float posx, posy, h, w;
   
-  Cell(float posx, float posy, float ht, float wt, String txt, int num_source_ips) {
+  Cell(float posx1, float posy1, float wt, float ht, String txt, int num_source_ips) {
+    posx = posx1; posy = posy1;
+    w = wt; h = ht;
     heat_color = color(255);
     count = 0;
     udp = tcp = info = teardown = built = deny = false;
@@ -13,7 +16,7 @@ class Cell {
     for (int i=0; i < num_source_ips; i++) {
       source_ips[i] = false;
     }
-    rct = new Rectangle(posx, posy, ht, wt, txt, heat_color);
+    rct = new Rectangle(posx1, posy1, wt, ht, txt, heat_color);
   }
   void set_heat_color(color hc) {
       heat_color = hc;
@@ -21,14 +24,16 @@ class Cell {
   }
   void display_highlight() {
     rct.C1 = highlight_color;
-    rct.Display();
   }
   void display_heat() {
     rct.C1 = heat_color;
     rct.Display();
+    //rct.update(posx, posy, w, h, "", heat_color);
   }
-  void update(float posx1, float posy1, float w1, float h1, String txt, color color1) {
-    rct.update(posx1, posy1, w1, h1, txt, color1);
+  void update(float posx1, float posy1, float wt, float ht, String txt, color color1) {
+    posx = posx1; posy = posy1;
+    w = wt; h = ht;
+    rct.update(posx1, posy1, wt, ht, txt, color1);
   }
 }
 
@@ -60,7 +65,7 @@ class cmvHeat {
     for (int i=0; i<uniq_times.size() + 1; i++) {
       for (int j=0; j<uniq_ports.size() + 1; j++) {
         float cell_x = w * (i / float(uniq_times.size() + 1));
-        float cell_y = h * (2.78 + (j / float(uniq_ports.size() + 1)));
+        float cell_y = h * (2.78 + (j / float(uniq_ports.size() + 1))); // XXX PLACE THIS BETTER
         //Draw X-Axis Labels
         if (j == uniq_ports.size() && i > 0 && i < uniq_times.size() + 1) {
           grid[i][j] = new Cell(cell_x, cell_y, cell_width, cell_height, uniq_times.get(i-1), uniq_src_ips.size());
@@ -110,11 +115,11 @@ class cmvHeat {
     for (int i=0; i<uniq_times.size(); i++) {
       for (int j=0; j<uniq_ports.size(); j++) {    
         float ratio = grid[i][j].count / highest_count;
-        float adjusted_color = ratio;
+        float adjusted_color = sqrt(ratio);
         if (ratio > 0) {
-          adjusted_color = max(5, ratio*100);
+          adjusted_color = max(10, sqrt(ratio)*100);
         }
-        grid[i+1][j].set_heat_color(color(360, adjusted_color, 100)); 
+        grid[i+1][j].set_heat_color(color(240, adjusted_color, 100)); 
       }
     }
     colorMode(RGB);
@@ -136,6 +141,8 @@ class cmvHeat {
     return new_filter;
   }
   void update(cmvFilter curr_filter) {
+    fill(255, 255, 255);
+    rect(posx, posy, w, h);
     //re-assign x, y, width, height and color in rect
     for (int i=0; i<uniq_times.size() + 1; i++) {
       for (int j=0; j<uniq_ports.size() + 1; j++) {
