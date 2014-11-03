@@ -20,7 +20,7 @@ cmvSystem system;
 void setup() {
   //frame.setResizable(true);
   size(1200,800);
-  background(100,250,250);
+  background(250,250,250);
   //frame.setResizable(true);
   headers = null;
   String[][] data = read_data();  
@@ -30,7 +30,8 @@ void setup() {
 }
 
 void draw() {
-  //system.update();
+  background(250,250,250);
+  system.update();
 }
 
 String[][] read_data(){

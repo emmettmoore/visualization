@@ -19,6 +19,9 @@ class cmvTreeEdge{
    }   
    void increase_width(){
      edge_width += .01;
+     Update();
+   }
+   void Update(){
      strokeWeight(edge_width);  
      line(x1,y1,x2,y2);
    }

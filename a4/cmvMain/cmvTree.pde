@@ -51,20 +51,17 @@ class cmvTree {
     }
     cmvTreeNode check_all_fields(String [] curr_element, cmvTreeNode curr_node){
       //protocol      
-      if (curr_element[PROTOCOL] == "TCP") { curr_node.tcp = true; }
-      else if (curr_element[PROTOCOL] == "UPD") { curr_node.udp = true; }
+      if (curr_element[PROTOCOL] == "TCP") { curr_node.categories.add("tcp"); }
+      else if (curr_element[PROTOCOL] == "UPD") { curr_node.categories.add("udp"); }
       
       //operation
-      if (curr_element[OP] == "Teardown") { curr_node.teardown = true; }
-      else if (curr_element[OP] == "Deny") { curr_node.deny = true; }
-      else if (curr_element[OP] == "Built") { curr_node.built = true; }
+      if (curr_element[OP] == "Teardown") { curr_node.categories.add("teardown");}
+      else if (curr_element[OP] == "Deny") { curr_node.categories.add("deny"); }
+      else if (curr_element[OP] == "Built") { curr_node.categories.add("built"); }
       
       //priority
       if (curr_element[OP] == "Info") { curr_node.info = true; }
-      //port range
-      
-      
-      //time stamp
+      //port range and time stamp
       curr_node.time_stamps.add(curr_element[TIME_STAMP]);
       curr_node.ports.add(curr_element[DEST_PORT]);
       curr_node.ports.add(curr_element[SRC_PORT]);
@@ -79,13 +76,69 @@ class cmvTree {
       }
       return uniqTimes.size();
     }
-    
+    void update(cmvFilter curr_filter) {
+       draw_all_edges();
+       Iterator it = Nodes.entrySet().iterator();
+       while (it.hasNext()) {
+         Map.Entry pairs = (Map.Entry)it.next();
+         cmvTreeNode curr_node = (cmvTreeNode)pairs.getValue();
+         apply_filter(curr_node, curr_filter);
+       }
+       check_hover();
+    }
     cmvFilter check_hover() {
       //check if hover is over something in heatmap. if it is, return valuable info, otherwise return null.
+       Iterator it = Nodes.entrySet().iterator();
+       boolean highlight;
+       while (it.hasNext()) {
+         highlight = false;
+         Map.Entry pairs = (Map.Entry)it.next();
+         cmvTreeNode curr_node = (cmvTreeNode)pairs.getValue();
+         highlight = curr_node.check_hover();
+         if(highlight){
+           curr_node.Update(highlight);
+           return new cmvFilter(1,"",curr_node.ip,"",""); 
+         }
+       }
       return null;
     }
-    void update(cmvFilter curr_filter) {
-        
-    }
-}
 
+    void apply_filter(cmvTreeNode curr_node, cmvFilter f){
+        boolean highlight = false;
+        if(f!=null){      
+          //if filter matches with this node, color different color
+          if (f.magic_chart == CATEGORY){
+            if (curr_node.categories.contains(f.category)){
+               highlight = true;
+            }
+          }
+          else if (f.magic_chart == HEAT){
+             if(curr_node.time_stamps.contains(f.time_range) && curr_node.ports.contains(f.port_range)){
+                highlight = true;
+             }
+          }
+        }
+        curr_node.Update(highlight); 
+    }
+
+  void draw_all_edges(){
+    Set set = Nodes.entrySet();
+    Iterator i = set.iterator();
+    // Display elements
+    while(i.hasNext()) {
+      Map.Entry temp = (Map.Entry)i.next();
+      cmvTreeNode curr_node = (cmvTreeNode)temp.getValue();
+      draw_neighbor_edges(curr_node);
+    }
+  }
+  void draw_neighbor_edges(cmvTreeNode curr_node){
+    Set set = curr_node.neighbor_edges.entrySet();
+    Iterator i = set.iterator();
+    // Display elements
+    while(i.hasNext()) {
+      Map.Entry temp = (Map.Entry)i.next();
+      cmvTreeEdge curr_edge = (cmvTreeEdge)temp.getValue();
+      curr_edge.Update();
+    }
+  }
+}
