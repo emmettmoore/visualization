@@ -1,0 +1,22 @@
+Node class
+- includes:
+  - 2 instances of vertical names class
+  - 2 instances of horizontal names class
+
+
+(2 )vertical names class / (2 )horizontal names class
+   - includes:
+     - 1 array of string names
+       - position x, y of top left corner of matrix 
+       	 - distance between axes
+	 - functions:
+	   .getName(int index) returns a name at the index
+	   		.getIndex(name)	 returns index where name is located
+					 .contains(name)     returns true/false
+					 		     .getDistance(pose, posy, name)	returns the distance from the posx, posy passed in to the 
+
+
+
+adjacencyValues class
+		- includes 
+		  
