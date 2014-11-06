@@ -15,4 +15,15 @@ class vertical_line {
       posx = posx1;
       posy = posy1;
       lineHeight = lineHeight1;
-    }      
+      line(posx,posy, posx,posy+lineHeight);  //this was for my testing purposes!
+    } 
+    
+    //takes no arguments but just draws the chart again with its own variables
+    void Display(){
+  
+    }
+    //connects points from this line to the next line of the same index    
+    void connect_to_line(vertical_line next_line){
+      
+    }
+}
