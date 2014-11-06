@@ -91,7 +91,6 @@ class vertical_line {
      if ((ceilVal - 0.5) >= max) {
        ceilVal = ceilVal - 0.5;
      }
-     print("Min: " + min + ", Minfloor: " + floorVal + ", Max: " + max + ", Maxfloor: " + ceilVal + "\n");
      
     }
     
