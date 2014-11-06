@@ -38,13 +38,13 @@ class LineLabel {
   }
   
   void printNums() {
+    final DecimalFormat flo = new DecimalFormat("0.##");  //to control the number of decimal places that appear
     fill(0);
     textAlign(CENTER);
     textSize(12);
-
     float dist = h / numIntervals;
     for (int i = 0; i < printValues.length; i++) {
-      text(printValues[i], posx, posy + dist * i);
+      text(flo.format(printValues[i]), posx, posy + dist * i);
     }
   }
   

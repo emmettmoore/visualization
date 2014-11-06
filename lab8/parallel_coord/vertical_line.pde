@@ -38,8 +38,12 @@ class vertical_line {
     void Display(){
 
         line(posx,posy, posx,posy+lineHeight);  //this was for my testing purposes!
-//        numberLabel.Display();
+        numberLabel.Display();
         miniCircles();
+              fill(0);      //To print the labels --> 
+      textSize(16);
+      textAlign(CENTER);
+      text(label, posx, posy - BUFFER/2);
 
     }
     void miniCircles() {
@@ -64,8 +68,7 @@ class vertical_line {
         stroke(COLORS[(int)classes[i]]);
         line(posx, posy + (ceilVal - values[i]) * ratioThis, next_line.posx, next_line.posy + (next_line.ceilVal - next_line.values[i]) * ratioThat);
       }  
-   numberLabel.Display();
-
+ //    next_line.numberLabel.Display();
     }
     
     //finds and sets the max and min of the values array
