@@ -1,4 +1,4 @@
 PartipantID,Index,Vis,Error,TruePerc,ReportPerc
-25,0,PieChartContig,6.247999,0.8787879,0.12
-25,1,PieChartUncontig,3.9156444,0.26966292,0.12
-25,2,PieChartIncrSize,4.286907,0.3139535,0.12
+25,0,PieChartUncontig,6.1854143,0.95652175,0.23
+25,1,PieChartIncrSize,5.8843403,0.8194444,0.23
+25,2,PieChartContig,1.9541963,0.3875,0.35

@@ -57,4 +57,6 @@ void read_data(){
     for(int i = 0; i<num_rows; i++){
 //       print (columns[0][i]); 
     }
+    
+    
 }

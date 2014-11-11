@@ -1,0 +1,6 @@
+PartipantID,Index,Vis,Error,TruePerc,ReportPerc
+45,0,PieUncontig,12.413861,67.567566,13.0
+45,1,PieIncrSize,10.344435,50.0,63.0
+45,2,PieContig,12.621164,75.0,12.0
+45,3,PieUncontigStripe,10.248617,53.16456,41.0
+45,4,PieContigStripe,12.304803,94.59459,44.0
