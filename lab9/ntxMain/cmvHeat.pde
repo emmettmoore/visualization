@@ -124,7 +124,7 @@
             else if (curr_filter.category.equals("teardown") && grid[i][j].teardown == true) {
               grid[i][j].display_highlight();
             }
-            else if (curr_filter.category.equals("deny") && grid[i][j].deny == true) {
+            elseif (curr_filter.category.equals("deny") && grid[i][j].deny == true) {
               grid[i][j].display_highlight();
             }
             else if (curr_filter.category.equals("info") && grid[i][j].info == true) {
@@ -143,4 +143,5 @@
       }
     }
   }
-}*/
+}
+*/

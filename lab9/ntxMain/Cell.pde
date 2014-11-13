@@ -1,23 +1,15 @@
 class Cell {
   Rectangle rct;
   color heat_color;
-  float count;
-  boolean udp, tcp, info, teardown, built, deny;
-  boolean[] source_ips;
   float posx, posy, h, w;
   
-  
-  Cell(float posx1, float posy1, float wt, float ht, String txt, int num_source_ips) {
+  Cell(float posx1, float posy1, float wt, float ht, String txt, String from, String to, int strength) {
     posx = posx1; posy = posy1;
     w = wt; h = ht;
-    heat_color = color(255);
-    count = 0;
-    udp = false; tcp = false; info = false; teardown = false; built = false; deny = false;
-    source_ips = new boolean[num_source_ips];
-    for (int i=0; i < num_source_ips; i++) {
-      source_ips[i] = false;
-    }
     rct = new Rectangle(posx1, posy1, wt, ht, txt, heat_color);
+    colorMode(HSB, 360, 100, 100);
+    set_heat_color(color(240, strength * 20, 100));
+    colorMode(RGB, 255, 255, 255);
   }
   void set_heat_color(color hc) {
       heat_color = hc;
@@ -28,7 +20,7 @@ class Cell {
     rct.Display();
   }
   void display_heat() {
-    rct.C1 = color(230, 123, 130);
+    rct.C1 = heat_color;
     rct.Display();
   }
 }

@@ -12,7 +12,6 @@ class Rectangle {
     origPosx = posx1;
     origPosy = posy1;
     update( posx1,  posy1,  w1,  h1, txt, color1);
-    
   }
   
   boolean within() {
