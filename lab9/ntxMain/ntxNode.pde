@@ -10,21 +10,24 @@ class ntxNode {
   Cell[][] matrix;
   ntxNode(int id1, ArrayList<String> names1, ArrayList<String> links) {
     id = id1;
-    cell_width = 20;
+    cell_width = 10;
     process_names(names1);
     process_links(links);
     populate_matrix();
   }
-  void initialize_matrices() {
+  void initialize_matrix() {
+      //names: array of names with order the same as input
+      //connections: { from: { to: strength} }
+      matrix = new Cell[names.size()][names.size()];
       w = cell_width * names.size();
-      posx = (float)Math.random() * (width - w);  // -w is so it doesn't go off screen.
-      posy = (float)Math.random() * (height - w); // might have to be readjusted to account
-  }                                               // for width of axis labels
+      posx = (float)Math.random() * (width - (w + 2*cell_width));  // -w is so it doesn't go off screen.
+      posy = (float)Math.random() * (height - (w + 2*cell_width)); // might have to be readjusted to account
+  }                                                                // for width of axis labels
   
   void update() {
-    for (int i=0; i<names.size() - 1; i++) {
+    for (int i=0; i<names.size(); i++) {
       String from = names.get(i);
-      for (int j=0; j<names.size() - 1; j++) {
+      for (int j=0; j<names.size(); j++) {
         matrix[i][j].display_heat();
       }
     }
@@ -56,14 +59,10 @@ class ntxNode {
     }
   }
   void populate_matrix(){
-    initialize_matrices();
-
-    //names: array of names with order the same as input
-    //connections: { from: { to: strength} }
-    matrix = new Cell[names.size() + 1][names.size() + 1];
-    for (int i=0; i<names.size() - 1; i++) {
+    initialize_matrix();
+    for (int i=0; i<names.size(); i++) {
       String from = names.get(i);
-      for (int j=0; j<names.size() - 1; j++) {
+      for (int j=0; j<names.size(); j++) {
         String to = names.get(j);
         HashMap<String, Integer> to_info = connections.get(from);
         Integer strength = to_info.get(to);
