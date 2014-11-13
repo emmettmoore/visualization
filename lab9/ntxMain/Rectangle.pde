@@ -32,7 +32,8 @@ class Rectangle {
     fill(color1); 
     rect(posx,posy,w,h);
     fill(color(0,0,0));
-    textSize(7);
+    textSize(8);
+    createFont("Arial Bold", 8);
     textAlign(CENTER,CENTER);
     text(T1, posx + w /2 , posy + h/2);
   }

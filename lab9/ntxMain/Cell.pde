@@ -3,7 +3,7 @@ class Cell {
   color heat_color;
   float posx, posy, h, w;
   
-  Cell(float posx1, float posy1, float wt, float ht, String txt, String from, String to, int strength) {
+  Cell(float posx1, float posy1, float wt, float ht, String txt, int strength) {
     posx = posx1; posy = posy1;
     w = wt; h = ht;
     rct = new Rectangle(posx1, posy1, wt, ht, txt, heat_color);

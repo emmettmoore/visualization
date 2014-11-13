@@ -1,6 +1,6 @@
 import java.util.*;
 
-String fn = "data1.csv"; 
+String fn = "data3.csv"; 
 int NUM_NODES;
 //node_info 
 int ID = 0;

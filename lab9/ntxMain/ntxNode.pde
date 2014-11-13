@@ -8,6 +8,8 @@ class ntxNode {
   ArrayList<String> names;
   HashMap<String, HashMap<String, Integer>> connections;
   Cell[][] matrix;
+  Cell[] x_labels;
+  Cell[] y_labels;
   ntxNode(int id1, ArrayList<String> names1, ArrayList<String> links) {
     id = id1;
     cell_width = 10;
@@ -19,9 +21,11 @@ class ntxNode {
       //names: array of names with order the same as input
       //connections: { from: { to: strength} }
       matrix = new Cell[names.size()][names.size()];
+      x_labels = new Cell[names.size()];
+      y_labels = new Cell[names.size()];
       w = cell_width * names.size();
-      posx = (float)Math.random() * (width - (w + 2*cell_width));  // -w is so it doesn't go off screen.
-      posy = (float)Math.random() * (height - (w + 2*cell_width)); // might have to be readjusted to account
+      posx = (float)Math.random() * (width - (2*w + cell_width));  // -w is so it doesn't go off screen.
+      posy = (float)Math.random() * (height - (2*w + cell_width)); // might have to be readjusted to account
   }                                                                // for width of axis labels
   
   void update() {
@@ -31,9 +35,14 @@ class ntxNode {
         matrix[i][j].display_heat();
       }
     }
+    for (int i=0; i < names.size(); i++) {
+      x_labels[i].display_heat();
+      y_labels[i].display_heat();
+    }
   }
   void process_names(ArrayList<String> names1) {
     names = new ArrayList<String>(names1);
+    
     //and initialize hash maps with names as keys
     connections = new HashMap<String, HashMap<String, Integer>>();
     for (int i=0; i<names.size(); i++) {
@@ -60,6 +69,7 @@ class ntxNode {
   }
   void populate_matrix(){
     initialize_matrix();
+    // cells with data
     for (int i=0; i<names.size(); i++) {
       String from = names.get(i);
       for (int j=0; j<names.size(); j++) {
@@ -67,8 +77,15 @@ class ntxNode {
         HashMap<String, Integer> to_info = connections.get(from);
         Integer strength = to_info.get(to);
         matrix[i][j] = new Cell(posx+(i*cell_width), posy+(j*cell_width),
-                                cell_width, cell_width, "", from, to, strength);
+                                cell_width, cell_width, "", strength);
       }
+    }
+    // x labels
+    for (int i=0; i < names.size(); i++) {
+      x_labels[i] = new Cell(posx+(i*cell_width), posy-cell_width,
+                                cell_width, cell_width, names.get(i).substring(0,2), 0);
+      y_labels[i] = new Cell(posx-cell_width, posy + (i*cell_width),
+                                cell_width, cell_width, names.get(i).substring(0,2), 0);
     }
   }
 }
