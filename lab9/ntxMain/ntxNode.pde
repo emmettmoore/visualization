@@ -1,28 +1,54 @@
 // connection fields
 int STRENGTH = 2;
+//labels fields
+int NLEFT = 0;
+int NTOP = 1;
+int NRIGHT = 2;
+int NBOTTOM = 3;
+int NDIMENSIONS = 4;
+
+class ntxExtLink {
+  Integer id;
+  String name;
+
+  ntxExtLink(Integer id1, String name1) {
+    id = id1;
+    name = name1;
+  }
+}
+
 class ntxNode {
-  int id;
   int w;
   int cell_width;
   float posx, posy;
   ArrayList<String> names;
+  HashMap<String, ntxExtLink> external_connections;
   HashMap<String, HashMap<String, Integer>> connections;
   Cell[][] matrix;
-  Cell[] x_labels;
-  Cell[] y_labels;
-  ntxNode(int id1, ArrayList<String> names1, ArrayList<String> links) {
-    id = id1;
+  Cell[][] labels;
+  //force-directed variables
+  float kinetic_energy;
+  ntxNode(ArrayList<String> names1, ArrayList<String> links) {
+    kinetic_energy = 0;
+    external_connections = new HashMap<String, ntxExtLink>();
     cell_width = 10;
     process_names(names1);
     process_links(links);
     populate_matrix();
   }
+  boolean within() {
+    if ((posx <= mouseX) && (mouseX <= posx + w)) {
+      if ((posy <= mouseY) && (mouseY <= posy + w)) {
+        return true;
+      }
+    }
+    return false;
+  }
   void initialize_matrix() {
       //names: array of names with order the same as input
       //connections: { from: { to: strength} }
       matrix = new Cell[names.size()][names.size()];
-      x_labels = new Cell[names.size()];
-      y_labels = new Cell[names.size()];
+      labels = new Cell[NDIMENSIONS][names.size()];
       w = cell_width * names.size();
       posx = (float)Math.random() * (width - (2*w + cell_width));  // -w is so it doesn't go off screen.
       posy = (float)Math.random() * (height - (2*w + cell_width)); // might have to be readjusted to account
@@ -35,10 +61,12 @@ class ntxNode {
         matrix[i][j].display_heat();
       }
     }
-    for (int i=0; i < names.size(); i++) {
-      x_labels[i].display_heat();
-      y_labels[i].display_heat();
+    for (int i=0; i<NDIMENSIONS; i++) {
+      for (int j=0; j < names.size(); j++) {
+        labels[i][j].display_heat();
+      }
     }
+    //draw_external_links();
   }
   void process_names(ArrayList<String> names1) {
     names = new ArrayList<String>(names1);
@@ -81,11 +109,35 @@ class ntxNode {
       }
     }
     // x labels
-    for (int i=0; i < names.size(); i++) {
-      x_labels[i] = new Cell(posx+(i*cell_width), posy-cell_width,
-                                cell_width, cell_width, names.get(i).substring(0,2), 0);
-      y_labels[i] = new Cell(posx-cell_width, posy + (i*cell_width),
-                                cell_width, cell_width, names.get(i).substring(0,2), 0);
+    for (int j=0; j<NDIMENSIONS; j++) {
+      for (int i=0; i < names.size(); i++) {
+          labels[NLEFT][i] = new Cell(posx-cell_width, posy + (i*cell_width),
+                                 cell_width, cell_width, names.get(i).substring(0,2), 0);
+          labels[NTOP][i] = new Cell(posx+(i*cell_width), posy-cell_width,
+                                  cell_width, cell_width, names.get(i).substring(0,2), 0);
+          labels[NRIGHT][i] = new Cell(posx+w, posy + (i*cell_width),
+                                  cell_width, cell_width, names.get(i).substring(0,2), 0);
+          labels[NBOTTOM][i] = new Cell(posx+(i*cell_width), posy+w,
+                                  cell_width, cell_width, names.get(i).substring(0,2), 0);
+      }
     }
   }
+  
+  /* FILL THIS SHIT OUT ***************************************************
+   ************************************************************************
+   */
+  void add_external_link(String from_name, Integer to_id, String to_name){
+    external_connections.put(from_name, new ntxExtLink(to_id, to_name));
+  }
+  void update_forces() {
+  }
+  void update_velocity() {
+  }
+  void update_kinetic_energy() {
+  }
+  void update_positions(float drift_x, float drift_y) {
+  }
+  void reset_velocities() {
+  } 
+   
 }

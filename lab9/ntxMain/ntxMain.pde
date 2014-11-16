@@ -1,6 +1,6 @@
 import java.util.*;
 
-String fn = "data3.csv"; 
+String fn = "data1.csv"; 
 int NUM_NODES;
 //node_info 
 int ID = 0;
@@ -42,6 +42,15 @@ void parse_data() {
       curr_links.add(j,lines[index]);
       index++;
     }
-    system.init_put(new ntxNode(curr_id, curr_names, curr_links));
+    system.init_put(curr_id, new ntxNode(curr_names, curr_links));
+  }
+  while (index < lines.length) {
+    String[] curr_ext_link = splitTokens(lines[index++], ",");
+    print(curr_ext_link);print("\n");
+    String from_name = new String(curr_ext_link[0]);
+    String from_id = new String(curr_ext_link[1]);
+    String to_name = new String(curr_ext_link[2]);
+    String to_id = new String(curr_ext_link[3]);
+    system.add_external_link(from_name, from_id, to_name, to_id);
   }
 } 
