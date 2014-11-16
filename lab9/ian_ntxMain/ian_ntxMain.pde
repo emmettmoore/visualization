@@ -1,5 +1,5 @@
 import java.util.*;
-int EDGE_LENGTH = 50;
+int EDGE_LENGTH = 200;
 
 String fn = "data1.csv"; 
 int NUM_NODES;
@@ -37,6 +37,7 @@ void draw() {
    print ("posx " + temp.posx + " posy " + temp.posy + "\n");
    print ("posx adj " + temp.adj_matrix.posx + " posy adj" + temp.adj_matrix.posy + "\n");
    system.draw_all_edges();
+   system.checkHover();
    
    //ntx_system.update();
 }
@@ -64,8 +65,8 @@ void parse_data() {
   int index = 0;
   NUM_NODES = Integer.parseInt(lines[index++]);
   ntx_system = new ntxSystem(NUM_NODES);
-  ke_threshold = 0;//200.0*(float(NUM_NODES)/10.0); // fiddle with this to find appropriate value 
-  coulombK = 100000;
+  ke_threshold = 200.0*(float(NUM_NODES)/10.0); // fiddle with this to find appropriate value 
+  coulombK = 1000;
   for (int i=0; i< NUM_NODES; i++) {
     String[] node_info = splitTokens(lines[index++], ",");
     Integer curr_id = Integer.parseInt(node_info[ID]);

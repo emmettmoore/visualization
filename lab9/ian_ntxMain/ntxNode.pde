@@ -19,7 +19,8 @@ class ntxExtLink {
 }
 
 class ntxNode {
-  int w;
+    float w;
+
   int cell_width;
   float posx, posy;
   ArrayList<String> names;
@@ -34,8 +35,6 @@ class ntxNode {
     cell_width = 10;
     process_names(names1);
     w = cell_width * names.size();
-    posx = (float)Math.random() * (width - (2*w + cell_width));  // -w is so it doesn't go off screen.
-    posy = (float)Math.random() * (height - (2*w + cell_width)); // might have to be readjusted to account
     process_links(links);
     initialize_matrix();
     populate_matrix();

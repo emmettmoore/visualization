@@ -22,13 +22,15 @@ class fdtNode {
     reset_velocities();
     kinetic_energy = 0;
     initializeCircle();
-    adj_matrix.posx = posx;
-    adj_matrix.posy = posy;
-    adj_matrix.update();
+    update_adj_matrix();
     forceData = new Forces();
     locked = false;
   }
-
+  void update_adj_matrix(){
+    adj_matrix.posx = posx-adj_matrix.w/2.0;
+    adj_matrix.posy = posy-adj_matrix.w/2.0;
+    adj_matrix.update(); 
+  }
   void initializeCircle(){
       float radius = sqrt(mass/PI) * 15;
       posx = (float)Math.random() * width + BUFFER;
@@ -40,9 +42,7 @@ class fdtNode {
     calc_coulomb();
     calc_hooke();
     sum_forces();
-    adj_matrix.posx = posx;
-    adj_matrix.posy = posy;
-    adj_matrix.update();
+    update_adj_matrix();
   }
   
   void update_velocity() {
