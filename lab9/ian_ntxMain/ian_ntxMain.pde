@@ -1,4 +1,5 @@
 import java.util.*;
+int EDGE_LENGTH = 50;
 
 String fn = "data1.csv"; 
 int NUM_NODES;
@@ -24,16 +25,19 @@ void setup() {
   
   already_pressed = false;
   pressed = false;
-  
   system = new fdtSystem();
   parse_data();
   time_step = 1.0/60.0 * 1.3; // MAYBE NOT?
 }
 
 void draw() {
-   //background(250,250,250);
+   background(250,250,250);
    system.watch();
+   fdtNode temp = fdt_nodes.get(0);
+   print ("posx " + temp.posx + " posy " + temp.posy + "\n");
+   print ("posx adj " + temp.adj_matrix.posx + " posy adj" + temp.adj_matrix.posy + "\n");
    system.draw_all_edges();
+   
    //ntx_system.update();
 }
 void mousePressed(){
@@ -54,11 +58,14 @@ void mouseDragged(){
 
 //new
 void parse_data() {
+  
+  
   String lines[] = loadStrings(fn);
   int index = 0;
   NUM_NODES = Integer.parseInt(lines[index++]);
   ntx_system = new ntxSystem(NUM_NODES);
-  
+  ke_threshold = 0;//200.0*(float(NUM_NODES)/10.0); // fiddle with this to find appropriate value 
+  coulombK = 100000;
   for (int i=0; i< NUM_NODES; i++) {
     String[] node_info = splitTokens(lines[index++], ",");
     Integer curr_id = Integer.parseInt(node_info[ID]);
@@ -76,18 +83,27 @@ void parse_data() {
       curr_links.add(j,lines[index]);
       index++;
     }
-    fdt_nodes.put(curr_id, new fdtNode(curr_id, curr_names.size(), new ntxNode(curr_names, curr_links)));
+    print (curr_id);
+    ntxNode temp = new ntxNode(curr_names, curr_links);
+    fdt_nodes.put(curr_id, new fdtNode(curr_id, curr_names.size(),temp));
 
     //ntx_system.init_put(curr_id, new ntxNode(curr_names, curr_links));
   }
+  
   while (index < lines.length) {
     String[] curr_ext_link = splitTokens(lines[index++], ",");
-    print(curr_ext_link);print("\n");
+    //print(curr_ext_link);print("\n");
     String from_name = new String(curr_ext_link[0]);
-    String from_id = new String(curr_ext_link[1]);
+    int from_id = Integer.parseInt(curr_ext_link[1]);
     String to_name = new String(curr_ext_link[2]);
-    String to_id = new String(curr_ext_link[3]);
-    ntx_system.add_external_link(from_name, from_id, to_name, to_id);
+    int to_id = Integer.parseInt(curr_ext_link[3]);
+    fdtNode currNode = fdt_nodes.get(from_id);
+    if(currNode != null){
+         print ("testtesttest\n");
+         currNode.neighbors.add(new neighborData(to_id, EDGE_LENGTH));
+         fdt_nodes.put(currNode.id, currNode);
+    }
+    //ntx_system.add_external_link(from_name, from_id, to_name, to_id);
   }
 } 
 /*//old

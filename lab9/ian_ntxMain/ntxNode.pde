@@ -6,6 +6,7 @@ int NTOP = 1;
 int NRIGHT = 2;
 int NBOTTOM = 3;
 int NDIMENSIONS = 4;
+float posx,posy;
 
 class ntxExtLink {
   Integer id;
@@ -32,7 +33,11 @@ class ntxNode {
     external_connections = new HashMap<String, ntxExtLink>();
     cell_width = 10;
     process_names(names1);
+    w = cell_width * names.size();
+    posx = (float)Math.random() * (width - (2*w + cell_width));  // -w is so it doesn't go off screen.
+    posy = (float)Math.random() * (height - (2*w + cell_width)); // might have to be readjusted to account
     process_links(links);
+    initialize_matrix();
     populate_matrix();
   }
   boolean within() {
@@ -48,12 +53,10 @@ class ntxNode {
       //connections: { from: { to: strength} }
       matrix = new Cell[names.size()][names.size()];
       labels = new Cell[NDIMENSIONS][names.size()];
-      w = cell_width * names.size();
-      posx = (float)Math.random() * (width - (2*w + cell_width));  // -w is so it doesn't go off screen.
-      posy = (float)Math.random() * (height - (2*w + cell_width)); // might have to be readjusted to account
   }                                                                // for width of axis labels
   
   void update() {
+    populate_matrix();
     for (int i=0; i<names.size(); i++) {
       String from = names.get(i);
       for (int j=0; j<names.size(); j++) {
@@ -95,7 +98,7 @@ class ntxNode {
     }
   }
   void populate_matrix(){
-    initialize_matrix();
+    //initialize_matrix();
     // cells with data
     for (int i=0; i<names.size(); i++) {
       String from = names.get(i);

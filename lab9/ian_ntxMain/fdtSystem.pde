@@ -16,11 +16,10 @@ class fdtSystem{
     fdt_nodes = new HashMap<Integer,fdtNode>();
     frames_since_equilibrium = 0;
     total_kinetic_energy = 0;
-    hookeK = 0.1*15;
+    hookeK = 0;//0.1*15;
   }
   void watch(){
-    print("KE threshold is " + ke_threshold + "\n");
-    print("total KE is " + total_kinetic_energy + "\n");
+    //print("total KE is " + total_kinetic_energy + "\n");
     calc_center();
     calc_drift_direction();
     calc_vector_changes();
@@ -130,8 +129,11 @@ void calc_drift_y() {
     }
   }
   void draw_neighbor_edges(fdtNode currNode){
+     print ("id  " + currNode.id + "\n");
+     print("size " + currNode.neighbors.size() + "\n");
      for(int i = 0; i<currNode.neighbors.size();i++){
         neighborData neighbor = currNode.neighbors.get(i);
+        //print("neighbor_id" + neighbor.id + "\n");
         fdtNode neighborNode = (fdtNode)fdt_nodes.get(neighbor.id);
         line(currNode.posx, currNode.posy, neighborNode.posx,neighborNode.posy);
         currNode.point.Display();

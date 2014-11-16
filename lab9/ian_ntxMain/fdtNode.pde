@@ -22,6 +22,9 @@ class fdtNode {
     reset_velocities();
     kinetic_energy = 0;
     initializeCircle();
+    adj_matrix.posx = posx;
+    adj_matrix.posy = posy;
+    adj_matrix.update();
     forceData = new Forces();
     locked = false;
   }
@@ -37,6 +40,9 @@ class fdtNode {
     calc_coulomb();
     calc_hooke();
     sum_forces();
+    adj_matrix.posx = posx;
+    adj_matrix.posy = posy;
+    adj_matrix.update();
   }
   
   void update_velocity() {
