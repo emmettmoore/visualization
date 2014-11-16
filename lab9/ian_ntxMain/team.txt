@@ -1,0 +1,8 @@
+Assignment:		A3
+Names:			Emmett Moore, Ian Cross, Taylor Maykranz
+
+Emmett and Ian and Taylor worked on the planning together. Emmett
+and Ian focused on the movement of the visualization and the physics, after
+Taylor had created the static circles and their edges. Ian and Emmett
+added features to the circle class as necessary in order to satisfy
+the movement requirements of the diagram.
