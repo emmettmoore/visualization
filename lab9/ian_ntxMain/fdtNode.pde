@@ -10,6 +10,7 @@ class fdtNode {
   float mass;
   Forces forceData;
   Circle point;
+  ArrayList<node_name_link> specific_neighbors;
   ArrayList<neighborData> neighbors;
   boolean locked; // tells whether the circle is being dragged
                     // i.e. immune from forces being acted on it
@@ -17,6 +18,7 @@ class fdtNode {
   fdtNode(int id1, int m, ntxNode matrix) {
     adj_matrix = matrix;
     neighbors = new ArrayList<neighborData>(); 
+    specific_neighbors = new ArrayList<node_name_link>();
     id = id1;
     mass = m;
     reset_velocities();
@@ -142,4 +144,13 @@ class fdtNode {
     }
   }
 
+}
+class node_name_link{
+   String current_name,to_name;
+   int to_id;
+   node_name_link(String current_name1, int to_id1, String to_name1){
+      current_name = current_name1;
+      to_id = to_id1;
+      to_name = to_name1;
+   } 
 }

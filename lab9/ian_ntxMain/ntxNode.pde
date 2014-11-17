@@ -17,11 +17,11 @@ class ntxExtLink {
     name = name1;
   }
 }
+int cell_width = 10;
 
 class ntxNode {
     float w;
-
-  int cell_width;
+  Rectangle border;
   float posx, posy;
   ArrayList<String> names;
   HashMap<String, ntxExtLink> external_connections;
@@ -32,11 +32,13 @@ class ntxNode {
   float kinetic_energy;
   ntxNode(ArrayList<String> names1, ArrayList<String> links) {
     external_connections = new HashMap<String, ntxExtLink>();
-    cell_width = 10;
     process_names(names1);
     w = cell_width * names.size();
+    border = new Rectangle(posx - 20,posy - 20,w+40,w+40,"",color(255,20,147));
+
     process_links(links);
     initialize_matrix();
+
     populate_matrix();
   }
   boolean within() {
@@ -47,6 +49,10 @@ class ntxNode {
     }
     return false;
   }
+  void display_border(){
+    border.Display();
+    update();
+  }
   void initialize_matrix() {
       //names: array of names with order the same as input
       //connections: { from: { to: strength} }
@@ -55,6 +61,8 @@ class ntxNode {
   }                                                                // for width of axis labels
   
   void update() {
+    border.posx = posx - 20;
+    border.posy = posy - 20;
     populate_matrix();
     for (int i=0; i<names.size(); i++) {
       String from = names.get(i);
@@ -95,6 +103,9 @@ class ntxNode {
       // re-insert connection with added link
       connections.put(from, curr_connection);
     }
+  }
+  int get_name_index(String name){
+     return names.indexOf(name);
   }
   void populate_matrix(){
     //initialize_matrix();

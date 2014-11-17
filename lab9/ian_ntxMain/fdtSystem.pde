@@ -118,6 +118,7 @@ void calc_drift_y() {
     }    
     
   }
+  // go through all nodes and draw the edges
   void draw_all_edges(){
     Set set = fdt_nodes.entrySet();
     Iterator i = set.iterator();
@@ -128,16 +129,36 @@ void calc_drift_y() {
       draw_neighbor_edges(currNode);
     }
   }
+  //for one node, draw all the edges
   void draw_neighbor_edges(fdtNode currNode){
-     print ("id  " + currNode.id + "\n");
-     print("size " + currNode.neighbors.size() + "\n");
-     for(int i = 0; i<currNode.neighbors.size();i++){
-        neighborData neighbor = currNode.neighbors.get(i);
-        //print("neighbor_id" + neighbor.id + "\n");
-        fdtNode neighborNode = (fdtNode)fdt_nodes.get(neighbor.id);
+     for(int i = 0; i<currNode.specific_neighbors.size();i++){
+       
+        //get the desired neighbor id and name
+        node_name_link neighbor = currNode.specific_neighbors.get(i);
+        
+        //get the actual neighbor node
+        fdtNode neighborNode = (fdtNode)fdt_nodes.get(neighbor.to_id);
+
+        //get the index of the name in the current node
+        int curr_index = currNode.adj_matrix.get_name_index(neighbor.current_name);
+        
+        //get the index of the name in the neighbor node
+        int neigh_index = neighborNode.adj_matrix.get_name_index(neighbor.to_name);
+        
+        print ("curr " + curr_index + "neighbor index " + neigh_index + "\n");
+        float sourceX,sourceY;
+        float destX,destY;
+        
+        //doesn't mean anything really. this line is just aesthetic. this is where we will
+        //draw lines that connect names. REMEMBER, drawn lines mean nothing as far as the forces are concerned
+        //Taylor, pick up here!
+        //calc which side of the adj matrix to draw in
+        //all the information you need is in curr_node and neighborNode
         line(currNode.posx, currNode.posy, neighborNode.posx,neighborNode.posy);
-        currNode.point.Display();
-        neighborNode.point.Display();
+        
+        
+        //currNode.point.Display();
+        //neighborNode.point.Display();
      }
   }
   void reset_system() {
@@ -168,8 +189,9 @@ void calc_drift_y() {
     while(i.hasNext()) {
       Map.Entry temp = (Map.Entry)i.next();
       fdtNode currNode = (fdtNode)temp.getValue();
-      if(currNode.point.within()){
+      if(currNode.adj_matrix.border.within()){
         displayNodeInfo(currNode);
+        currNode.adj_matrix.display_border();
       }
       else{
          currNode.point.C1 = color(250,100,0); 
@@ -177,6 +199,8 @@ void calc_drift_y() {
     }
   }
   void checkMouseState(fdtNode currNode){
+    print ("dickwad\n");
+
     if (pressed || already_pressed) {
       frames_since_equilibrium = 0;
     }
@@ -189,12 +213,12 @@ void calc_drift_y() {
   }
   
   void displayNodeInfo(fdtNode currNode){
-      textAlign(CENTER);
+      /*textAlign(CENTER);
       String str = "ID: " + Integer.toString(currNode.id)  + "\n"
            + "Mass: " + Float.toString(currNode.mass); 
       fill(0,0,0);
       text(str, mouseX, mouseY - 30);
-      currNode.point.C1 = color(0,100,250);
+      currNode.point.C1 = color(0,100,250);*/
       checkMouseState(currNode);
   }
 }
