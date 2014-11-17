@@ -44,6 +44,7 @@ void parse_data() {
     }
     system.init_put(curr_id, new ntxNode(curr_names, curr_links));
   }
+  // parse external links
   while (index < lines.length) {
     String[] curr_ext_link = splitTokens(lines[index++], ",");
     print(curr_ext_link);print("\n");

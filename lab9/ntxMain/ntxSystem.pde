@@ -1,6 +1,6 @@
 class ntxSystem {
   int frames_since_equilibrium;
-  ArrayList<ntxNode> nodes;
+  ArrayList<ntxNode> nodes; //   CRUCIAL data structure
   float total_kinetic_energy;
   float center_x, center_y;
   float drift_x, drift_y;
@@ -27,6 +27,7 @@ class ntxSystem {
     else {
       reset_system();
     }
+    // don't delete this. only lines in update not yanked from fdt
     for (int i=0; i<nodes.size(); i++) {
       ntxNode curr_node = nodes.get(i);
       curr_node.update();
@@ -35,9 +36,9 @@ class ntxSystem {
   void add_external_link(String from_name, String from_id, String to_name, String to_id){
     ntxNode from_node = nodes.get(Integer.parseInt(from_id));
     from_node.add_external_link(from_name, Integer.parseInt(to_id), to_name);
-    //COMMENTING this out because it will probs be cleaner to do it one way only.
-    //ntxNode to_node = nodes.get(Integer.parseInt(to_id));
-    //to_node.add_external_link(to_name, from_id, from_name);
+    // other side: needed for correct force values
+    ntxNode to_node = nodes.get(Integer.parseInt(to_id));
+    to_node.add_external_link(to_name, from_id, from_name);
   }
   
   
