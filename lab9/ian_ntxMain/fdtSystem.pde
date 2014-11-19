@@ -139,23 +139,60 @@ void calc_drift_y() {
         //get the actual neighbor node
         fdtNode neighborNode = (fdtNode)fdt_nodes.get(neighbor.to_id);
 
-        //get the index of the name in the current node
+        //get the index of the name in the current node  //CURR NAME INDEX
         int curr_index = currNode.adj_matrix.get_name_index(neighbor.current_name);
         
-        //get the index of the name in the neighbor node
+        //get the index of the name in the neighbor node //NEIGH NAME INDEX
         int neigh_index = neighborNode.adj_matrix.get_name_index(neighbor.to_name);
         
-        print ("curr " + curr_index + "neighbor index " + neigh_index + "\n");
+        //int NLEFT = 0;
+//int NTOP = 1;
+//int NRIGHT = 2;
+//int NBOTTOM = 3;
+//int NDIMENSIONS = 4;
+         float distance = dist(neighborNode.adj_matrix.labels[NLEFT][neigh_index].posx, 
+                               neighborNode.adj_matrix.labels[NLEFT][neigh_index].posy,
+                               currNode.adj_matrix.labels[NLEFT][curr_index].posx,
+                               currNode.adj_matrix.labels[NLEFT][curr_index].posy);   
+         int currs_ind = NLEFT;
+         int neighs_ind = NLEFT; 
+         for(int a = 0; a < NDIMENSIONS; a++) {
+           for (int b = 0; b < NDIMENSIONS; b++) {
+              float tempDist = dist(neighborNode.adj_matrix.labels[a][neigh_index].posx, 
+                                    neighborNode.adj_matrix.labels[a][neigh_index].posy,
+                                    currNode.adj_matrix.labels[b][curr_index].posx,
+                                    currNode.adj_matrix.labels[b][curr_index].posy);
+                  if (tempDist < distance) {
+                    distance = tempDist;
+                    neighs_ind = a;
+                    currs_ind = b;
+                  }
+           }
+         }
         float sourceX,sourceY;
         float destX,destY;
+        sourceX = currNode.adj_matrix.labels[currs_ind][curr_index].posx;
+        sourceY = currNode.adj_matrix.labels[currs_ind][curr_index].posy;
+        destX = neighborNode.adj_matrix.labels[neighs_ind][neigh_index].posx;
+        destY = neighborNode.adj_matrix.labels[neighs_ind][neigh_index].posy;
+        
+        //for each cell CELL_N at index neigh_index in neighborNode,
+              //calculate the distance between CELL_N and (cell at curr_index in currNode)
+              //find the one with the shortest distance, and draw a line between them
+        
+        
+        
+        
+        print ("curr " + curr_index + "neighbor index " + neigh_index + "\n");
+
         
         //doesn't mean anything really. this line is just aesthetic. this is where we will
         //draw lines that connect names. REMEMBER, drawn lines mean nothing as far as the forces are concerned
         //Taylor, pick up here!
         //calc which side of the adj matrix to draw in
         //all the information you need is in curr_node and neighborNode
-        line(currNode.posx, currNode.posy, neighborNode.posx,neighborNode.posy);
-        
+//        line(currNode.posx, currNode.posy, neighborNode.posx,neighborNode.posy);
+        line(sourceX, sourceY, destX, destY);
         
         //currNode.point.Display();
         //neighborNode.point.Display();

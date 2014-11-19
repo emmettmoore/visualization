@@ -35,7 +35,6 @@ class ntxNode {
     process_names(names1);
     w = cell_width * names.size();
     border = new Rectangle(posx - 20,posy - 20,w+40,w+40,"",color(255,20,147));
-
     process_links(links);
     initialize_matrix();
 
@@ -122,7 +121,7 @@ class ntxNode {
     }
     // x labels
     for (int j=0; j<NDIMENSIONS; j++) {
-      for (int i=0; i < names.size(); i++) {
+      for (int i=0; i < names.size(); i++) {  //WHERE THEY draw the label cells //TAYLOR
           labels[NLEFT][i] = new Cell(posx-cell_width, posy + (i*cell_width),
                                  cell_width, cell_width, names.get(i).substring(0,2), 0);
           labels[NTOP][i] = new Cell(posx+(i*cell_width), posy-cell_width,
