@@ -15,10 +15,30 @@
 
 // Open up your console (More Tools -> Javascript Console in Chrome) to see the printed output below. It should look like "> Object {ver...". Click on the > to explore the attributs of the object.
 console.log( d3 );
+//Make an SVG Container
+//Make an SVG Container
+var w = 400
+var h = 300
+var C1 = "gray"
+var svgContainer = d3.select("body").append("svg")
+                                    .attr("width", w)
+                                    .attr("height", h);
 
+//Draw the Rectangle
+var rectangle = svgContainer.append("rect")
+                            .attr("x", .25*w)
+                            .attr("y", .25*h)
+                            .attr("width", .5*w)
+                            .attr("height", .5*h)
+                            .attr("fill",C1)
+svgContainer.append("text")
+.attr("x",0)
+.attr("y",0)
+.attr("fill","black")
+.text("test");
 
 // Remove this line and the tutorial function when you are ready to build your rectangle.
-tutorial();
+//tutorial();
 
 // You can delete the code below, it is just a primer on d3.
 function tutorial() {

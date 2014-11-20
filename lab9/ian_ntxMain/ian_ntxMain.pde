@@ -26,7 +26,7 @@ void setup() {
   pressed = false;
   system = new fdtSystem();
   parse_data();
-  time_step = 10.0/60.0;// * 1.3; // MAYBE NOT?
+  time_step = 1.5/60.0;// * 1.3; // MAYBE NOT?
 }
 
 void draw() {
@@ -64,7 +64,7 @@ void parse_data() {
   int index = 0;
   NUM_NODES = Integer.parseInt(lines[index++]);
   ke_threshold = 200.0*(float(NUM_NODES)/10.0); // fiddle with this to find appropriate value 
-  coulombK = 600;
+  coulombK = 500;
   for (int i=0; i< NUM_NODES; i++) {
     String[] node_info = splitTokens(lines[index++], ",");
     Integer curr_id = Integer.parseInt(node_info[ID]);
