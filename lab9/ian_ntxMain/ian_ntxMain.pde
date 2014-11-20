@@ -1,7 +1,7 @@
 import java.util.*;
 int EDGE_LENGTH = 200;
 
-String fn = "data1.csv"; 
+String fn = "data2.csv"; 
 int NUM_NODES;
 //node_info 
 int ID = 0;

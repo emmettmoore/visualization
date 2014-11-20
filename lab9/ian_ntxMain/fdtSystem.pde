@@ -266,8 +266,10 @@ void calc_drift_y() {
       Map.Entry temp = (Map.Entry)i.next();
       fdtNode currNode = (fdtNode)temp.getValue();
       if(currNode.adj_matrix.border.within()){
-        displayNodeInfo(currNode);
+//        displayNodeInfo(currNode);
         currNode.adj_matrix.display_border();
+               displayNodeInfo(currNode);
+
       }
       else{
          currNode.point.C1 = color(250,100,0); 
@@ -289,12 +291,13 @@ void calc_drift_y() {
   }
   
   void displayNodeInfo(fdtNode currNode){
-      /*textAlign(CENTER);
+      textFont(createFont("Arial Bold", 18));//taylor added
+      textAlign(CENTER);
       String str = "ID: " + Integer.toString(currNode.id)  + "\n"
            + "Mass: " + Float.toString(currNode.mass); 
       fill(0,0,0);
       text(str, mouseX, mouseY - 30);
-      currNode.point.C1 = color(0,100,250);*/
-      checkMouseState(currNode);
+      currNode.point.C1 = color(0,100,250);
+      checkMouseState(currNode);//ONLY LINE that wasnt commented out
   }
 }
