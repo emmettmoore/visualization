@@ -150,6 +150,8 @@ void calc_drift_y() {
 //int NRIGHT = 2;
 //int NBOTTOM = 3;
 //int NDIMENSIONS = 4;
+          //Each node has four arrays of label cells. the following will find out which precise curr_index label cell  of curr_node
+           //   is located closest to the closest precise neigh_index label cell of neigh_node.
          float distance = dist(neighborNode.adj_matrix.labels[NLEFT][neigh_index].posx, 
                                neighborNode.adj_matrix.labels[NLEFT][neigh_index].posy,
                                currNode.adj_matrix.labels[NLEFT][curr_index].posx,
@@ -169,18 +171,23 @@ void calc_drift_y() {
                   }
            }
          }
-        float sourceX,sourceY;
-        float destX,destY;
+         
+         //The following will now find the positions of the two chosen cells.
+        float sourceX,sourceY;//for curr_node
+        float destX,destY;    //for neigh_node
         sourceX = currNode.adj_matrix.labels[currs_ind][curr_index].posx;
         sourceY = currNode.adj_matrix.labels[currs_ind][curr_index].posy;
         destX = neighborNode.adj_matrix.labels[neighs_ind][neigh_index].posx;
         destY = neighborNode.adj_matrix.labels[neighs_ind][neigh_index].posy;
-        
-        //for each cell CELL_N at index neigh_index in neighborNode,
-              //calculate the distance between CELL_N and (cell at curr_index in currNode)
-              //find the one with the shortest distance, and draw a line between them
-        
-        
+
+        //The following function call will result in finding the eact x and y
+        //points of the two chosen cells, so that a line
+        //  can be drawn to connect the outer edges of the two the cells together.
+        //NOTE: uses global variable for cell_width.
+        sourceX = find_midpoint_x(sourceX, cell_width, currs_ind);
+        sourceY = find_midpoint_y(sourceY, cell_width, currs_ind);
+        destX = find_midpoint_x(destX, cell_width, neighs_ind);
+        destY = find_midpoint_y(destY, cell_width, neighs_ind);
         
         
         print ("curr " + curr_index + "neighbor index " + neigh_index + "\n");
@@ -198,6 +205,38 @@ void calc_drift_y() {
         //neighborNode.point.Display();
      }
   }
+  
+  //Helper function to draw_neighbor_edges().
+  //The following will now find the midpoint of a cell given the xposition which was
+  //  passed in and the side of the cell on which the midpoint will need to lay
+  //Takes in the positionX of the cell, and the dimension_position (whether its ==
+  //     NTOP, NRIGHT, NLEFT, or NBOTTOM) and finds the midpoint for X.
+  float find_midpoint_x(float p_x, float cellWid, int dimension_pos) {
+    float x_midpoint = p_x; 
+    if ((dimension_pos == NTOP) || (dimension_pos == NBOTTOM)) {
+      x_midpoint = p_x + cellWid /2f;
+    } else if (dimension_pos == NRIGHT) {
+      x_midpoint = p_x + cellWid;
+    }
+    return x_midpoint;
+  }
+  
+    //Helper function to draw_neighbor_edges().
+  //The following will now find the midpoint of a cell given the yposition which was
+  //  passed in and the side of the cell on which the midpoint will need to lay
+  //Takes in the positionY of the cell, and the dimension_position (whether its ==
+  //     NTOP, NRIGHT, NLEFT, or NBOTTOM) and finds the midpoint for Y.
+  float find_midpoint_y(float p_y, float cellWid, int dimension_pos) {
+    float y_midpoint = p_y;
+    if ((dimension_pos == NLEFT) || (dimension_pos == NRIGHT)) {
+      y_midpoint = p_y + cellWid / 2f;
+    } else if (dimension_pos == NBOTTOM) {
+      y_midpoint = p_y + cellWid;
+    }
+    return y_midpoint;
+  }
+  
+  
   void reset_system() {
     Set set = fdt_nodes.entrySet();
     Iterator i = set.iterator();
