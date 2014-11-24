@@ -1,6 +1,3 @@
-//TO DO : 
-//                - choose how to have participant IDs found
-
 
 
 
@@ -311,7 +308,8 @@ public void drawMarks() {
     return ((Math.log(x)) / (Math.log(2f)));
   }
 
-//TODO assign order[3] and order[4] to the candy cane ones
+//This function is pre-PartA feedback in a5
+/*
 void populateOrderArray() {      //Populates the ORDER array
     ORDER[0] = randomInt(0, 2);
     ORDER[1] = randomInt(0, 2);
@@ -323,6 +321,25 @@ void populateOrderArray() {      //Populates the ORDER array
       ORDER[2] = randomInt(0,2);
     }
     ORDER[3] = randomInt(3, 4);      //a5 here down-->
+    ORDER[4] = randomInt(3, 4);
+    while(ORDER[4] == ORDER[3]) {
+      ORDER[4] = randomInt(3, 4);
+    }
+} */
+//This is modified (from the above function).
+//  This function will skip case 2 (the PieIncrSize case)
+//  so that only cases 0, 1, 3, 4 are populated into the array of five items
+void populateOrderArray() {      //Populates the ORDER array
+    ORDER[0] = randomInt(0, 1);
+    ORDER[1] = randomInt(0, 1);
+    while (ORDER[1] == ORDER[0]) {
+      ORDER[1] = randomInt(0, 1);
+    }
+    ORDER[2] = randomInt(0, 4);
+    while (ORDER[2] == 2) {
+      ORDER[2] = randomInt(0, 4);
+    }
+    ORDER[3] = randomInt(3, 4);      
     ORDER[4] = randomInt(3, 4);
     while(ORDER[4] == ORDER[3]) {
       ORDER[4] = randomInt(3, 4);
