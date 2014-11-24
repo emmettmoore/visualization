@@ -209,6 +209,7 @@ public void next() {
         warning = "Please input a number between 0 - 100!";
     } else {
         if (index >= 0 && index < vis.length) {
+          print(vis.length);
             float ans = parseFloat(cp5.get(Textfield.class, "answer").getText());
 
             /**
@@ -230,12 +231,16 @@ public void next() {
              } else{
                truePerc = ((value1) / value2);
              }
-           reportPerc = ans;// this is the participant's response
-truePerc = truePerc * 100;        //TAYLOR ADDED A5
+//           reportPerc = ans;// this is the participant's response    //TAYLOR COMMENTED OUT A5 B
+float reportPercOrig = ans;
+reportPerc = ans/100.0;  //TAYLOR ADDED A5 B
+//truePerc = truePerc * 100;        //TAYLOR ADDED A5        //TAYLO COMMENTED OUT A5 B
  //           reportPerc = ans / 100.0; // this is the participant's response
           
             error = DECIDE_YOURSELF;
             error = (float)(log2(abs(reportPerc*100 - truePerc*100) + 1f/8f));
+            reportPerc = reportPercOrig;  //TAYLOR ADDED A5 B
+            truePerc = truePerc * 100;    //TAYLOR ADDED A5 B
             saveJudgement();
             isDisplaying = false;      //TAYLOR
         }
