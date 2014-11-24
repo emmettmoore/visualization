@@ -16,7 +16,7 @@ class fdtSystem{
     fdt_nodes = new HashMap<Integer,fdtNode>();
     frames_since_equilibrium = 0;
     total_kinetic_energy = 0;
-    hookeK = 0.1*15;
+    hookeK = 0.1*25;
   }
   void watch(){
     //print("total KE is " + total_kinetic_energy + "\n");
