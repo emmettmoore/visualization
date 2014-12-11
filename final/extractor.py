@@ -1,7 +1,7 @@
 import random
 import time
 missed_fucks = ["fuck that", "fuck you!", "fuck you you fucker", "fuck me", "fuck", "fucking god dammit", "motherfucker", "fuck?", "fucker!", "fucking fuck", "fuckkkk","fucking", "fuck you!"]
-
+write_to = open("recordedFucks.csv", "w+")
 wowRecordedFucks = 462
 def checkForFuck(line):
 	if "fuck" in line:
@@ -23,8 +23,7 @@ while len(fuck_lines) < wowRecordedFucks:
 random.shuffle(fuck_lines)
 
 for line in fuck_lines:
-	print line
-	time.sleep(.2)
+	write_to.write(line + ',\n')
 
 				
 
