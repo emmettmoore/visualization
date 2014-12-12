@@ -10,12 +10,15 @@ void setup(){
  
  size(800,600);
  parse_data();
- setGradient(0,0,width,.75*height, color(0,0,0), color(250,250,250));
- bot = new freq_graph(fuck_timestamps, 0.0,.75*height, (float)width, .25*height); 
- bot.Play();
+ setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
+ bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.75*height, (float)width, .25*height); 
+ bot.intro();
   
 }
 void draw(){
+  setGradient(0,0,width,.75*height, color(250,250,250), color(30,30,30));
+  //new Rectangle(0.0, 0.0 ,(float) width,(float).75*height, "",color(0,0,0));
+
   bot.update();
 }
 
