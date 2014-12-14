@@ -6,20 +6,28 @@ String rf = "recordedFucks.csv";
 String [] fuck_strings;
 float [] fuck_timestamps;
 freq_graph bot;
+heart_mgr hearts;
 void setup(){
  
  size(800,600);
  parse_data();
  setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
  bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.75*height, (float)width, .25*height); 
+ hearts = new heart_mgr(1);
  bot.intro();
+
   
 }
 void draw(){
   setGradient(0,0,width,.75*height, color(250,250,250), color(30,30,30));
   //new Rectangle(0.0, 0.0 ,(float) width,(float).75*height, "",color(0,0,0));
 
-  bot.update();
+  //bot.update();    //TAYLOR COMMENT OUT TEMP
+  hearts.update();
+
+  
+  
+  
 }
 
 void parse_data(){
