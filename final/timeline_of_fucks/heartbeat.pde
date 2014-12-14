@@ -1,5 +1,7 @@
 //this is the class for the line and the dot for the line
-
+//TODO: slow down the lines at before and after the biggest peak
+//TODO: - incorporate heart rate of 0
+//      - srart with putting some line before the small lump
   
 class heartbeat{
   int[] xSteps;
@@ -8,12 +10,15 @@ class heartbeat{
   int BASELINEX = 0;
 //  int BASELINEX = 30;
   int BASELINEY = 150;
-  int ARRAYSIZE = 100;
+  int ARRAYSIZE = 200;
   int NUMCYCLES = 4;
 //  int NUMCYCLES = 3;//number of full heartbeat cycles to display on the line
-  int MAXARRAYINDEX= 80;  //highest index of the array. This is calculated based largely on the 
+  int MAXARRAYINDEX= 80;  //highest index of the array. This is calculated based largely on the   //JUST COMMENTED OUT
+  int inverseHeartRate = 80;
   int SCALEAMOUNT = 2;
-  int WAITTIME = 0;
+  int WAITTIME = 0;  //LEAVE THIS at 0
+  int AVERAGEHEARTRATE = 80;  //THIS IS A CONSTANT. No matter what, the average heart rate is an 80.
+  int localHeartRate = 80;
   
   int LightCurrIndex = 0;// current index of the light, index applies to xSteps and ySteps array
   int LightCurrCycle = 0;// current cycle number
@@ -21,11 +26,14 @@ class heartbeat{
   
   Circle light;
   
-  
+  //TODO: change this to take in the number of fucks per movie
   heartbeat(int baseLineX, int baseLineY, int BeatsPerMinute) {
     BASELINEX = baseLineX;
     BASELINEY = baseLineY;
-    MAXARRAYINDEX = BeatsPerMinute;
+    inverseHeartRate = BeatsPerMinute;//TEMPORARY until i add other assignments to AssignHeartData
+    //MAXARRAYINDEX = BeatsPerMinute;
+    AssignHeartData();  //TODO: change this to take in the argument of number fucks per movie
+    
     light = new Circle(BASELINEX, BASELINEY, 3, color(0, 0, 0)); 
     xSteps = new int[ARRAYSIZE];
     ySteps = new int[ARRAYSIZE];
@@ -46,6 +54,7 @@ void createHeartBeat(){
     int xCurrBaseline = BASELINEX;
     for(int cycleCount = 0; cycleCount < NUMCYCLES; cycleCount++) {
       int i;
+//      for (i = 0; i < MAXARRAYINDEX-1; i++){
       for (i = 0; i < MAXARRAYINDEX; i++) {
 //        line(BASELINEX + (xSteps[i]*SCALEAMOUNT), BASELINEY + (ySteps[i]*SCALEAMOUNT), BASELINEX + (xSteps[i+1]*SCALEAMOUNT), BASELINEY + (ySteps[i+ 1]*SCALEAMOUNT));
         line(xCurrBaseline + (xSteps[i]*SCALEAMOUNT), BASELINEY + (ySteps[i]*SCALEAMOUNT), xCurrBaseline + (xSteps[i+1]*SCALEAMOUNT), BASELINEY + (ySteps[i+ 1]*SCALEAMOUNT));
@@ -82,7 +91,10 @@ void updateLightVariables(){
     
   }
 }//
+
 }
+
+/*
 void populateYSteps(){
  ySteps[0] = 0;  //Small lump before heartbeat
  ySteps[1] = -1;
@@ -132,7 +144,202 @@ for (int i = 40; i< MAXARRAYINDEX; i++) {
 ySteps[MAXARRAYINDEX] = 0;
 
 }
+*/
 
+
+void populateYSteps(){
+  int i;
+ ySteps[0] = 0;  //Small lump before heartbeat
+ ySteps[1] = -1;
+ ySteps[2] = -3;
+ ySteps[3] = -4;
+ ySteps[4] = -5;
+ ySteps[5] = -6;
+ ySteps[6] = -6;
+ ySteps[7] = -5;
+ ySteps[8] = -4;  
+ ySteps[9] = -2;//-3;
+ ySteps[10] = -1;
+ ySteps[11] = 0;//-1;
+ ySteps[12] = 0;//end of small lump
+ 
+  for (i = 13; i < (13 + (MAXARRAYINDEX/10)); i++) {
+    ySteps[i] = 0;
+  }  //for MAXARRAYINDEX, ySteps[20] will have just been given 0.
+// ySteps[13] = 0;//jump forwards to the first heart beat
+
+ySteps[i] = -61;
+// ySteps[14] = -61;//-55;//peak of heartbeat
+ySteps[i+1] = 23;
+// ySteps[15] = 23;//lowest point of heartbeat
+ySteps[i+2] = 0;
+// ySteps[16] = 0;//back to baseline
+ 
+//ySteps[i+3] = 0;  //there will always be at least 3 ticks after peak heartbeat, before large hump afterwards. this is the first tick
+//ySteps[i+4] = 0;  //this is the second tick. (These will be here regardless of heart rate)
+//ySteps[i+5] = 0;
+ int temp = i + 3;//TRYING THIS
+// int temp = i + 6;// the index of the NEXT element to be populated. (for heart rate 80, this will be 27
+for (i = temp; i < (temp + (MAXARRAYINDEX/10)); i++) {  //this way, by default, heart rate of 80 will always be exactly 8 ticks here
+  ySteps[i] = 0;
+}  //for MAXARRAYINDEX of 80, ysteps[27] will have just been given 0
+// ySteps[17] = 0;//jump forward to large lump after heartbeat
+ySteps[i] = 0;
+// ySteps[18] = 0; //large lump after heart beat (this looks like an extra tick)
+ySteps[i+1] = -1;
+// ySteps[19] = -1;
+ySteps[i+2] = -2;
+// ySteps[20] = -2;
+ySteps[i+3] = -3;
+// ySteps[21] = -3;
+ySteps[i+4] = -5;
+// ySteps[22] = -5;
+ySteps[i+5] = -6;
+// ySteps[23] = -6;
+ySteps[i+6] = -6;
+// ySteps[24] = -6;
+ySteps[i+7] = -7;
+// ySteps[25] = -7;
+ySteps[i+8] = -8;
+// ySteps[26] = -8;
+ySteps[i+9] = -9;
+// ySteps[27] = -9;
+ySteps[i+10] = -9;
+// ySteps[28] = -9;
+ySteps[i+11] = -10;
+// ySteps[29] = -10;
+ySteps[i+12] = -10;
+// ySteps[30] = -10;
+ySteps[i+13] = -9;
+// ySteps[31] = -9;
+ySteps[i+14] = -8;
+// ySteps[32] = -8;
+ySteps[i+15] = -4;
+// ySteps[33] = -4;
+ySteps[i+16] = -3;
+// ySteps[34] = -3;
+ySteps[i+17] = -2;
+// ySteps[35] = -2;
+ySteps[i+18] = -1;
+// ySteps[36] = -1;
+ySteps[i+19] = 0;
+// ySteps[37] = 0;
+ySteps[i+20] = 0;
+// ySteps[38] = 0;//jump forward to the start of next sequence
+ySteps[i+21] = 0;
+// ySteps[39] = 0;
+int temp3 = i + 22;
+for ( i = temp3; i < MAXARRAYINDEX; i++) {
+//for (i = 40; i< MAXARRAYINDEX; i++) {
+  ySteps[i] = 0;
+}
+ySteps[MAXARRAYINDEX] = 0;
+
+}
+
+
+void populateXSteps(){
+  int i;
+  xSteps[0] = 0;//Start of small lump before heart beat
+  xSteps[1] = 1;
+  xSteps[2] = 2;
+  xSteps[3] = 3;
+  xSteps[4] = 4;
+  xSteps[5] = 5;
+  xSteps[6] = 6;
+  xSteps[7] = 7;
+  xSteps[8] = 8;
+  xSteps[9] = 9;
+  xSteps[10] = 10;
+  xSteps[11] = 11;
+  xSteps[12] = 12;//End of small lump
+  for (i = 13; i < (13 + (MAXARRAYINDEX/10)); i++) {
+    xSteps[i] = i;
+  }  //for MAXARRAYINDEX, xSteps[20] will have just been given 20.
+  //xSteps[13] = 20;//jump forwards to first heart beat. TODO: multiply this by fraction of real heart beat?
+
+  xSteps[i] = i + 2;//because i was already iterated up one in the loop. peak of heartbeat
+  //xSteps[14] = 23;//peak of heartbeat
+xSteps[i+1] = i + 5;
+//  xSteps[15] = 26;//lowest point of heartbeat
+xSteps[i+2] = i + 8;
+//  xSteps[16] = 29;//back to baseline
+
+
+//xSteps[i+3] = i + 9;  //there will always be at least 3 ticks after peak heartbeat, before large hump afterwards. this is the first tick
+//xSteps[i+4] = i + 10;  //this is the second tick. (These will be here regardless of heart rate)
+//xSteps[i+5] = i + 11;  //this is the third one. now the normal heart rate (80) can be used in the next step:
+int temp = i + 3;//TRYING THIS
+int endOfPostPeakTicks = i + 9;//TRYING THIS
+//int temp = i + 6;// the index of the NEXT element to be populated. (for heart rate 80, this will be 27
+//int endOfPostPeakTicks = i + 12; // the x value for the last tick that was made after the peak , PLUS ONE.
+for (i = temp; i < (temp + (MAXARRAYINDEX/10)); i++) {  //this way, by default, heart rate of 80 will always be exactly 8 ticks here
+  xSteps[i] = endOfPostPeakTicks;
+  endOfPostPeakTicks++;
+}//for heart rate of 80, xSteps[27] will have just been given 40.
+//  xSteps[17] = 40;//43;//jump forward to large lump after heartbeat
+xSteps[i] = endOfPostPeakTicks;  //because both i and endOf will have just been iterated in the loop
+//    xSteps[18] = 41;//large lump after heart beat
+xSteps[i+1] = endOfPostPeakTicks + 1;
+// xSteps[19] = 42;
+xSteps[i+2] = endOfPostPeakTicks + 2;
+// xSteps[20] = 43;
+xSteps[i + 3] = endOfPostPeakTicks + 3;
+// xSteps[21] = 44;
+xSteps[i+4] = endOfPostPeakTicks + 4;
+// xSteps[22] = 45;
+xSteps[i+5] = endOfPostPeakTicks + 5;
+// xSteps[23] = 46;
+xSteps[i+6] = endOfPostPeakTicks + 5;//same as last
+// xSteps[24] = 46;
+xSteps[i+7] = endOfPostPeakTicks + 6;
+// xSteps[25] = 47;
+xSteps[i+8] = endOfPostPeakTicks + 7;
+// xSteps[26] = 48;
+xSteps[i+9] = endOfPostPeakTicks + 8;
+// xSteps[27] = 49;
+xSteps[i+10] = endOfPostPeakTicks + 8; // same as last
+// xSteps[28] = 49;
+xSteps[i+11] = endOfPostPeakTicks + 10;
+// xSteps[29] = 51;
+ //downward slope begins:
+ int temp2 = i+ 12;
+ int downwardSlope = endOfPostPeakTicks + 11;
+ for (i = temp2; i < (temp2 + 9); i++) {
+   xSteps[i] = downwardSlope;
+   downwardSlope++;
+ }
+//downward slope begins:
+/*
+ xSteps[30] = 52;
+ xSteps[31] = 53;
+ xSteps[32] = 54;
+ xSteps[33] = 55;
+ xSteps[34] = 56;
+ xSteps[35] = 57;
+ xSteps[36] = 58;
+ xSteps[37] = 59;
+ xSteps[38] = 60;
+ */
+
+ 
+// int i;
+int temp3 = i;  //because "i" will have already been iterated
+for (i = temp3; i < MAXARRAYINDEX; i++) {
+// for (i = 39; i<MAXARRAYINDEX; i++) {
+//   xSteps[i] = 22 + i;
+xSteps[i] = downwardSlope;
+downwardSlope++;
+ }
+// xSteps[39] = 85;
+xSteps[MAXARRAYINDEX] = downwardSlope;
+//xSteps[MAXARRAYINDEX] = 22 + i;//101;
+print(22 + i + "\n");
+
+}
+
+
+/*
 void populateXSteps(){
   xSteps[0] = 0;//Start of small lump before heart beat
    xSteps[1] = 1;
@@ -181,9 +388,16 @@ void populateXSteps(){
  }
 // xSteps[39] = 85;
 xSteps[MAXARRAYINDEX] = 22 + i;//101;
-
+print(22 + i + "\n");
 
 }
+*/
 
+void AssignHeartData() {
+  //TODO: given the numer of f words per movie, calculate these numbers: (including LocalHeartRate)
+  //TODO: calculate InverseHeartRate
+  MAXARRAYINDEX = inverseHeartRate;
+  
+}
 
 }

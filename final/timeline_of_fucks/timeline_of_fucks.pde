@@ -12,7 +12,7 @@ void setup(){
  parse_data();
  setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
  bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.75*height, (float)width, .25*height); 
- hearts = new heart_mgr(3, 50, 80, 80);
+ hearts = new heart_mgr(3, 80, 30, 80);
  bot.intro();
 
   
@@ -21,7 +21,7 @@ void draw(){
   setGradient(0,0,width,.75*height, color(250,250,250), color(30,30,30));
   //new Rectangle(0.0, 0.0 ,(float) width,(float).75*height, "",color(0,0,0));
 
-  //bot.update();    //TAYLOR COMMENT OUT TEMP
+//  bot.update();    //TAYLOR COMMENT OUT TEMP
   hearts.update();
 
   
