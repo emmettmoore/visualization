@@ -8,12 +8,11 @@ float [] fuck_timestamps;
 freq_graph bot;
 heart_mgr hearts;
 void setup(){
- 
  size(800,600);
  parse_data();
  setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
  bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.75*height, (float)width, .25*height); 
- hearts = new heart_mgr(1);
+ hearts = new heart_mgr(3, 50, 80, 80);
  bot.intro();
 
   

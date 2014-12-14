@@ -1,16 +1,20 @@
 //this is the class for the line and the dot for the line
-  int BASELINEX = 30;
-  int BASELINEY = 150;
-  int ARRAYSIZE = 100;
-  int NUMCYCLES = 3;//number of full heartbeat cycles to display on the line
-  int MAXARRAYINDEX= 80;  //highest index of the array. This is calculated based largely on the 
-  int SCALEAMOUNT = 2;
-  int WAITTIME = 0;
+
   
 class heartbeat{
   int[] xSteps;
   int[] ySteps;
-
+  
+  int BASELINEX = 0;
+//  int BASELINEX = 30;
+  int BASELINEY = 150;
+  int ARRAYSIZE = 100;
+  int NUMCYCLES = 4;
+//  int NUMCYCLES = 3;//number of full heartbeat cycles to display on the line
+  int MAXARRAYINDEX= 80;  //highest index of the array. This is calculated based largely on the 
+  int SCALEAMOUNT = 2;
+  int WAITTIME = 0;
+  
   int LightCurrIndex = 0;// current index of the light, index applies to xSteps and ySteps array
   int LightCurrCycle = 0;// current cycle number
   int currWaitTime = 0;
@@ -18,8 +22,10 @@ class heartbeat{
   Circle light;
   
   
-  heartbeat() {
-
+  heartbeat(int baseLineX, int baseLineY, int BeatsPerMinute) {
+    BASELINEX = baseLineX;
+    BASELINEY = baseLineY;
+    MAXARRAYINDEX = BeatsPerMinute;
     light = new Circle(BASELINEX, BASELINEY, 3, color(0, 0, 0)); 
     xSteps = new int[ARRAYSIZE];
     ySteps = new int[ARRAYSIZE];
@@ -169,11 +175,12 @@ void populateXSteps(){
  xSteps[36] = 58;
  xSteps[37] = 59;
  xSteps[38] = 60;
- for (int i = 39; i<MAXARRAYINDEX; i++) {
+ int i;
+ for (i = 39; i<MAXARRAYINDEX; i++) {
    xSteps[i] = 22 + i;
  }
 // xSteps[39] = 85;
-xSteps[MAXARRAYINDEX] = 101;
+xSteps[MAXARRAYINDEX] = 22 + i;//101;
 
 
 }
