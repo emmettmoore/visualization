@@ -2,6 +2,8 @@
 //TODO: slow down the lines at before and after the biggest peak
 //TODO: - incorporate heart rate of 0
 //      - srart with putting some line before the small lump
+//TODO: - set a minimum allowable heartrate
+//- include in updateLightVariables() step to check if the ball has gone outside the bounds of the screen
   
 class heartbeat{
   int[] xSteps;
@@ -10,8 +12,10 @@ class heartbeat{
   int BASELINEX = 0;
 //  int BASELINEX = 30;
   int BASELINEY = 150;
-  int ARRAYSIZE = 200;
-  int NUMCYCLES = 4;
+  int ARRAYSIZE = 401;
+  int NUMCYCLES = 1;
+  int MIN_ALLOWABLE_INVERSE = 20;// better to make this 24 or 25?
+  int MAX_ALLOWABLE_INVERSE = 400;
 //  int NUMCYCLES = 3;//number of full heartbeat cycles to display on the line
   int MAXARRAYINDEX= 80;  //highest index of the array. This is calculated based largely on the   //JUST COMMENTED OUT
   int inverseHeartRate = 80;
@@ -54,12 +58,9 @@ void createHeartBeat(){
     int xCurrBaseline = BASELINEX;
     for(int cycleCount = 0; cycleCount < NUMCYCLES; cycleCount++) {
       int i;
-//      for (i = 0; i < MAXARRAYINDEX-1; i++){
       for (i = 0; i < MAXARRAYINDEX; i++) {
-//        line(BASELINEX + (xSteps[i]*SCALEAMOUNT), BASELINEY + (ySteps[i]*SCALEAMOUNT), BASELINEX + (xSteps[i+1]*SCALEAMOUNT), BASELINEY + (ySteps[i+ 1]*SCALEAMOUNT));
         line(xCurrBaseline + (xSteps[i]*SCALEAMOUNT), BASELINEY + (ySteps[i]*SCALEAMOUNT), xCurrBaseline + (xSteps[i+1]*SCALEAMOUNT), BASELINEY + (ySteps[i+ 1]*SCALEAMOUNT));
         if ((i == LightCurrIndex)&&(cycleCount == LightCurrCycle)&&(currWaitTime == WAITTIME)) {//make light shine
-            //ellipse((xCurrBaseline + xSteps[i]*SCALEAMOUNT), (BASELINEY + ySteps[i]*SCALEAMOUNT), 3, 3);
             light = new Circle((xCurrBaseline + xSteps[i]*SCALEAMOUNT), (BASELINEY + ySteps[i]*SCALEAMOUNT), 3, color(0, 0, 0));
         }
   
@@ -397,6 +398,25 @@ void AssignHeartData() {
   //TODO: given the numer of f words per movie, calculate these numbers: (including LocalHeartRate)
   //TODO: calculate InverseHeartRate
   MAXARRAYINDEX = inverseHeartRate;
+  
+  if ((MIN_ALLOWABLE_INVERSE <= inverseHeartRate) && (inverseHeartRate <= 39)) {
+   NUMCYCLES = 9;
+  } else if ((40 <= inverseHeartRate) && (inverseHeartRate <= 51)) {
+   NUMCYCLES = 8;
+  } else if ((52 <= inverseHeartRate) && (inverseHeartRate <= 61)) {
+   NUMCYCLES = 7;
+  } else if ((62 <= inverseHeartRate) && (inverseHeartRate <= 74)) {
+   NUMCYCLES = 6;
+  } else if ((75 <= inverseHeartRate) && (inverseHeartRate <= 94)) {
+    NUMCYCLES = 5;
+  } else if ((95 <= inverseHeartRate) && (inverseHeartRate <= 127)) {
+    NUMCYCLES = 4;
+  } else if ((128 <= inverseHeartRate) && (inverseHeartRate <= 194)) {
+    NUMCYCLES = 3;
+  } else if ((394 <= inverseHeartRate) && (inverseHeartRate <= MAX_ALLOWABLE_INVERSE)) {
+    NUMCYCLES = 1;
+  }
+  
   
 }
 
