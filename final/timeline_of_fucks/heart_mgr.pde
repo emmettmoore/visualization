@@ -32,10 +32,12 @@ class heart_mgr{
  void populate_data() {
 
    int Baseline  = 130;     //TODO: add modularity here so that other number of movies can be given and it will calc these position values
-   for (int i = 0; i < numOfMovies; i++) {
+//   for (int i = 0; i < numOfMovies; i++) {
+  for (int i = 0; i < numOfMovies -1; i++) {
      heartbeats[i] = new heartbeat(0, Baseline, heartRates[i]);
      Baseline = Baseline + 200;
    }
+   heartbeats[numOfMovies-1] = new heartbeat(0, (int)(.9*height), (MIN_ALLOWABLE_INVERSE + 10));//heartRates[i]);
      
  }
 }

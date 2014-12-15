@@ -6,7 +6,7 @@ float[] yCoordEnds;
 float[] yCoordEndsOrig;
 int populatePosition = 0;  //TAYLOR
 boolean isFirstItem = true;
-boolean lerpReady = false;
+
 class freq_graph{
  String[] fontList;
  ArrayList<quote_data> fucks_on_screen;
@@ -179,7 +179,8 @@ class freq_graph{
       fill(250,250,250); 
       PFont font = createFont("monoscript", 25);
       textFont(font);
-      text(counter,10,.75*height- 10);
+//      text(counter,10,.75*height- 10);
+      text(counter,10,.65*height- 10);
   }
   float calc_momentum(){
       if(time_since_last_fuck>60){

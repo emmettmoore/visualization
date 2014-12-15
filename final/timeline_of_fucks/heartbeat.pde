@@ -5,6 +5,7 @@
 //TODO: - set a minimum allowable heartrate
 //- include in updateLightVariables() step to check if the ball has gone outside the bounds of the screen
   
+    int MIN_ALLOWABLE_INVERSE = 29;//29 cause of color fade-off.  without color fade-off this can be 20
 class heartbeat{
   int[] xSteps;
   int[] ySteps;
@@ -81,7 +82,7 @@ void createHeartBeat(){
         line(xCurrBaseline + (xSteps[i]*SCALEAMOUNT), BASELINEY + (ySteps[i]*SCALEAMOUNT), xCurrBaseline + (xSteps[i+1]*SCALEAMOUNT), BASELINEY + (ySteps[i+ 1]*SCALEAMOUNT));
         if ((i == LightCurrIndex)&&(cycleCount == LightCurrCycle)&&(currWaitTime == WAITTIME)) {//make light shine
                 //filter(BLUR, 1);
-            light = new Circle((xCurrBaseline + xSteps[i]*SCALEAMOUNT), (BASELINEY + ySteps[i]*SCALEAMOUNT), 10, color(186, 0, 25));
+            light = new Circle((xCurrBaseline + xSteps[i]*SCALEAMOUNT), (BASELINEY + ySteps[i]*SCALEAMOUNT), 3, color(186, 0, 25));
               isNewCircle = true;
 
           /* if (hasBlur == false) {
