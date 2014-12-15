@@ -6,6 +6,8 @@
 class heart_mgr{
    int numOfMovies = 0;
    heartbeat[] heartbeats;
+   boolean DisplayFirst = false;
+   boolean DisplaySecond = false;
    int[] heartRates;
 //   heartbeat TEMPORARY = new heartbeat();
    heart_mgr(int numMovies1, int heartRate1, int heartRate2, int heartRate3) {
@@ -23,9 +25,15 @@ class heart_mgr{
  } 
  
  void update() {
-   for (int i = 0; i < heartbeats.length; i++) {
-     heartbeats[i].update();
+   if (DisplayFirst == true) {
+     heartbeats[0].update();
    }
+   if (DisplaySecond == true) {
+     heartbeats[1].update();
+   }
+//   for (int i = 0; i < heartbeats.length; i++) {
+//     heartbeats[i].update();
+//   }
 //    TEMPORARY.update();
  }
  

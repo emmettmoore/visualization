@@ -57,7 +57,7 @@ void draw(){
      //setGradient(0,0,width,.75*height, color(250,250,250), color(30,30,30));
      setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30));
      StartHeartRate();
-     //hearts.update();
+     hearts.update();
   }
   if (heartSimulationReady == true) {
     setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
@@ -168,17 +168,35 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
          else if(s_h_alpha < -200){
            s_h_alpha -=5;
          }
+         print("ShAlpha is: " + s_h_alpha+ "\n");
    } else {
        currentRate = currentRate - 10;
    }
-   if ((countRounds <= -49) && (secondStringSaid == false)) {
+   if ((countRounds <= -49) && (secondStringSaid == false) && (s_h_alpha <= 5)) {
+     if (stringHeight == 130) {//then its already been here because below this "if" statement, StringHeight is set to 130
+         secondStringSaid = true;
+         hearts.DisplayFirst = true;
+     } else {
      print("its here");
      s_h_alpha = 250;
      str1 = "This movie";
      stringHeight = (130);
      font1 = createFont("monoscript", 40);
-     secondStringSaid = true;
+//     secondStringSaid = true;
      countRounds = 30;
+     }
+   } else if ((secondStringSaid == true)&&(s_h_alpha <= 5)) {
+     if (stringHeight == 260) { // then it has already been here
+     print("IT IS HERE ");
+       hearts.DisplaySecond = true;
+     } else {
+       print("it is here 22222");
+     s_h_alpha = 250;
+     str1 = "This Other movie";
+     stringHeight = 260;
+     countRounds = 30;
+     font1 = createFont("monoscript", 40);
+     }
    }
          
 }
