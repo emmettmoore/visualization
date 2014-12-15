@@ -81,7 +81,7 @@ void createHeartBeat(){
         line(xCurrBaseline + (xSteps[i]*SCALEAMOUNT), BASELINEY + (ySteps[i]*SCALEAMOUNT), xCurrBaseline + (xSteps[i+1]*SCALEAMOUNT), BASELINEY + (ySteps[i+ 1]*SCALEAMOUNT));
         if ((i == LightCurrIndex)&&(cycleCount == LightCurrCycle)&&(currWaitTime == WAITTIME)) {//make light shine
                 //filter(BLUR, 1);
-            light = new Circle((xCurrBaseline + xSteps[i]*SCALEAMOUNT), (BASELINEY + ySteps[i]*SCALEAMOUNT), 3, color(186, 0, 25));
+            light = new Circle((xCurrBaseline + xSteps[i]*SCALEAMOUNT), (BASELINEY + ySteps[i]*SCALEAMOUNT), 10, color(186, 0, 25));
               isNewCircle = true;
 
           /* if (hasBlur == false) {

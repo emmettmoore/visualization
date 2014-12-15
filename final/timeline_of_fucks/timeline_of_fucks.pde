@@ -1,14 +1,19 @@
 import java.util.*;
+import processing.opengl.*;
 
 String fi = "wowFuckInstances.csv";
 String rf = "recordedFucks.csv";
+
+float lerpAmount = 0;
+color white = (
 
 String [] fuck_strings;
 float [] fuck_timestamps;
 freq_graph bot;
 heart_mgr hearts;
 void setup(){
- size(800,600);
+size(800,600);
+//size(800, 600, OPENGL);
  parse_data();
  setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
  bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.75*height, (float)width, .25*height); 
@@ -20,10 +25,13 @@ void setup(){
 void draw(){
   setGradient(0,0,width,.75*height, color(250,250,250), color(30,30,30));
   //new Rectangle(0.0, 0.0 ,(float) width,(float).75*height, "",color(0,0,0));
-
-//  bot.update();    //TAYLOR COMMENT OUT TEMP
-  hearts.update();
-
+  bot.update();    //TAYLOR COMMENT OUT TEMP
+  if (lerpReady == true) {
+     setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
+       setGradient(0,0,width,.75*height, color(250,250,250), color(30,30,30));
+    lerpFreqGraph();
+  }
+//  hearts.update();
   
   
   
@@ -66,4 +74,22 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
         set(i, j, c);
       }
     }  
+  }
+  
+  void lerpFreqGraph() {
+    
+    for (int i = 0; i < xCoordStarts.length; i++) {
+      yCoordStarts[i] = lerp(.75*height, .9*height, lerpAmount);
+      yCoordEnds[i] = lerp(yCoordEndsOrig[i], .9*height, lerpAmount);
+      if (yCoordStarts[i] <= .9*height) {
+        line(xCoordStarts[i], yCoordStarts[i], xCoordEnds[i], yCoordEnds[i]);
+      }
+    }
+    lerpAmount+= .01;
+    
+
+//.75*height
+//
+
+    
   }
