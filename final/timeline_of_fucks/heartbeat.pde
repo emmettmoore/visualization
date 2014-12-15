@@ -8,13 +8,16 @@
 class heartbeat{
   int[] xSteps;
   int[] ySteps;
-  
+  boolean isNewCircle = true;
+//  float opacity = 255;
+float opacity = 0;
+  boolean hasBlur = false;
   int BASELINEX = 0;
 //  int BASELINEX = 30;
   int BASELINEY = 150;
   int ARRAYSIZE = 401;
   int NUMCYCLES = 1;
-  int MIN_ALLOWABLE_INVERSE = 20;// better to make this 24 or 25?
+  int MIN_ALLOWABLE_INVERSE = 29;//29 cause of color fade-off.  without color fade-off this can be 20
   int MAX_ALLOWABLE_INVERSE = 400;
 //  int NUMCYCLES = 3;//number of full heartbeat cycles to display on the line
   int MAXARRAYINDEX= 80;  //highest index of the array. This is calculated based largely on the   //JUST COMMENTED OUT
@@ -59,9 +62,33 @@ void createHeartBeat(){
     for(int cycleCount = 0; cycleCount < NUMCYCLES; cycleCount++) {
       int i;
       for (i = 0; i < MAXARRAYINDEX; i++) {
+        strokeWeight(3);
+        if (isNewCircle == true) {
+//          stroke(color(186, 0, 25), 255/opacity); // 0 to 255, 0 is see-through
+        stroke(color(186, 0, 25), opacity - (MAXARRAYINDEX/2f)); 
+//          opacity = opacity - 1;
+            opacity = opacity + 1;
+            if (opacity >= 255) {
+              opacity = 0;
+//          if (opacity <= 1) {
+            //opacity = 255;
+            isNewCircle = false;
+          }
+        } else {
+          stroke(color(186, 0, 25));
+        }
+//        stroke(color(186, 0, 25));
         line(xCurrBaseline + (xSteps[i]*SCALEAMOUNT), BASELINEY + (ySteps[i]*SCALEAMOUNT), xCurrBaseline + (xSteps[i+1]*SCALEAMOUNT), BASELINEY + (ySteps[i+ 1]*SCALEAMOUNT));
         if ((i == LightCurrIndex)&&(cycleCount == LightCurrCycle)&&(currWaitTime == WAITTIME)) {//make light shine
-            light = new Circle((xCurrBaseline + xSteps[i]*SCALEAMOUNT), (BASELINEY + ySteps[i]*SCALEAMOUNT), 3, color(0, 0, 0));
+                //filter(BLUR, 1);
+            light = new Circle((xCurrBaseline + xSteps[i]*SCALEAMOUNT), (BASELINEY + ySteps[i]*SCALEAMOUNT), 3, color(186, 0, 25));
+              isNewCircle = true;
+
+          /* if (hasBlur == false) {
+              filter(BLUR, 6);
+              hasBlur = true;
+            }*/
+                   //filter(BLUR, 4);
         }
   
       }
@@ -70,6 +97,35 @@ void createHeartBeat(){
 
 }
 
+/*
+void createHeartBeat(){
+  updateLightVariables();
+  light.Display();
+      stroke(30);
+    int xCurrBaseline = BASELINEX;
+    for(int cycleCount = 0; cycleCount < NUMCYCLES; cycleCount++) {
+      int i;
+      for (i = 0; i < MAXARRAYINDEX; i++) {
+        strokeWeight(3);
+        stroke(color(186, 0, 25), 255); // 0 to 255, 0 is see-through
+//        stroke(color(186, 0, 25));
+        line(xCurrBaseline + (xSteps[i]*SCALEAMOUNT), BASELINEY + (ySteps[i]*SCALEAMOUNT), xCurrBaseline + (xSteps[i+1]*SCALEAMOUNT), BASELINEY + (ySteps[i+ 1]*SCALEAMOUNT));
+        if ((i == LightCurrIndex)&&(cycleCount == LightCurrCycle)&&(currWaitTime == WAITTIME)) {//make light shine
+                //filter(BLUR, 1);
+            light = new Circle((xCurrBaseline + xSteps[i]*SCALEAMOUNT), (BASELINEY + ySteps[i]*SCALEAMOUNT), 3, color(186, 0, 25));
+          // if (hasBlur == false) {
+           //   filter(BLUR, 6);
+           //   hasBlur = true;
+           // }
+                   //filter(BLUR, 4);
+        }
+  
+      }
+        xCurrBaseline = xCurrBaseline + xSteps[i]*SCALEAMOUNT;
+    }
+
+}
+*/
 
 
 void updateLightVariables(){
@@ -88,6 +144,7 @@ void updateLightVariables(){
           LightCurrCycle++;
       } else {
         LightCurrCycle = 0;
+//        hasBlur = false;
     }
     
   }
@@ -416,7 +473,6 @@ void AssignHeartData() {
   } else if ((394 <= inverseHeartRate) && (inverseHeartRate <= MAX_ALLOWABLE_INVERSE)) {
     NUMCYCLES = 1;
   }
-  
   
 }
 

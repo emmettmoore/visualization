@@ -12,7 +12,7 @@ void setup(){
  parse_data();
  setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
  bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.75*height, (float)width, .25*height); 
- hearts = new heart_mgr(3, 24, 56, 80);
+ hearts = new heart_mgr(3, 29, 56, 80);
  bot.intro();
 
   
