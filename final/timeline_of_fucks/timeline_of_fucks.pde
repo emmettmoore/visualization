@@ -15,6 +15,12 @@ boolean transitionReady = false;//set to true after lerping finishes. Transition
 boolean heartSimulationReady = false;
 heartbeat startingHeart;
 int currentRate = 400;
+int s_h_alpha = 250;
+int countRounds = 30;
+PFont font1 = createFont("monoscript", 70);
+String str1 = "Compare this to";
+float stringHeight = 250;//((height*.5)/2.0 + 70);
+boolean secondStringSaid = false;
 
 String [] fuck_strings;
 float [] fuck_timestamps;
@@ -134,11 +140,45 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
   void StartHeartRate() {
          if (currentRate > (MIN_ALLOWABLE_INVERSE + 10)) {
              startingHeart = new heartbeat(0, (int)(.9*height), currentRate);
-             currentRate = currentRate - 10;
+             //currentRate = currentRate - 10;//MOVING THIS
          }
          startingHeart.update();
-         if (!(currentRate  > (MIN_ALLOWABLE_INVERSE + 10))) {
-           transitionReady = false;
-           heartSimulationReady = true;
+ //        if (!(currentRate  > (MIN_ALLOWABLE_INVERSE + 10))) {
+ //          transitionReady = false;
+ //          heartSimulationReady = true;
+ //        }
+         
+//   if (!(currentRate > (MIN_ALLOWABLE_INVERSE + 10))) {      
+     if (!(currentRate > (-500))) {      
+          if(s_h_alpha > 5){
+            fill(250,250,250,s_h_alpha);
+
+           // PFont font = createFont("monoscript", 70);
+            //String str = "Compare this to";
+            textFont(font1);
+            float len = textWidth(str1);
+            //text(str,width/2.0-len/2.0,(height*.5)/2.0 + 70);
+            text(str1,width/2.0-len/2.0,stringHeight);
+            if (countRounds <= 0) { // just added
+              s_h_alpha -=5;
+            }                      //just added
+            countRounds = countRounds - 1;
+            print("Count Rounds is: " + countRounds + "\n");
          }
-  }
+         else if(s_h_alpha < -200){
+           s_h_alpha -=5;
+         }
+   } else {
+       currentRate = currentRate - 10;
+   }
+   if ((countRounds <= -49) && (secondStringSaid == false)) {
+     print("its here");
+     s_h_alpha = 250;
+     str1 = "This movie";
+     stringHeight = (130);
+     font1 = createFont("monoscript", 40);
+     secondStringSaid = true;
+     countRounds = 30;
+   }
+         
+}
