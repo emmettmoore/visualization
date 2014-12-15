@@ -33,7 +33,7 @@ size(800,600);
  setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
  //bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.75*height, (float)width, .25*height); 
   bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.65*height, (float)width, .25*height); 
- hearts = new heart_mgr(3, 29, 56, 400);
+ hearts = new heart_mgr(3, 80, 56, 400);
  bot.intro();
 
   
@@ -185,7 +185,7 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
 //     secondStringSaid = true;
      countRounds = 30;
      }
-   } else if ((secondStringSaid == true)&&(s_h_alpha <= 5)) {
+   } else if ((countRounds <=-49) && (secondStringSaid == true)&&(s_h_alpha <= 5)) {
      if (stringHeight == 260) { // then it has already been here
      print("IT IS HERE ");
        hearts.DisplaySecond = true;
