@@ -56,6 +56,7 @@ redRect = new Rectangle(0,.65*height, (float)width, (float)height, "", color(107
   
 }
 void draw(){
+
 //  setGradient(0,0,width,.75*height, color(250,250,250), color(30,30,30));
   //new Rectangle(0.0, 0.0 ,(float) width,(float).75*height, "",color(0,0,0));
 
