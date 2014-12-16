@@ -9,18 +9,29 @@ class heart_mgr{
    boolean DisplayFirst = false;
    boolean DisplaySecond = false;
    boolean DisplayThird = false;
-   int[] heartRates;
+   //int[] heartRates;
+   float[] numMinutes;
+   float[] numFWords;
 //   heartbeat TEMPORARY = new heartbeat();
-   heart_mgr(int numMovies1, int heartRate1, int heartRate2, int heartRate3) {
+   //heart_mgr(int numMovies1, int heartRate1, int heartRate2, int heartRate3) {
+     heart_mgr(int numMovies1, float mins1, float numF1, float mins2, float numF2, float mins3, float numF3){
    numOfMovies = numMovies1;
    heartbeats = new heartbeat[numMovies1];
-   heartRates = new int[numMovies1];
-   heartRates[0] = heartRate1;
+   numMinutes = new float[numMovies1];
+   numFWords = new float[numMovies1];
+   //heartRates = new int[numMovies1];
+   //heartRates[0] = heartRate1;
+   numMinutes[0] = mins1;
+   numFWords[0] = numF1;
    if (numMovies1 >= 2) {
-     heartRates[1] = heartRate2;
+     numMinutes[1] = mins2;
+     numFWords[1] = numF2;
+     //heartRates[1] = heartRate2;
    }
    if (numMovies1 > 2) {
-     heartRates[2] = heartRate3;
+     numMinutes[2] = mins3;
+     numFWords[2] = numF3;
+//     heartRates[2] = heartRate3;
    }
    populate_data();
  } 
@@ -44,12 +55,13 @@ class heart_mgr{
  void populate_data() {
 
    int Baseline  = 130;     //TODO: add modularity here so that other number of movies can be given and it will calc these position values
-//   for (int i = 0; i < numOfMovies; i++) {
-  for (int i = 0; i < numOfMovies -1; i++) {
-     heartbeats[i] = new heartbeat(0, Baseline, heartRates[i]);
+   for (int i = 0; i < numOfMovies; i++) {
+//  for (int i = 0; i < numOfMovies -1; i++) {
+     //heartbeats[i] = new heartbeat(0, Baseline, heartRates[i]);
+     heartbeats[i] = new heartbeat(0, Baseline, numMinutes[i], numFWords[i], 0);
      Baseline = Baseline + 200;
    }
-   heartbeats[numOfMovies-1] = new heartbeat(0, (int)(.9*height), (MIN_ALLOWABLE_INVERSE + 10));//heartRates[i]);
+   //heartbeats[numOfMovies-1] = new heartbeat(0, (int)(.9*height), (MIN_ALLOWABLE_INVERSE + 10));//heartRates[i]);
      
  }
 }

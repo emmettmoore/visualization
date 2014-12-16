@@ -3,12 +3,15 @@ import java.util.*;
 
 String fi = "wowFuckInstances.csv";
 String rf = "recordedFucks.csv";
-String MovieCompare1 = "Wedding Crashers";
-String MovieCompare2 = "Schindler's List";
-int numSwearsIn1 = 25;
-int numSwearsIn2 = 9;
-int numMinutesLong1 = 128;
-//int numMinutesLong2 = 
+String MovieCompare0 = "Wedding Crashers";  //this never gets used
+String MovieCompare1 = "Schindler's List";
+String MovieCompare2 = "Wolf of Wallstreet";
+float numSwearsIn0 = 25;
+float numSwearsIn1 = 9;
+float numSwearsIn2 = 569;
+float numMinutesLong0 = 128;
+float numMinutesLong1 = 195;
+float numMinutesLong2 = 180;
 
 float lerpAmount = 0;
 float lerpAmount2 = 0;
@@ -39,13 +42,15 @@ heart_mgr hearts;
 void setup(){
 size(800,600);
 redRect = new Rectangle(0,.65*height, (float)width, (float)height, "", color(107, 0, 0));
- //            startingHeart = new heartbeat(0, (int)(.9*height), MIN_ALLOWABLE_INVERSE + 10);                  //TEMPORARY, DELETE THIS
+//startingHeart = new heartbeat(0, (int)(.9*height), numMinutesLong2, numSwearsIn2, 0);                          //TEMPORARY, DELETE THIS
+            // startingHeart = new heartbeat(0, (int)(.9*height), MIN_ALLOWABLE_INVERSE + 10);                  //TEMPORARY, DELETE THIS
 //size(800, 600, OPENGL);
  parse_data();
  setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
  //bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.75*height, (float)width, .25*height); 
   bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.65*height, (float)width, .25*height); 
- hearts = new heart_mgr(3, 80, 200, 400);//56, 400);
+  hearts = new heart_mgr(3, numMinutesLong0, numSwearsIn0, numMinutesLong1, numSwearsIn1, numMinutesLong2, numSwearsIn2);
+// hearts = new heart_mgr(3, 80, 200, 400);//56, 400);
  bot.intro();
 
   
@@ -53,7 +58,7 @@ redRect = new Rectangle(0,.65*height, (float)width, (float)height, "", color(107
 void draw(){
 //  setGradient(0,0,width,.75*height, color(250,250,250), color(30,30,30));
   //new Rectangle(0.0, 0.0 ,(float) width,(float).75*height, "",color(0,0,0));
-  
+
   if ((lerpReady == false)&&(transitionReady == false) && (heartSimulationReady == false)) {
       setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30)); 
   }
@@ -83,15 +88,15 @@ void draw(){
      setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30));                
     hearts.update();  
   }
-  
-//  setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30));    //TEMPORARY
-//  redRect.Display();            //TEMPORARY
-//  hearts.DisplaySecond = true;  //TEMPORARY
-//  hearts.DisplayFirst = true;  //TEMPORARY
-//  hearts.DisplayThird = true;  //TEMPORARY
-//  hearts.update();              //TEMPORARY
-//  startingHeart.update();
-  
+ /*
+  setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30));    //TEMPORARY
+  redRect.Display();            //TEMPORARY
+  hearts.DisplaySecond = true;  //TEMPORARY
+  hearts.DisplayFirst = true;  //TEMPORARY
+  hearts.DisplayThird = true;  //TEMPORARY
+  hearts.update();              //TEMPORARY
+  startingHeart.update();
+  */
 }
 
 void parse_data(){
@@ -159,9 +164,12 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
   
   
   void StartHeartRate() {
+         // if (currentRate > (hearts.heartbeats[2].inverseHeartRate)) {
+            //print("Inverse heart rate is: " + hearts.heartbeats[2].inverseHeartRate);
          if (currentRate > (MIN_ALLOWABLE_INVERSE + 10)) {
-             startingHeart = new heartbeat(0, (int)(.9*height), currentRate);
-             //currentRate = currentRate - 10;//MOVING THIS
+           //print("Inverse heart rate is: " + hearts.heartbeats[2].inverseHeartRate);
+             //startingHeart = new heartbeat(0, (int)(.9*height), currentRate);
+             startingHeart = new heartbeat(0, (int)(.9*height), numMinutesLong2, numSwearsIn2, currentRate);
          }
          startingHeart.update();
  

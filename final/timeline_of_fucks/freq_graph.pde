@@ -26,7 +26,7 @@ class freq_graph{
  freq_graph(String [] quotes1, float [] timestamps1, float x,float y,float w1,float h1){
    fontList = PFont.list();
    for(int i = 0; i<fontList.length; i++){
-      print (fontList[i] + "\n");
+     // print (fontList[i] + "\n");
    } 
      fucks_on_screen = new ArrayList<quote_data>();
      explosions = new ArrayList<explosion>();

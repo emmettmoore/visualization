@@ -23,7 +23,7 @@ float opacity = 0;
   int MAX_ALLOWABLE_INVERSE = 400;
 //  int NUMCYCLES = 3;//number of full heartbeat cycles to display on the line
   int MAXARRAYINDEX= 80;  //highest index of the array. This is calculated based largely on the   //JUST COMMENTED OUT
-  int inverseHeartRate = 80;
+  int inverseHeartRate = 0;//80;
   int SCALEAMOUNT = 2;
   int WAITTIME = 0;  //LEAVE THIS at 0
   int AVERAGEHEARTRATE = 80;  //THIS IS A CONSTANT. No matter what, the average heart rate is an 80.
@@ -47,12 +47,15 @@ float opacity = 0;
   float StrokeAlpha5;
   float StrokeAlpha6;
   //TODO: change this to take in the number of fucks per movie
-  heartbeat(int baseLineX, int baseLineY, int BeatsPerMinute) {
+  heartbeat(int baseLineX, int baseLineY, float minsLong, float numFs, int currentRate){//int BeatsPerMinute) {
+    if (currentRate!= 0) {
+      inverseHeartRate = currentRate;
+    }
     BASELINEX = baseLineX;
     BASELINEY = baseLineY;
-    inverseHeartRate = BeatsPerMinute;//TEMPORARY until i add other assignments to AssignHeartData
+    //inverseHeartRate = BeatsPerMinute;//TEMPORARY until i add other assignments to AssignHeartData
     //MAXARRAYINDEX = BeatsPerMinute;
-    AssignHeartData();  //TODO: change this to take in the argument of number fucks per movie
+    AssignHeartData(minsLong, numFs);  //TODO: change this to take in the argument of number fucks per movie
     
     light = new Circle(BASELINEX, BASELINEY, 3, color(0, 0, 0)); 
     light2 = new Circle(BASELINEX, BASELINEY, 4, color(186, 0, 25, 150));
@@ -134,7 +137,7 @@ strokeWeight(1);                                //JUST CHANGED THIS
        } else{
          gridCounter++;
        }
-       */
+ */      
         //NEW STUFF:
         /*
         strokeWeight(2);
@@ -409,7 +412,35 @@ print(22 + i + "\n");
 }
 
 
-void AssignHeartData() {
+void AssignHeartData(float numMinutesLong, float numFWords) {
+  //inverseHeartRate = MAX_ALLOWABLE_INVERSE;  //in case it doesn't assign//CHANGE TO FLATLINE
+  float div = numFWords/ numMinutesLong;
+  print("Div is: " + div + "\n");
+  if (inverseHeartRate!= 0) {
+    MAXARRAYINDEX = inverseHeartRate;
+    print("Its right here");
+  } else if (div >= 3.5) {    //PROBLEM IS THAT DIV'S FLOATS ARE TOO PRECISE
+    inverseHeartRate = MIN_ALLOWABLE_INVERSE;
+  } else if (div <= .009) {
+    inverseHeartRate = MAX_ALLOWABLE_INVERSE;
+    print("Its less than .009\n");
+  } else {
+    float heartIter = 3.5;
+    for (int i = 29; i < 400; i++) {
+      if (div == heartIter) {
+        inverseHeartRate = i;
+        print("It found the thing and its: " + heartIter + "\n");
+        break;
+      }
+      heartIter = heartIter - .01;
+    }
+  }
+  print("inverse heart rate" + inverseHeartRate + "\n");
+  
+  if (inverseHeartRate == 0) {
+    inverseHeartRate = MAX_ALLOWABLE_INVERSE;
+  }  //in case it doesn't assign//CHANGE TO FLATLINE
+    
   //TODO: given the numer of f words per movie, calculate these numbers: (including LocalHeartRate)
   //TODO: calculate InverseHeartRate
   MAXARRAYINDEX = inverseHeartRate;

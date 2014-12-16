@@ -4,7 +4,7 @@ class quote_data{
    float len,posx,posy;
    PFont font;
    quote_data(String quote, String font1){
-     print(quote + "\n");
+     //print(quote + "\n");
       alpha = 1;
       line = quote; 
       alpha = 255;
