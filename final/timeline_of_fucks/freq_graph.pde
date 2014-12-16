@@ -14,7 +14,7 @@ class freq_graph{
  float [] timestamps;
  String [] quotes;
  float posx,posy,w,h;
- float duration = 20;
+ float duration = .01;
  boolean playing,intro, first_half_intro;
  float time_interval;
  int index;
@@ -125,6 +125,7 @@ class freq_graph{
   }
   void draw_intro_screen(){
       if(intro_alpha > 4 && first_half_intro){
+          textAlign(CENTER);
           fill(250,250,250,intro_alpha);
           PFont font = createFont("monoscript", 25);
           //String str = "every fuck in";
@@ -162,6 +163,7 @@ class freq_graph{
   }
     
   void start_and_end(){
+      textAlign(LEFT);
       fill(250,250,250); 
       PFont font = createFont("monoscript", 13);
       textFont(font);
@@ -177,6 +179,7 @@ class freq_graph{
       
   }
   void draw_counter(){
+     textAlign(LEFT);
      String counter = Integer.toString(index);
       fill(250,250,250); 
       PFont font = createFont("monoscript", 25);
@@ -238,6 +241,7 @@ class explosion{
       stroke(color(250,250,250));
    } 
    void update(){
+       textAlign(LEFT);
        r+=10;
        alpha -= 60;
              noStroke();
