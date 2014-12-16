@@ -38,6 +38,7 @@ void drawGradientDisc(float x,float y, float radiusX, float radiusY, int innerCo
   }
   endShape();
 } 
+*/
     boolean within(){
       double squareX = Math.pow(mouseX - posx,2);
       double squareY = Math.pow(mouseY - posy,2);
@@ -45,7 +46,7 @@ void drawGradientDisc(float x,float y, float radiusX, float radiusY, int innerCo
           return true;   
        } 
        return false;
-    }  
-    */
+    } 
+    
     
 }

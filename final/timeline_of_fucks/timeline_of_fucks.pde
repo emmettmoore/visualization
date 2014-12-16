@@ -12,32 +12,35 @@ float numSwearsIn2 = 569;
 float numMinutesLong0 = 101;
 float numMinutesLong1 = 195;
 float numMinutesLong2 = 180;
+Circle refresh;
+Circle refresh1;
+Circle refresh2;
 PieLabel VisTitle;
 PieLabel wordEvery;
 PieLabel wordFuck;
 PieLabel wordIn;
 PieLabel wolfOf;
-float lerpAmount = 0;
-float lerpAmount2 = 0;
-float colorLerp = 0;
-float redGradientLerp = 20;  //for changing red gradient to a solid red
-float reverseRedGradientLerp = 250;  //for changing bright red gradient to solid red
+float lerpAmount; //= 0;
+float lerpAmount2;// = 0;
+float colorLerp;// = 0;
+float redGradientLerp;// = 20;  //for changing red gradient to a solid red
+float reverseRedGradientLerp;// = 250;  //for changing bright red gradient to solid red
 Rectangle redRect;
-color white = color(255, 255, 255);
-color red = color(186, 0, 25);
-color currColor = white;
-boolean lerpReady = false;  //set to true after freq_graph finishes. Lerping to line will begin
-boolean transitionReady = false;//set to true after lerping finishes. Transition to heart rates begin
-boolean heartSimulationReady = false;
+color white;// = color(255, 255, 255);
+color red;// = color(186, 0, 25);
+color currColor;// = white;
+boolean lerpReady;// = false;  //set to true after freq_graph finishes. Lerping to line will begin
+boolean transitionReady;// = false;//set to true after lerping finishes. Transition to heart rates begin
+boolean heartSimulationReady;// = false;
 heartbeat startingHeart;
-int currentRate = 400;
-int s_h_alpha = 250;
-int countRounds = 30;
-int counterSecondMovie = 30;
-PFont font1 = createFont("monoscript", 70);
-String str1 = "Compare this to";
-float stringHeight = 250;//((height*.5)/2.0 + 70);
-boolean secondStringSaid = false;
+int currentRate;// = 400;
+int s_h_alpha;// = 250;
+int countRounds;// = 30;
+int counterSecondMovie;// = 30;
+PFont font1;// = createFont("monoscript", 70);
+String str1;// = "Compare this to";
+float stringHeight;// = 250;//((height*.5)/2.0 + 70);
+boolean secondStringSaid;// = false;
 
 String [] fuck_strings;
 float [] fuck_timestamps;
@@ -46,12 +49,47 @@ heart_mgr hearts;
 void setup(){
 //size(800,600);
 size(900, 600);
+
+
+//NEW
+lerpAmount = 0;
+lerpAmount2 = 0;
+colorLerp = 0;
+redGradientLerp = 20;  //for changing red gradient to a solid red
+reverseRedGradientLerp = 250;  //for changing bright red gradient to solid red
+white = color(255, 255, 255);
+red = color(186, 0, 25);
+currColor = white;
+lerpReady = false;  //set to true after freq_graph finishes. Lerping to line will begin
+transitionReady = false;//set to true after lerping finishes. Transition to heart rates begin
+heartSimulationReady = false;
+currentRate = 400;
+s_h_alpha = 250;
+countRounds = 30;
+counterSecondMovie = 30;
+font1 = createFont("monoscript", 70);
+str1 = "Compare this to";
+stringHeight = 250;//((height*.5)/2.0 + 70);
+secondStringSaid = false;
+//NEW^^^^
+//from freq_graph:
+populatePosition = 0;  //TAYLOR
+isFirstItem = true;
+
+
+
+
+
+
 VisTitle = new PieLabel(width/2 - 200, 25, "FPM - Fucks Per Movie", 0, 0, color(77, 77, 77), createFont("monoscript", 30), 0, 5, 0);
 wordEvery = new PieLabel(150, 150, "every", 0, 0, color(255, 255, 255), createFont("monscript", 25), 0, 7, 10);
 wordFuck = new PieLabel(width/2 - 225, height/2 - 50, "FUCK", 0, 0, color(255, 255, 255), createFont("monoscript", 200), 0, 7, 10);
 wordIn = new PieLabel(width/2 + 250, 150, "in", 0, 0, color(255, 255, 255), createFont("monoscript", 25), 0, 7, 10);
 wolfOf = new PieLabel(width/2 - 350, height/2 - 50, "The Wolf of Wallstreet", 0, 0, color(255, 255, 255), createFont("monoscript", 70), 0, 3, 10);
 redRect = new Rectangle(0,.62*height, (float)width, (float)height, "", color(107, 0, 0));//used to be .6
+refresh = new Circle(width - 15, height - 15, 5, color(77, 77, 77));
+refresh1 = new Circle(width - 15, height - 15, 9, color(77, 77, 77, 200));
+refresh2 = new Circle(width - 15, height - 15, 12, color(77, 77, 77, 150));
 //startingHeart = new heartbeat(0, (int)(.9*height), numMinutesLong2, numSwearsIn2, 0, MovieCompare2);                          //TEMPORARY, DELETE THIS
             // startingHeart = new heartbeat(0, (int)(.9*height), MIN_ALLOWABLE_INVERSE + 10);                  //TEMPORARY, DELETE THIS
 //size(800, 600, OPENGL);
@@ -127,6 +165,7 @@ void draw(){
   VisTitle.printWord();   
     hearts.update();  
   }
+
   
  /*
   setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30));    //TEMPORARY
@@ -139,6 +178,12 @@ void draw(){
   */
 }
 
+void mouseClicked(){
+  if (refresh2.within()){
+    setup();
+  }
+  
+}
 void parse_data(){
   
   Table table = loadTable(fi);
@@ -247,6 +292,9 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
      if (counterSecondMovie == 30) {
        if (stringHeight == 350){//260) { // then it has already been here
          hearts.DisplaySecond = true;
+         refresh.Display();
+         refresh1.Display();
+         refresh2.Display();
        } else {
          s_h_alpha = 250;
          str1 = MovieCompare1;

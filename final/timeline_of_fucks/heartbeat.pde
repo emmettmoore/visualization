@@ -49,7 +49,7 @@ float opacity = 0;
   float StrokeAlpha5;
   float StrokeAlpha6;
 
-  //TODO: change this to take in the number of fucks per movie
+  //TODO: change this to pitake in the number of fucks per movie
   heartbeat(int baseLineX, int baseLineY, float minsLong, float numFs, int currentRate, String movName){//int BeatsPerMinute) {
     if (currentRate!= 0) {
       inverseHeartRate = currentRate;

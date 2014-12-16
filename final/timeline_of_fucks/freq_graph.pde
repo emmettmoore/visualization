@@ -4,8 +4,8 @@ float[] yCoordStarts;  //TAYLOR
 float[] xCoordEnds;
 float[] yCoordEnds;
 float[] yCoordEndsOrig;
-int populatePosition = 0;  //TAYLOR
-boolean isFirstItem = true;
+int populatePosition;// = 0;  //TAYLOR
+boolean isFirstItem;// = true;
 
 class freq_graph{
  String[] fontList;
@@ -14,7 +14,7 @@ class freq_graph{
  float [] timestamps;
  String [] quotes;
  float posx,posy,w,h;
- float duration = 20;
+ float duration = .002;//20;
  boolean playing,intro, first_half_intro;
  float time_interval;
  int index;
