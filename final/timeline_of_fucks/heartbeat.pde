@@ -414,10 +414,14 @@ print(22 + i + "\n");
 
 void AssignHeartData(float numMinutesLong, float numFWords) {
   //inverseHeartRate = MAX_ALLOWABLE_INVERSE;  //in case it doesn't assign//CHANGE TO FLATLINE
-  float div = numFWords/ numMinutesLong;
+  float dtemp = numFWords/ numMinutesLong;
+  int temp = (int)(dtemp * 100);
+  float div = temp/100f;
+  
   print("Div is: " + div + "\n");
   if (inverseHeartRate!= 0) {
     MAXARRAYINDEX = inverseHeartRate;
+    print("Inverse heart rate is: " + inverseHeartRate + "\n");
     print("Its right here");
   } else if (div >= 3.5) {    //PROBLEM IS THAT DIV'S FLOATS ARE TOO PRECISE
     inverseHeartRate = MIN_ALLOWABLE_INVERSE;
@@ -427,11 +431,14 @@ void AssignHeartData(float numMinutesLong, float numFWords) {
   } else {
     float heartIter = 3.5;
     for (int i = 29; i < 400; i++) {
+      int tempo = (int)(heartIter * 100);
+      heartIter = tempo/100f;
       if (div == heartIter) {
         inverseHeartRate = i;
         print("It found the thing and its: " + heartIter + "\n");
         break;
       }
+      print("heartIter is: " + heartIter + ", and div is: " + div + "\n");
       heartIter = heartIter - .01;
     }
   }

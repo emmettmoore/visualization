@@ -3,13 +3,13 @@ import java.util.*;
 
 String fi = "wowFuckInstances.csv";
 String rf = "recordedFucks.csv";
-String MovieCompare0 = "Wedding Crashers";  //this never gets used
+String MovieCompare0 = "Another day in Paradise";
 String MovieCompare1 = "Schindler's List";
-String MovieCompare2 = "Wolf of Wallstreet";
-float numSwearsIn0 = 25;
+String MovieCompare2 = "Wolf of Wallstreet";//this never gets used
+float numSwearsIn0 = 291;
 float numSwearsIn1 = 9;
 float numSwearsIn2 = 569;
-float numMinutesLong0 = 128;
+float numMinutesLong0 = 101;
 float numMinutesLong1 = 195;
 float numMinutesLong2 = 180;
 
@@ -198,7 +198,7 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
          hearts.DisplayFirst = true;
      } else {
      s_h_alpha = 250;
-     str1 = MovieCompare1;
+     str1 = MovieCompare0;
      stringHeight = (130);
      font1 = createFont("monoscript", 40);
 //     secondStringSaid = true;
@@ -210,7 +210,7 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
          hearts.DisplaySecond = true;
        } else {
          s_h_alpha = 250;
-         str1 = MovieCompare2;
+         str1 = MovieCompare1;
          stringHeight = 260;
          countRounds = 30;
          font1 = createFont("monoscript", 40);
