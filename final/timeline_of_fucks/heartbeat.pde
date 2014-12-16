@@ -61,7 +61,7 @@ float opacity = 0;
     print("Baseline x is:" + BASELINEX + "\n");
 
     
-    movieLabel = new PieLabel(BASELINEX + 455, BASELINEY + 25, movieName, 0, 0, color(255, 255, 255), createFont("monoscript", 10), 0, 10, 0);
+    movieLabel = new PieLabel(BASELINEX + 450, BASELINEY + 49, movieName, 0, 0, color(255, 255, 255), createFont("monoscript", 10), 0, 10, 0);
     //inverseHeartRate = BeatsPerMinute;//TEMPORARY until i add other assignments to AssignHeartData
     //MAXARRAYINDEX = BeatsPerMinute;
     AssignHeartData(minsLong, numFs);  //TODO: change this to take in the argument of number fucks per movie

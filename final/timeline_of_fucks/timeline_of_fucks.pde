@@ -3,9 +3,9 @@ import java.util.*;
 
 String fi = "wowFuckInstances.csv";
 String rf = "recordedFucks.csv";
-String MovieCompare0 = "Another day in Paradise";
-String MovieCompare1 = "Schindler's List";
-String MovieCompare2 = "Wolf of Wallstreet";//this never gets used
+String MovieCompare0 = "The Big Lebowski";
+String MovieCompare1 = "Abraham Lincoln: Vampire Hunter";
+String MovieCompare2 = "Wolf of Wall Street";//this never gets used
 float numSwearsIn0 = 291;
 float numSwearsIn1 = 9;
 float numSwearsIn2 = 569;
@@ -50,7 +50,6 @@ void setup(){
 //size(800,600);
 size(900, 600);
 
-
 //NEW
 lerpAmount = 0;
 lerpAmount2 = 0;
@@ -78,14 +77,12 @@ isFirstItem = true;
 
 
 
-
-
-
-VisTitle = new PieLabel(width/2 - 200, 25, "FPM - Fucks Per Movie", 0, 0, color(77, 77, 77), createFont("monoscript", 30), 0, 5, 0);
+textAlign(CENTER);
+VisTitle = new PieLabel(width/2, 25, "FPM - Fucks Per Movie", 0, 0, color(77, 77, 77), createFont("monoscript", 30), 0, 5, 0);
 wordEvery = new PieLabel(150, 150, "every", 0, 0, color(255, 255, 255), createFont("monscript", 25), 0, 7, 10);
-wordFuck = new PieLabel(width/2 - 225, height/2 - 50, "FUCK", 0, 0, color(255, 255, 255), createFont("monoscript", 200), 0, 7, 10);
+wordFuck = new PieLabel(width/2, height/2 - 50, "FUCK", 0, 0, color(255, 255, 255), createFont("monoscript", 200), 0, 7, 10);
 wordIn = new PieLabel(width/2 + 250, 150, "in", 0, 0, color(255, 255, 255), createFont("monoscript", 25), 0, 7, 10);
-wolfOf = new PieLabel(width/2 - 350, height/2 - 50, "The Wolf of Wallstreet", 0, 0, color(255, 255, 255), createFont("monoscript", 70), 0, 3, 10);
+wolfOf = new PieLabel(width/2, height/2 - 50, "The Wolf of Wall Street", 0, 0, color(255, 255, 255), createFont("monoscript", 70), 0, 3, 10);
 redRect = new Rectangle(0,.62*height, (float)width, (float)height, "", color(107, 0, 0));//used to be .6
 refresh = new Circle(width - 15, height - 15, 5, color(77, 77, 77));
 refresh1 = new Circle(width - 15, height - 15, 9, color(77, 77, 77, 200));
@@ -104,10 +101,6 @@ refresh2 = new Circle(width - 15, height - 15, 12, color(77, 77, 77, 150));
   
 }
 void draw(){
-
-//  setGradient(0,0,width,.75*height, color(250,250,250), color(30,30,30));
-  //new Rectangle(0.0, 0.0 ,(float) width,(float).75*height, "",color(0,0,0));
-
   if ((lerpReady == false)&&(transitionReady == false) && (heartSimulationReady == false)) {
       setGradient(0,0,width,.69*height, color(250,250,250), color(30,30,30)); //used to be .65
   }
@@ -130,10 +123,12 @@ void draw(){
   //}
   if (bot.playing == true) {
 //  if ((bot.intro == false) && (bot.first_half_intro == false)) {      //just added
-      VisTitle.printWord();
+      //VisTitle.printWord();
   }
   if (lerpReady == true) {
-       // VisTitle.printWord();
+            textAlign(CENTER);
+        VisTitle.printWord();
+        textAlign(LEFT);
 
          setGradient(0,(int).6*height,(float)width,(float)height, color(reverseRedGradientLerp,0,0), color(redGradientLerp,0,0));
 
@@ -143,26 +138,34 @@ void draw(){
          if (reverseRedGradientLerp > 107) {
            reverseRedGradientLerp = reverseRedGradientLerp -2;
          }
-     //setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));  //NCO
-          setGradient(0,0,width,.69*height, color(250,250,250), color(30,30,30)); //used to be .65   
-                 VisTitle.printWord();  
-    lerpFreqGraph();
+          setGradient(0,0,width,.69*height, color(250,250,250), color(30,30,30)); //used to be .65  
+          
+        textAlign(CENTER);
+        VisTitle.printWord();
+        textAlign(LEFT);    
+        lerpFreqGraph();
   }
   if (transitionReady == true) {
-      //  VisTitle.printWord();
+        textAlign(CENTER);
+        VisTitle.printWord();
+        textAlign(LEFT);
 
- //    setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0)); //NCO
      redRect.Display();
      setGradient(0,0,width,.69*height, color(250,250,250), color(30,30,30));//used to be .65
+     textAlign(CENTER);
      VisTitle.printWord();
+     textAlign(LEFT);      
      StartHeartRate();
      hearts.update();
   }
   if (heartSimulationReady == true) {
-  //  VisTitle.printWord();
-//    setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));  //NCO
+    textAlign(CENTER);
+    VisTitle.printWord();
+    textAlign(LEFT);
      setGradient(0,0,width,.69*height, color(250,250,250), color(30,30,30)); //used to be .65            
-  VisTitle.printWord();   
+     textAlign(CENTER);
+     VisTitle.printWord();
+     textAlign(LEFT); 
     hearts.update();  
   }
 
