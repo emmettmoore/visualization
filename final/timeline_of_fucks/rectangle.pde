@@ -31,18 +31,18 @@ class Rectangle {
     T1 = txt;
     C1 = color1;
     fill(color1); 
-    rect(posx,posy,w,h);
-    fill(color(0,0,0));
-    textSize(7);
-    textAlign(CENTER,CENTER);
-    text(T1, posx + w /2 , posy + h/2);
+//    rect(posx,posy,w,h);
+//    fill(color(0,0,0));
+//    textSize(7);
+//    textAlign(CENTER,CENTER);
+//    text(T1, posx + w /2 , posy + h/2);
   }
   void Display(){
       fill(C1);
       rect(posx,posy,w,h);
-      fill(color(0,0,0));
-      textSize(7);
-      textAlign(CENTER, CENTER);
-      text(T1, posx + w /2 , posy + h/2);
+//      fill(color(0,0,0));
+//      textSize(7);
+//      textAlign(CENTER, CENTER);
+//      text(T1, posx + w /2 , posy + h/2);
   }
 }

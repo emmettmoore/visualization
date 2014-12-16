@@ -8,6 +8,7 @@ class heart_mgr{
    heartbeat[] heartbeats;
    boolean DisplayFirst = false;
    boolean DisplaySecond = false;
+   boolean DisplayThird = false;
    int[] heartRates;
 //   heartbeat TEMPORARY = new heartbeat();
    heart_mgr(int numMovies1, int heartRate1, int heartRate2, int heartRate3) {
@@ -30,6 +31,9 @@ class heart_mgr{
    }
    if (DisplaySecond == true) {
      heartbeats[1].update();
+   }
+   if (DisplayThird == true) {
+     heartbeats[2].update();
    }
 //   for (int i = 0; i < heartbeats.length; i++) {
 //     heartbeats[i].update();

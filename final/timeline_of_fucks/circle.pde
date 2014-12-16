@@ -14,13 +14,14 @@ class Circle{
         fill(C1);
         ellipse(posx, posy, radius*2,radius*2);
         strokeWeight(1);
+
 //  float animRadiusY=50+50*abs(sin(frameCount*0.05));
 //  drawGradientDisc(
 //    posx,
 //    posy,
 //    radius,
 //    radius,
- //   C1,
+//    C1,
 //    color(0,0,0,10)
 //  );
 
@@ -45,5 +46,6 @@ void drawGradientDisc(float x,float y, float radiusX, float radiusY, int innerCo
        } 
        return false;
     }  
-   */ 
+    */
+    
 }
