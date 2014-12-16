@@ -14,7 +14,7 @@ class freq_graph{
  float [] timestamps;
  String [] quotes;
  float posx,posy,w,h;
- float duration = .0001;//20;
+ float duration = 20;
  boolean playing,intro, first_half_intro;
  float time_interval;
  int index;
