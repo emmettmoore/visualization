@@ -42,14 +42,14 @@ heart_mgr hearts;
 void setup(){
 size(800,600);
 redRect = new Rectangle(0,.65*height, (float)width, (float)height, "", color(107, 0, 0));
-//startingHeart = new heartbeat(0, (int)(.9*height), numMinutesLong2, numSwearsIn2, 0);                          //TEMPORARY, DELETE THIS
+//startingHeart = new heartbeat(0, (int)(.9*height), numMinutesLong2, numSwearsIn2, 0, MovieCompare2);                          //TEMPORARY, DELETE THIS
             // startingHeart = new heartbeat(0, (int)(.9*height), MIN_ALLOWABLE_INVERSE + 10);                  //TEMPORARY, DELETE THIS
 //size(800, 600, OPENGL);
  parse_data();
  setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
  //bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.75*height, (float)width, .25*height); 
   bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.65*height, (float)width, .25*height); 
-  hearts = new heart_mgr(3, numMinutesLong0, numSwearsIn0, numMinutesLong1, numSwearsIn1, numMinutesLong2, numSwearsIn2);
+  hearts = new heart_mgr(3, numMinutesLong0, numSwearsIn0, MovieCompare0, numMinutesLong1, numSwearsIn1, MovieCompare1, numMinutesLong2, numSwearsIn2, MovieCompare2);
 // hearts = new heart_mgr(3, 80, 200, 400);//56, 400);
  bot.intro();
 
@@ -89,6 +89,7 @@ void draw(){
      setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30));                
     hearts.update();  
   }
+  
  /*
   setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30));    //TEMPORARY
   redRect.Display();            //TEMPORARY
@@ -170,7 +171,7 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
          if (currentRate > (MIN_ALLOWABLE_INVERSE + 10)) {
            //print("Inverse heart rate is: " + hearts.heartbeats[2].inverseHeartRate);
              //startingHeart = new heartbeat(0, (int)(.9*height), currentRate);
-             startingHeart = new heartbeat(0, (int)(.9*height), numMinutesLong2, numSwearsIn2, currentRate);
+             startingHeart = new heartbeat(0, (int)(.9*height), numMinutesLong2, numSwearsIn2, currentRate, MovieCompare2);
          }
          startingHeart.update();
  

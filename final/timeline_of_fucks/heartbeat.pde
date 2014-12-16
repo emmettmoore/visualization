@@ -30,7 +30,8 @@ float opacity = 0;
   int localHeartRate = 80;
   int gridCounter = 0;
   int GRID_CUBE_LENGTH = 5;
-  
+  String movieName;
+  PieLabel movieLabel;
   int LightCurrIndex = 0;// current index of the light, index applies to xSteps and ySteps array
   int LightCurrCycle = 0;// current cycle number
   int currWaitTime = 0;
@@ -46,13 +47,19 @@ float opacity = 0;
   float StrokeAlpha4;
   float StrokeAlpha5;
   float StrokeAlpha6;
+
   //TODO: change this to take in the number of fucks per movie
-  heartbeat(int baseLineX, int baseLineY, float minsLong, float numFs, int currentRate){//int BeatsPerMinute) {
+  heartbeat(int baseLineX, int baseLineY, float minsLong, float numFs, int currentRate, String movName){//int BeatsPerMinute) {
     if (currentRate!= 0) {
       inverseHeartRate = currentRate;
     }
+    movieName = movName;
     BASELINEX = baseLineX;
     BASELINEY = baseLineY;
+    print("Baseline x is:" + BASELINEX + "\n");
+    print("Baseline y is:" + BASELINEY + "\n");
+    
+    movieLabel = new PieLabel(BASELINEX + 455, BASELINEY + 25, movieName, 0, 0, color(255, 255, 255));
     //inverseHeartRate = BeatsPerMinute;//TEMPORARY until i add other assignments to AssignHeartData
     //MAXARRAYINDEX = BeatsPerMinute;
     AssignHeartData(minsLong, numFs);  //TODO: change this to take in the argument of number fucks per movie
@@ -76,6 +83,7 @@ void update() {
 
 
 void createHeartBeat(){
+  movieLabel.printWord();
   updateLightVariables();
       //stroke(30);
     int xCurrBaseline = BASELINEX;

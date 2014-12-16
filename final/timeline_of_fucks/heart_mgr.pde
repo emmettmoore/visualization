@@ -2,7 +2,7 @@
 
 
 //This class will manage the instances of the heart beat class
-
+int STARTINGBASELINE = 130;
 class heart_mgr{
    int numOfMovies = 0;
    heartbeat[] heartbeats;
@@ -12,25 +12,31 @@ class heart_mgr{
    //int[] heartRates;
    float[] numMinutes;
    float[] numFWords;
+   String[] MovieTitles;
+
 //   heartbeat TEMPORARY = new heartbeat();
    //heart_mgr(int numMovies1, int heartRate1, int heartRate2, int heartRate3) {
-     heart_mgr(int numMovies1, float mins1, float numF1, float mins2, float numF2, float mins3, float numF3){
+     heart_mgr(int numMovies1, float mins1, float numF1, String Movtitle1, float mins2, float numF2, String Movtitle2, float mins3, float numF3, String Movtitle3){
    numOfMovies = numMovies1;
    heartbeats = new heartbeat[numMovies1];
    numMinutes = new float[numMovies1];
    numFWords = new float[numMovies1];
+   MovieTitles = new String[numMovies1];
    //heartRates = new int[numMovies1];
    //heartRates[0] = heartRate1;
    numMinutes[0] = mins1;
    numFWords[0] = numF1;
+   MovieTitles[0] = Movtitle1;
    if (numMovies1 >= 2) {
      numMinutes[1] = mins2;
      numFWords[1] = numF2;
+     MovieTitles[1] = Movtitle2;
      //heartRates[1] = heartRate2;
    }
    if (numMovies1 > 2) {
      numMinutes[2] = mins3;
      numFWords[2] = numF3;
+     MovieTitles[2] = Movtitle3;
 //     heartRates[2] = heartRate3;
    }
    populate_data();
@@ -54,11 +60,11 @@ class heart_mgr{
  
  void populate_data() {
 
-   int Baseline  = 130;     //TODO: add modularity here so that other number of movies can be given and it will calc these position values
+   int Baseline  = STARTINGBASELINE;     //TODO: add modularity here so that other number of movies can be given and it will calc these position values
    for (int i = 0; i < numOfMovies; i++) {
 //  for (int i = 0; i < numOfMovies -1; i++) {
      //heartbeats[i] = new heartbeat(0, Baseline, heartRates[i]);
-     heartbeats[i] = new heartbeat(0, Baseline, numMinutes[i], numFWords[i], 0);
+     heartbeats[i] = new heartbeat(0, Baseline, numMinutes[i], numFWords[i], 0, MovieTitles[i]);
      Baseline = Baseline + 200;
    }
    //heartbeats[numOfMovies-1] = new heartbeat(0, (int)(.9*height), (MIN_ALLOWABLE_INVERSE + 10));//heartRates[i]);
