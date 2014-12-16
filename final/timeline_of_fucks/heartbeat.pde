@@ -35,6 +35,7 @@ float opacity = 0;
   int LightCurrIndex = 0;// current index of the light, index applies to xSteps and ySteps array
   int LightCurrCycle = 0;// current cycle number
   int currWaitTime = 0;
+  float numberFWords;
   
   Circle light;
   Circle light2;
@@ -54,12 +55,13 @@ float opacity = 0;
       inverseHeartRate = currentRate;
     }
     movieName = movName;
+    numberFWords = numFs;
     BASELINEX = baseLineX;
     BASELINEY = baseLineY;
     print("Baseline x is:" + BASELINEX + "\n");
     print("Baseline y is:" + BASELINEY + "\n");
     
-    movieLabel = new PieLabel(BASELINEX + 455, BASELINEY + 25, movieName, 0, 0, color(255, 255, 255));
+    movieLabel = new PieLabel(BASELINEX + 455, BASELINEY + 25, movieName, 0, 0, color(255, 255, 255), createFont("monoscript", 10), 0, 10, 0);
     //inverseHeartRate = BeatsPerMinute;//TEMPORARY until i add other assignments to AssignHeartData
     //MAXARRAYINDEX = BeatsPerMinute;
     AssignHeartData(minsLong, numFs);  //TODO: change this to take in the argument of number fucks per movie
@@ -230,6 +232,12 @@ void updateLightVariables(){
 
 void populateYSteps(){
   int i;
+    if (numberFWords == 0) {
+      for (i = 0; i < 100; i++) {
+        ySteps[i] = 0;
+      }
+     return;
+    }
  ySteps[0] = 0;  //Small lump before heartbeat
  ySteps[1] = -1;
  ySteps[2] = -3;
@@ -321,6 +329,16 @@ ySteps[MAXARRAYINDEX] = 0;
 
 void populateXSteps(){
   int i;
+  if (numberFWords == 0) {
+    int placeHolder = 0;
+    int incrAmount = width/100;
+    for (i = 0; i < 100; i++) {
+      xSteps[i] = placeHolder;
+     placeHolder = placeHolder + incrAmount;
+    }
+   return;
+  } 
+    
   xSteps[0] = 0;//Start of small lump before heart beat
   xSteps[1] = 1;
   xSteps[2] = 2;
@@ -459,10 +477,9 @@ void AssignHeartData(float numMinutesLong, float numFWords) {
   //TODO: given the numer of f words per movie, calculate these numbers: (including LocalHeartRate)
   //TODO: calculate InverseHeartRate
   MAXARRAYINDEX = inverseHeartRate;
-  
-  if ((MIN_ALLOWABLE_INVERSE <= inverseHeartRate) && (inverseHeartRate <= 39)) {
+  if (( MIN_ALLOWABLE_INVERSE <= inverseHeartRate) && (inverseHeartRate <= 40)) {
    NUMCYCLES = 9;
-  } else if ((40 <= inverseHeartRate) && (inverseHeartRate <= 51)) {
+  } else if (( 41<= inverseHeartRate) && (inverseHeartRate <= 51)) {
    NUMCYCLES = 8;
   } else if ((52 <= inverseHeartRate) && (inverseHeartRate <= 61)) {
    NUMCYCLES = 7;
@@ -479,7 +496,10 @@ void AssignHeartData(float numMinutesLong, float numFWords) {
   } else if ((394 <= inverseHeartRate) && (inverseHeartRate <= MAX_ALLOWABLE_INVERSE)) {
     NUMCYCLES = 1;
   }
-  
+  if (numFWords == 0) {
+    NUMCYCLES = 1;
+    MAXARRAYINDEX = 100;
+  }
 }
 
 }

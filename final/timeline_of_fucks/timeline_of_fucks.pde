@@ -12,7 +12,7 @@ float numSwearsIn2 = 569;
 float numMinutesLong0 = 101;
 float numMinutesLong1 = 195;
 float numMinutesLong2 = 180;
-
+PieLabel VisTitle;
 float lerpAmount = 0;
 float lerpAmount2 = 0;
 float colorLerp = 0;
@@ -40,15 +40,17 @@ float [] fuck_timestamps;
 freq_graph bot;
 heart_mgr hearts;
 void setup(){
-size(800,600);
-redRect = new Rectangle(0,.65*height, (float)width, (float)height, "", color(107, 0, 0));
+//size(800,600);
+size(900, 600);
+VisTitle = new PieLabel(width/2 - 200, 25, "FPM - Fucks Per Movie", 0, 0, color(77, 77, 77), createFont("monoscript", 30), 0, 5, 0);
+redRect = new Rectangle(0,.62*height, (float)width, (float)height, "", color(107, 0, 0));//used to be .6
 //startingHeart = new heartbeat(0, (int)(.9*height), numMinutesLong2, numSwearsIn2, 0, MovieCompare2);                          //TEMPORARY, DELETE THIS
             // startingHeart = new heartbeat(0, (int)(.9*height), MIN_ALLOWABLE_INVERSE + 10);                  //TEMPORARY, DELETE THIS
 //size(800, 600, OPENGL);
  parse_data();
  setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));
  //bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.75*height, (float)width, .25*height); 
-  bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.65*height, (float)width, .25*height); 
+  bot = new freq_graph(fuck_strings, fuck_timestamps, 0.0,.69*height, (float)width, .25*height); //used to be .65
   hearts = new heart_mgr(3, numMinutesLong0, numSwearsIn0, MovieCompare0, numMinutesLong1, numSwearsIn1, MovieCompare1, numMinutesLong2, numSwearsIn2, MovieCompare2);
 // hearts = new heart_mgr(3, 80, 200, 400);//56, 400);
  bot.intro();
@@ -61,11 +63,19 @@ void draw(){
   //new Rectangle(0.0, 0.0 ,(float) width,(float).75*height, "",color(0,0,0));
 
   if ((lerpReady == false)&&(transitionReady == false) && (heartSimulationReady == false)) {
-      setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30)); 
+      setGradient(0,0,width,.69*height, color(250,250,250), color(30,30,30)); //used to be .65
   }
   bot.update();    
+  if (bot.playing == true) {
+//  if ((bot.intro == false) && (bot.first_half_intro == false)) {      //just added
+      VisTitle.printWord();
+      print("Should be printing title");
+  }
   if (lerpReady == true) {
+       // VisTitle.printWord();
+
          setGradient(0,(int).6*height,(float)width,(float)height, color(reverseRedGradientLerp,0,0), color(redGradientLerp,0,0));
+
          if (redGradientLerp < 107) {
             redGradientLerp++;
          }
@@ -74,19 +84,25 @@ void draw(){
          }
       print("Red gradient lerp is"  + redGradientLerp + "\n");
      //setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));  //NCO
-          setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30));      
+          setGradient(0,0,width,.69*height, color(250,250,250), color(30,30,30)); //used to be .65   
+                 VisTitle.printWord();  
     lerpFreqGraph();
   }
   if (transitionReady == true) {
+      //  VisTitle.printWord();
+
  //    setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0)); //NCO
      redRect.Display();
-     setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30));
+     setGradient(0,0,width,.69*height, color(250,250,250), color(30,30,30));//used to be .65
+     VisTitle.printWord();
      StartHeartRate();
      hearts.update();
   }
   if (heartSimulationReady == true) {
+  //  VisTitle.printWord();
 //    setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));  //NCO
-     setGradient(0,0,width,.65*height, color(250,250,250), color(30,30,30));                
+     setGradient(0,0,width,.69*height, color(250,250,250), color(30,30,30)); //used to be .65            
+  VisTitle.printWord();   
     hearts.update();  
   }
   
@@ -144,7 +160,7 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
     
     for (int i = 0; i < xCoordStarts.length; i++) {
 //      yCoordStarts[i] = lerp(.75*height, .9*height, lerpAmount);
-      yCoordStarts[i] = lerp(.65*height, .9*height, lerpAmount);
+      yCoordStarts[i] = lerp(.69*height, .9*height, lerpAmount);//used to be .65
       yCoordEnds[i] = lerp(yCoordEndsOrig[i], .9*height, lerpAmount);
       currColor = lerpColor(white, red, colorLerp);
       if (yCoordStarts[i] <= .9*height) {
@@ -207,12 +223,12 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
      }
    } else if ((countRounds <=-49) && (secondStringSaid == true)&&(s_h_alpha <= 5)) {
      if (counterSecondMovie == 30) {
-       if (stringHeight == 260) { // then it has already been here
+       if (stringHeight == 350){//260) { // then it has already been here
          hearts.DisplaySecond = true;
        } else {
          s_h_alpha = 250;
          str1 = MovieCompare1;
-         stringHeight = 260;
+         stringHeight = 350;//260;
          countRounds = 30;
          font1 = createFont("monoscript", 40);
        }

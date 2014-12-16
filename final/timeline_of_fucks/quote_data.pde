@@ -17,7 +17,10 @@ class quote_data{
       if (temp < 0){ temp = 1;}
       posx = rand.nextInt(temp);
 //      posy = rand.nextInt((int)(height*.75 - BUFFER*3) + 1) + BUFFER;
-      posy = rand.nextInt((int)(height*.65 - BUFFER*3) + 1) + BUFFER;
+      posy = rand.nextInt((int)(height*.69 - BUFFER*3) + 1) + BUFFER;//used to be .65
+      while (posy <= 50) {                                                //TAYLOR ADDED THIS PART
+              posy = rand.nextInt((int)(height*.69 - BUFFER*3) + 1) + BUFFER;//used to be .65
+      }
       text(line,posx,posy);
    }
    void reduce_alpha(){

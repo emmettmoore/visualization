@@ -2,7 +2,8 @@
 
 
 //This class will manage the instances of the heart beat class
-int STARTINGBASELINE = 130;
+//int STARTINGBASELINE = 130;
+int STARTINGBASELINE = 170;
 class heart_mgr{
    int numOfMovies = 0;
    heartbeat[] heartbeats;
@@ -65,7 +66,7 @@ class heart_mgr{
 //  for (int i = 0; i < numOfMovies -1; i++) {
      //heartbeats[i] = new heartbeat(0, Baseline, heartRates[i]);
      heartbeats[i] = new heartbeat(0, Baseline, numMinutes[i], numFWords[i], 0, MovieTitles[i]);
-     Baseline = Baseline + 200;
+     Baseline = Baseline + 190;
    }
    //heartbeats[numOfMovies-1] = new heartbeat(0, (int)(.9*height), (MIN_ALLOWABLE_INVERSE + 10));//heartRates[i]);
      

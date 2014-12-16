@@ -180,7 +180,8 @@ class freq_graph{
       PFont font = createFont("monoscript", 25);
       textFont(font);
 //      text(counter,10,.75*height- 10);
-      text(counter,10,.65*height- 10);
+      //text(counter,10,.65*height- 10);
+      text(counter, 10, .69*height-10);
   }
   float calc_momentum(){
       if(time_since_last_fuck>60){
