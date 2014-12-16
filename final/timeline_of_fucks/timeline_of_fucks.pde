@@ -20,6 +20,7 @@ PieLabel wordEvery;
 PieLabel wordFuck;
 PieLabel wordIn;
 PieLabel wolfOf;
+PImage img;
 float lerpAmount; //= 0;
 float lerpAmount2;// = 0;
 float colorLerp;// = 0;
@@ -51,6 +52,7 @@ void setup(){
 size(900, 600);
 
 //NEW
+img = loadImage("refresh.jpg");
 lerpAmount = 0;
 lerpAmount2 = 0;
 colorLerp = 0;
@@ -298,6 +300,7 @@ void setGradient(int x, int y, float w, float h, color c1, color c2){
          refresh.Display();
          refresh1.Display();
          refresh2.Display();
+         image(img, width-15, height-15);
        } else {
          s_h_alpha = 250;
          str1 = MovieCompare1;
