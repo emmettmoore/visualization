@@ -127,12 +127,13 @@ class freq_graph{
       if(intro_alpha > 4 && first_half_intro){
           fill(250,250,250,intro_alpha);
           PFont font = createFont("monoscript", 25);
-          String str = "every fuck in";
+          //String str = "every fuck in";
 
           textFont(font);
-          float len = textWidth(str);
-          text(str,width/2-len/2,(height*.5)/2.0);
-          intro_alpha -=5;
+//          float len = textWidth(str);
+ //         text(str,width/2-len/2,(height*.5)/2.0);
+        //  intro_alpha -=5;
+        intro_alpha -=2;
           second_half_alpha = 250;
       }
       else{
@@ -140,12 +141,13 @@ class freq_graph{
          if(second_half_alpha > 5){
             fill(250,250,250,second_half_alpha);
 
-            PFont font = createFont("monoscript", 70);
-            String str = "The Wolf of Wall Street";
-            textFont(font);
-            float len = textWidth(str);
-            text(str,width/2.0-len/2.0,(height*.5)/2.0 + 70);
-            second_half_alpha -=5;
+            //PFont font = createFont("monoscript", 70);
+            //String str = "The Wolf of Wall Street";
+            //textFont(font);
+            //float len = textWidth(str);
+            //text(str,width/2.0-len/2.0,(height*.5)/2.0 + 70);
+            //second_half_alpha -=5;
+            second_half_alpha -=1;
          }
          else if(second_half_alpha < -200){
            second_half_alpha -=5;

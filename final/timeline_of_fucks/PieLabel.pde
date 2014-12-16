@@ -4,6 +4,7 @@ class PieLabel{
   float posx;
   float posy;
   PFont tFont;
+  boolean isIncreasing = false;
 //  float rotationDegree;  
   color textColor;
   float Opacity;
@@ -20,6 +21,9 @@ class PieLabel{
     Opacity = initOpacity;
     opacityIncreaseFactor = opacIncrFac;
     opacityDecreaseFactor = opacDecrFac;
+    if (opacIncrFac > 0) {
+      isIncreasing = true;
+    }
   }
   
   void printWord() {
@@ -46,11 +50,13 @@ fill(textColor, Opacity);
 //    popMatrix();            //pop the "translate" from above, to undo it for future prints
 popStyle();
 popStyle();
-if (Opacity > 0) {
+if ((Opacity > 0) && (isIncreasing == false)) {
   Opacity = Opacity - opacityDecreaseFactor;
 }
-if (Opacity < 255) {
+if ((Opacity < 255)&&(isIncreasing == true)) {
   Opacity = Opacity + opacityIncreaseFactor;
+} else {  //isIncreasing needs to be set to false
+  isIncreasing = false;
 }
   }
 }

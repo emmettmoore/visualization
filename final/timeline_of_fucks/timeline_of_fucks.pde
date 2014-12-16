@@ -13,6 +13,10 @@ float numMinutesLong0 = 101;
 float numMinutesLong1 = 195;
 float numMinutesLong2 = 180;
 PieLabel VisTitle;
+PieLabel wordEvery;
+PieLabel wordFuck;
+PieLabel wordIn;
+PieLabel wolfOf;
 float lerpAmount = 0;
 float lerpAmount2 = 0;
 float colorLerp = 0;
@@ -43,6 +47,10 @@ void setup(){
 //size(800,600);
 size(900, 600);
 VisTitle = new PieLabel(width/2 - 200, 25, "FPM - Fucks Per Movie", 0, 0, color(77, 77, 77), createFont("monoscript", 30), 0, 5, 0);
+wordEvery = new PieLabel(150, 150, "every", 0, 0, color(255, 255, 255), createFont("monscript", 25), 0, 7, 10);
+wordFuck = new PieLabel(width/2 - 225, height/2 - 50, "FUCK", 0, 0, color(255, 255, 255), createFont("monoscript", 200), 0, 7, 10);
+wordIn = new PieLabel(width/2 + 250, 150, "in", 0, 0, color(255, 255, 255), createFont("monoscript", 25), 0, 7, 10);
+wolfOf = new PieLabel(width/2 - 350, height/2 - 50, "The Wolf of Wallstreet", 0, 0, color(255, 255, 255), createFont("monoscript", 70), 0, 3, 10);
 redRect = new Rectangle(0,.62*height, (float)width, (float)height, "", color(107, 0, 0));//used to be .6
 //startingHeart = new heartbeat(0, (int)(.9*height), numMinutesLong2, numSwearsIn2, 0, MovieCompare2);                          //TEMPORARY, DELETE THIS
             // startingHeart = new heartbeat(0, (int)(.9*height), MIN_ALLOWABLE_INVERSE + 10);                  //TEMPORARY, DELETE THIS
@@ -66,10 +74,25 @@ void draw(){
       setGradient(0,0,width,.69*height, color(250,250,250), color(30,30,30)); //used to be .65
   }
   bot.update();    
+  if ((bot.first_half_intro == true) && (bot.intro_alpha > 4) && (bot.intro_counter > 100)) {
+    wordEvery.printWord();
+  }
+    if ((wordEvery.isIncreasing == false) && (wordEvery.Opacity <= 5)) {
+      wordFuck.printWord();
+    }
+    if ((wordFuck.isIncreasing == false) && (wordFuck.Opacity <= 5)) {
+      wordIn.printWord();
+    }
+    if ((wordIn.isIncreasing == false) && (wordIn.Opacity <= 5)) {
+      wolfOf.printWord();
+    }
+    //PUT THE "EVERY FUCK IN " HERE
+  //} else if (bot.second_half_intro == true) {
+    //PUT THE Wolf of wallstreet here
+  //}
   if (bot.playing == true) {
 //  if ((bot.intro == false) && (bot.first_half_intro == false)) {      //just added
       VisTitle.printWord();
-      print("Should be printing title");
   }
   if (lerpReady == true) {
        // VisTitle.printWord();
@@ -82,7 +105,6 @@ void draw(){
          if (reverseRedGradientLerp > 107) {
            reverseRedGradientLerp = reverseRedGradientLerp -2;
          }
-      print("Red gradient lerp is"  + redGradientLerp + "\n");
      //setGradient(0,(int).6*height,(float)width,(float)height, color(250,0,0), color(20,0,0));  //NCO
           setGradient(0,0,width,.69*height, color(250,250,250), color(30,30,30)); //used to be .65   
                  VisTitle.printWord();  

@@ -59,7 +59,7 @@ float opacity = 0;
     BASELINEX = baseLineX;
     BASELINEY = baseLineY;
     print("Baseline x is:" + BASELINEX + "\n");
-    print("Baseline y is:" + BASELINEY + "\n");
+
     
     movieLabel = new PieLabel(BASELINEX + 455, BASELINEY + 25, movieName, 0, 0, color(255, 255, 255), createFont("monoscript", 10), 0, 10, 0);
     //inverseHeartRate = BeatsPerMinute;//TEMPORARY until i add other assignments to AssignHeartData
@@ -444,16 +444,13 @@ void AssignHeartData(float numMinutesLong, float numFWords) {
   int temp = (int)(dtemp * 100);
   float div = temp/100f;
   
-  print("Div is: " + div + "\n");
+
   if (inverseHeartRate!= 0) {
     MAXARRAYINDEX = inverseHeartRate;
-    print("Inverse heart rate is: " + inverseHeartRate + "\n");
-    print("Its right here");
   } else if (div >= 3.5) {    //PROBLEM IS THAT DIV'S FLOATS ARE TOO PRECISE
     inverseHeartRate = MIN_ALLOWABLE_INVERSE;
   } else if (div <= .009) {
     inverseHeartRate = MAX_ALLOWABLE_INVERSE;
-    print("Its less than .009\n");
   } else {
     float heartIter = 3.5;
     for (int i = 29; i < 400; i++) {
@@ -461,14 +458,11 @@ void AssignHeartData(float numMinutesLong, float numFWords) {
       heartIter = tempo/100f;
       if (div == heartIter) {
         inverseHeartRate = i;
-        print("It found the thing and its: " + heartIter + "\n");
         break;
       }
-      print("heartIter is: " + heartIter + ", and div is: " + div + "\n");
       heartIter = heartIter - .01;
     }
   }
-  print("inverse heart rate" + inverseHeartRate + "\n");
   
   if (inverseHeartRate == 0) {
     inverseHeartRate = MAX_ALLOWABLE_INVERSE;
