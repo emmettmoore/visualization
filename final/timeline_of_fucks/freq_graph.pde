@@ -1,4 +1,11 @@
 int BUFFER = 20;
+float[] xCoordStarts;  //TAYLOR
+float[] yCoordStarts;  //TAYLOR
+float[] xCoordEnds;
+float[] yCoordEnds;
+float[] yCoordEndsOrig;
+int populatePosition = 0;  //TAYLOR
+boolean isFirstItem = true;
 
 class freq_graph{
  String[] fontList;
@@ -29,6 +36,11 @@ class freq_graph{
      time_since_last_fuck = 0;
      intro_alpha = 255;
     quotes = quotes1;
+    xCoordStarts = new float[quotes.length];    //TAYLOR >>
+    yCoordStarts = new float[quotes.length];
+    xCoordEnds = new float[quotes.length];
+    yCoordEnds = new float[quotes.length];
+    yCoordEndsOrig = new float[quotes.length];
     posx = x + BUFFER*2;
     posy = y;
     w = w1 - BUFFER*4;
@@ -65,7 +77,29 @@ class freq_graph{
           float x = posx + w*ratio;
           explosions.add(new explosion(x,posy));
           fill(250);
-          line(x ,posy, x, posy + line_height);
+          line(x ,posy, x, posy + line_height);//WHERE LINES OF BAR GRAPH ARE DRAWN
+          
+          
+          if (isFirstItem == true) {//TAYLOR
+            xCoordStarts[populatePosition] = x;
+            yCoordStarts[populatePosition] = posy;
+            xCoordEnds[populatePosition] = x;
+            yCoordEnds[populatePosition] = posy + line_height;
+            yCoordEndsOrig[populatePosition] = posy + line_height;
+            isFirstItem = false;
+          } else if (xCoordStarts[populatePosition] != x) {
+            populatePosition++;
+            xCoordStarts[populatePosition] = x;
+            yCoordStarts[populatePosition] = posy;
+            xCoordEnds[populatePosition] = x;
+            yCoordEnds[populatePosition] = posy + line_height;
+            yCoordEndsOrig[populatePosition] = posy + line_height;
+          } else {//current line still growing
+            yCoordEnds[populatePosition] = posy + line_height;
+            yCoordEndsOrig[populatePosition] = posy + line_height;
+          }
+          
+          
           index++;
           time_since_last_fuck = 0;
        }
@@ -73,9 +107,13 @@ class freq_graph{
        curr_time+=time_interval;
     }
     else{
+     if (index == timestamps.length) {
+                lerpReady = true;  //TAYLOR
+       }
        index = 0;
        curr_time = 0;
        playing = false; 
+
     }
   }
   void Play(){
@@ -141,7 +179,8 @@ class freq_graph{
       fill(250,250,250); 
       PFont font = createFont("monoscript", 25);
       textFont(font);
-      text(counter,10,.75*height- 10);
+//      text(counter,10,.75*height- 10);
+      text(counter,10,.65*height- 10);
   }
   float calc_momentum(){
       if(time_since_last_fuck>60){

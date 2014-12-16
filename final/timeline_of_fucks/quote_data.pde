@@ -16,8 +16,8 @@ class quote_data{
       int temp = (int)(width -len - BUFFER + 1 + BUFFER);
       if (temp < 0){ temp = 1;}
       posx = rand.nextInt(temp);
-      posy = rand.nextInt((int)(height*.75 - BUFFER*3) + 1) + BUFFER;
-
+//      posy = rand.nextInt((int)(height*.75 - BUFFER*3) + 1) + BUFFER;
+      posy = rand.nextInt((int)(height*.65 - BUFFER*3) + 1) + BUFFER;
       text(line,posx,posy);
    }
    void reduce_alpha(){
